@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Christian Lozano · Human Design for Third Spaces</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="I design brand homes and museums that feel like third spaces—places where technology hosts the story, not the other way around." />
+
+  <style>
+    :root {
+      /* New warm, human palette */
+      --cream: #f9f6f0;
+      --cream-dark: #f0ebe0;
+      --beige: #e8e3d6;
+      --blue: #0066ff;
+      --blue-dark: #0052cc;
+      --blue-soft: rgba(0, 102, 255, 0.08);
+      --blue-border: rgba(0, 102, 255, 0.2);
+      --charcoal: #1a1a1a;
+      --gray: #4a4a4a;
+      --gray-light: #8a8a8a;
+      
+      /* Retro-modern spacing (8pt grid, generous) */
+      --space-xs: 0.5rem;
+      --space-sm: 1rem;
+      --space-md: 1.5rem;
+      --space-lg: 2.5rem;
+      --space-xl: 4rem;
+      --space-2xl: 6rem;
+      
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      
+      --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+      
+      /* Retro-modernist type */
+      --font-sans: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", 
+        system-ui, sans-serif;
+      --font-mono: "SF Mono", "Monaco", "Courier New", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--cream);
+      color: var(--charcoal);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--space-md);
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        padding: 0 var(--space-lg);
+      }
+    }
+
+    /* Header - simplified, cleaner */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(249, 246, 240, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 2px solid var(--beige);
+    }
+
+    .site-header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: var(--space-md);
+      padding-bottom: var(--space-md);
+      gap: var(--space-md);
+    }
+
+    .brand {
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+    }
+
+    .nav {
+      display: flex;
+      gap: var(--space-sm);
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .nav-link {
+      padding: 0.5rem 1rem;
+      border-radius: 100px;
+      transition: all var(--transition);
+      color: var(--gray);
+    }
+
+    .nav-link:hover {
+      color: var(--charcoal);
+      background: var(--beige);
+    }
+
+    .nav-link-primary {
+      background: var(--blue);
+      color: white;
+    }
+
+    .nav-link-primary:hover {
+      background: var(--blue-dark);
+      transform: translateY(-1px);
+    }
+
+    /* Hero - MASSIVELY simplified, Made to Stick: SIMPLE */
+    .hero {
+      padding: var(--space-xl) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .hero {
+        padding: var(--space-2xl) 0;
+      }
+    }
+
+    /* Subtle background pattern */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(135deg, transparent 30%, var(--blue-soft) 100%);
+      opacity: 0.3;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Hero grid layout */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+      align-items: center;
+    }
+
+    @media (min-width: 960px) {
+      .hero-grid {
+        grid-template-columns: 1.4fr 1fr;
+        gap: var(--space-2xl);
+      }
+    }
+
+    .hero-content {
+      max-width: 42rem;
+    }
+
+    /* Hero images - passive, rotating */
+    .hero-images {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 3px solid var(--beige);
+      background: var(--cream-dark);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+    }
+
+    .hero-image {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 1200ms ease-in-out;
+    }
+
+    .hero-image.active {
+      opacity: 1;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.9) brightness(0.95);
+    }
+
+    /* Subtle overlay for passive feel */
+    .hero-images::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(249, 246, 240, 0.05) 50%,
+        rgba(249, 246, 240, 0.15) 100%
+      );
+      pointer-events: none;
+    }
+
+    /* Made to Stick: SIMPLE - One big idea */
+    .hero-headline {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      font-weight: 700;
+      margin-bottom: var(--space-md);
+      color: var(--charcoal);
+    }
+
+    .hero-highlight {
+      color: var(--blue);
+      position: relative;
+      display: inline-block;
+    }
+
+    /* Made to Stick: CONCRETE */
+    .hero-subhead {
+      font-size: 1.25rem;
+      line-height: 1.5;
+      color: var(--gray);
+      margin-bottom: var(--space-lg);
+      font-weight: 400;
+    }
+
+    .hero-subhead strong {
+      color: var(--charcoal);
+      font-weight: 600;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-lg);
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.875rem 1.75rem;
+      border-radius: 100px;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      transition: all var(--transition);
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+
+    .button-primary {
+      background: var(--blue);
+      color: white;
+      box-shadow: 0 4px 16px rgba(0, 102, 255, 0.2);
+    }
+
+    .button-primary:hover {
+      background: var(--blue-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 102, 255, 0.3);
+    }
+
+    .button-secondary {
+      background: transparent;
+      color: var(--blue);
+      border-color: var(--blue-border);
+    }
+
+    .button-secondary:hover {
+      background: var(--blue-soft);
+      border-color: var(--blue);
+    }
+
+    /* Social proof - Made to Stick: CREDIBLE */
+    .hero-proof {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md) var(--space-lg);
+      font-size: 0.8125rem;
+      color: var(--gray-light);
+      font-family: var(--font-mono);
+      letter-spacing: 0.03em;
+    }
+
+    .hero-proof-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .hero-proof-item::before {
+      content: '→';
+      color: var(--blue);
+      font-weight: bold;
+    }
+
+    /* Section spacing */
+    .section {
+      padding: var(--space-2xl) 0;
+    }
+
+    .section-header {
+      margin-bottom: var(--space-xl);
+      max-width: 42rem;
+    }
+
+    .section-label {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: var(--space-sm);
+      font-family: var(--font-mono);
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      font-weight: 700;
+      margin-bottom: var(--space-md);
+      color: var(--charcoal);
+    }
+
+    .section-intro {
+      font-size: 1.125rem;
+      line-height: 1.6;
+      color: var(--gray);
+    }
+
+    .section-intro strong {
+      color: var(--charcoal);
+      font-weight: 600;
+    }
+
+    /* Made to Stick: UNEXPECTED - The toggle is the star */
+    .view-toggle-wrapper {
+      margin-bottom: var(--space-xl);
+    }
+
+    .view-toggle {
+      display: inline-flex;
+      background: white;
+      border: 2px solid var(--beige);
+      border-radius: 100px;
+      padding: 0.25rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .view-toggle-btn {
+      background: transparent;
+      border: none;
+      padding: 0.625rem 1.25rem;
+      border-radius: 100px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--gray);
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+
+    .view-toggle-btn:hover {
+      color: var(--charcoal);
+    }
+
+    .view-toggle-btn.active {
+      background: var(--blue);
+      color: white;
+      box-shadow: 0 2px 8px rgba(0, 102, 255, 0.3);
+    }
+
+    /* Cards - more spacious, retro-modern */
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+
+    @media (min-width: 640px) {
+      .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .card-grid {
+        gap: var(--space-xl);
+      }
+    }
+
+    .card {
+      background: white;
+      border: 2px solid var(--beige);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all var(--transition);
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+      border-color: var(--blue);
+    }
+
+    .card-link {
+      display: block;
+      color: inherit;
+    }
+
+    .card-media {
+      position: relative;
+      aspect-ratio: 16 / 10;
+      background: var(--cream-dark);
+      overflow: hidden;
+    }
+
+    .card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 400ms ease-out;
+    }
+
+    .card:hover .card-media img {
+      transform: scale(1.05);
+    }
+
+    .card-media-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+      color: var(--gray-light);
+      font-family: var(--font-mono);
+      text-align: center;
+      padding: var(--space-md);
+    }
+
+    /* Made to Stick: STORIES - descriptions visible on mobile */
+    .card-description {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent 50%);
+      display: flex;
+      align-items: flex-end;
+      padding: var(--space-md);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+
+    .card:hover .card-description {
+      opacity: 1;
+    }
+
+    @media (max-width: 767px) {
+      .card-description {
+        opacity: 1;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 60%);
+      }
+    }
+
+    .card-description-text {
+      font-size: 0.875rem;
+      line-height: 1.5;
+      color: white;
+    }
+
+    .card-body {
+      padding: var(--space-md);
+    }
+
+    .card-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.375rem;
+      color: var(--charcoal);
+    }
+
+    .card-meta {
+      font-size: 0.875rem;
+      color: var(--gray);
+      margin-bottom: var(--space-sm);
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+      border-radius: 100px;
+      background: var(--cream-dark);
+      color: var(--gray);
+      font-family: var(--font-mono);
+    }
+
+    .tag-highlight {
+      background: var(--blue);
+      color: white;
+    }
+
+    /* How I Work - Made to Stick: SIMPLE (cut 80%) */
+    .philosophy {
+      background: white;
+      border: 2px solid var(--beige);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+
+    @media (min-width: 768px) {
+      .philosophy {
+        padding: var(--space-xl);
+      }
+    }
+
+    .philosophy-content {
+      max-width: 40rem;
+      font-size: 1.125rem;
+      line-height: 1.7;
+      color: var(--gray);
+    }
+
+    .philosophy-content p {
+      margin-bottom: var(--space-md);
+    }
+
+    .philosophy-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .philosophy-content strong {
+      color: var(--charcoal);
+      font-weight: 600;
+    }
+
+    .philosophy-highlight {
+      font-size: 1.5rem;
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--blue);
+      margin-bottom: var(--space-md);
+    }
+
+    /* Contact - Made to Stick: CONCRETE CTA */
+    .contact-card {
+      background: var(--blue);
+      color: white;
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      text-align: center;
+      margin-top: var(--space-xl);
+    }
+
+    .contact-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: var(--space-sm);
+      font-weight: 600;
+    }
+
+    .contact-card p {
+      font-size: 1.125rem;
+      margin-bottom: var(--space-lg);
+      opacity: 0.9;
+    }
+
+    .contact-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: white;
+      padding: 1rem 2rem;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 100px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      transition: all var(--transition);
+    }
+
+    .contact-email:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 2px solid var(--beige);
+      padding: var(--space-lg) 0;
+      margin-top: var(--space-2xl);
+    }
+
+    footer .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--space-md);
+      font-size: 0.875rem;
+      color: var(--gray-light);
+    }
+
+    .footer-brand {
+      font-weight: 600;
+      font-family: var(--font-mono);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .footer-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <div class="brand">Christian Lozano</div>
+      <nav class="nav">
+        <a class="nav-link" href="#work">Work</a>
+        <a class="nav-link" href="#approach">Approach</a>
+        <a class="nav-link nav-link-primary" href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero - Made to Stick: SIMPLE + UNEXPECTED -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <h1 class="hero-headline">
+            I make museums and brand homes feel like <span class="hero-highlight">third spaces</span>
+          </h1>
+          
+          <p class="hero-subhead">
+            Places where <strong>technology hosts the story</strong>, not the other way around. From Toyota's experience centers to science museums, I connect story, space, and systems into experiences that run reliably in the real world.
+          </p>
+
+          <div class="hero-actions">
+            <a class="button button-primary" href="#work">See the work</a>
+            <a class="button button-secondary" href="#approach">How I think</a>
+          </div>
+
+          <!-- Made to Stick: CREDIBLE -->
+          <div class="hero-proof">
+            <div class="hero-proof-item">Toyota Experience Centers</div>
+            <div class="hero-proof-item">U.S. Space & Rocket Center</div>
+            <div class="hero-proof-item">50+ live installations</div>
+          </div>
+        </div>
+
+        <!-- Passive rotating hero images -->
+        <div class="hero-images">
+          <div class="hero-image active">
+            <img src="images/picture1.jpg" alt="Project showcase" loading="eager" 
+              onerror="this.parentElement.style.display='none';" />
+          </div>
+          <div class="hero-image">
+            <img src="images/picture2.jpg" alt="Project showcase" loading="lazy"
+              onerror="this.parentElement.style.display='none';" />
+          </div>
+          <div class="hero-image">
+            <img src="images/picture3.jpg" alt="Project showcase" loading="lazy"
+              onerror="this.parentElement.style.display='none';" />
+          </div>
+          <div class="hero-image">
+            <img src="images/picture4.jpg" alt="Project showcase" loading="lazy"
+              onerror="this.parentElement.style.display='none';" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work Section - Made to Stick: UNEXPECTED (the toggle) -->
+  <section id="work" class="section">
+    <div class="container">
+      <header class="section-header">
+        <div class="section-label">Selected Work</div>
+        <h2 class="section-title">Choose how you want to explore</h2>
+        <p class="section-intro">
+          Some people care about <strong>projects and places</strong>. Others want to see <strong>tools and methods</strong> or <strong>topics and themes</strong>. Same work, different lens—pick yours.
+        </p>
+      </header>
+
+      <!-- Made to Stick: UNEXPECTED - This is the hook -->
+      <div class="view-toggle-wrapper">
+        <div class="view-toggle">
+          <button class="view-toggle-btn active" data-view="projects">Projects</button>
+          <button class="view-toggle-btn" data-view="tools">Tools & Methods</button>
+          <button class="view-toggle-btn" data-view="topics">Topics & Themes</button>
+        </div>
+      </div>
+
+      <!-- Cards - Made to Stick: CONCRETE + STORIES -->
+      <div class="card-grid">
+        <!-- Card 1: Weather -->
+        <article class="card"
+          data-project-title="How We Know the Weather"
+          data-project-meta="U.S. Space & Rocket Center · Huntsville, AL"
+          data-tools-title="Real-time, multi-screen weather exhibit"
+          data-tools-meta="Web tech · AV integration · live data"
+          data-topics-title="Climate literacy for families"
+          data-topics-meta="Weather systems · STEM learning · live data">
+          <a href="#" class="card-link">
+            <div class="card-media">
+              <img src="images/how-we-know-the-weather.jpg" alt="How We Know the Weather exhibit" loading="lazy" 
+                onerror="this.style.display='none';" />
+              <div class="card-media-placeholder">
+                [Image: Families interacting with live weather data on 24' LED wall]
+              </div>
+              <div class="card-description">
+                <p class="card-description-text">
+                  A kid touches a thunderstorm on a 24' LED wall and watches real radar data dance to life. 50+ screens, live NOAA feeds, hands-on games.
+                </p>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title"></h3>
+              <p class="card-meta"></p>
+              <div class="card-tags">
+                <span class="tag tag-highlight">Museum</span>
+                <span class="tag">Multi-screen</span>
+                <span class="tag">Live Data</span>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Card 2: Toyota North America -->
+        <article class="card"
+          data-project-title="Toyota North America Exhibit"
+          data-project-meta="Toyota Experience Center · Plano, TX"
+          data-tools-title="Synchronized multi-app WebSocket system"
+          data-tools-meta="Custom JS · WebSockets · motion design"
+          data-topics-title="Mapping a continent-scale brand story"
+          data-topics-meta="Brand narrative · people & place">
+          <a href="#" class="card-link">
+            <div class="card-media">
+              <img src="images/toyota-north-america.jpg" alt="Toyota North America exhibit" loading="lazy"
+                onerror="this.style.display='none';" />
+              <div class="card-media-placeholder">
+                [Image: Six synchronized screens showing living map of North America]
+              </div>
+              <div class="card-description">
+                <p class="card-description-text">
+                  Six apps, six videos, one continent. The most technically complex experience in the Center—yet visitors see one simple story about people, places, and cars.
+                </p>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title"></h3>
+              <p class="card-meta"></p>
+              <div class="card-tags">
+                <span class="tag tag-highlight">Brand Home</span>
+                <span class="tag">WebSockets</span>
+                <span class="tag">Interactive Map</span>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Card 3: Patents -->
+        <article class="card"
+          data-project-title="Patents Interactive"
+          data-project-meta="Toyota HQ · Multi-screen installation"
+          data-tools-title="Touchscreen controlling four patent walls"
+          data-tools-meta="HTML · JS · WebSockets"
+          data-topics-title="Making innovation feel human"
+          data-topics-meta="R&D · people behind patents">
+          <a href="#" class="card-link">
+            <div class="card-media">
+              <img src="images/toyota-patents.jpg" alt="Toyota patents interactive" loading="lazy"
+                onerror="this.style.display='none';" />
+              <div class="card-media-placeholder">
+                [Image: Four large screens controlled by single touchscreen interface]
+              </div>
+              <div class="card-description">
+                <p class="card-description-text">
+                  One touchscreen drives a wall of innovation. Swipe through decades of Toyota patents—from a single, intuitive interface.
+                </p>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title"></h3>
+              <p class="card-meta"></p>
+              <div class="card-tags">
+                <span class="tag tag-highlight">Innovation</span>
+                <span class="tag">Multi-screen</span>
+                <span class="tag">WebSockets</span>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Card 4: Projection Table -->
+        <article class="card"
+          data-project-title="San Antonio Projection Table"
+          data-project-meta="Toyota Texas · San Antonio, TX"
+          data-tools-title="Projection-mapped satellite table"
+          data-tools-meta="Projection mapping · satellite imagery"
+          data-topics-title="Showing a plant inside its community"
+          data-topics-meta="Place · community · infrastructure">
+          <a href="#" class="card-link">
+            <div class="card-media">
+              <img src="images/satx-projection-table.jpg" alt="San Antonio projection table" loading="lazy"
+                onerror="this.style.display='none';" />
+              <div class="card-media-placeholder">
+                [Image: Glowing map projected onto table showing Toyota plant in San Antonio]
+              </div>
+              <div class="card-description">
+                <p class="card-description-text">
+                  A glowing map where the Toyota plant, roads, and neighborhoods come alive. Satellite imagery + hand-crafted animation tell a story of manufacturing and community.
+                </p>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title"></h3>
+              <p class="card-meta"></p>
+              <div class="card-tags">
+                <span class="tag">Brand Home</span>
+                <span class="tag">Projection</span>
+                <span class="tag">Mapping</span>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Card 5: LEED Kiosk -->
+        <article class="card"
+          data-project-title="LEED Platinum Kiosk"
+          data-project-meta="Toyota Mississippi · Sustainability exhibit"
+          data-tools-title="Interactive LEED story kiosk"
+          data-tools-meta="UX design · web dev"
+          data-topics-title="Sustainability in human language"
+          data-topics-meta="Energy · building performance">
+          <a href="#" class="card-link">
+            <div class="card-media">
+              <img src="images/leed-kiosk.jpg" alt="LEED sustainability kiosk" loading="lazy"
+                onerror="this.style.display='none';" />
+              <div class="card-media-placeholder">
+                [Image: Touchscreen kiosk showing building energy systems]
+              </div>
+              <div class="card-description">
+                <p class="card-description-text">
+                  Instead of a dusty plaque, Toyota Mississippi's LEED Platinum certification lives inside a touchscreen story about how the building breathes and saves energy.
+                </p>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title"></h3>
+              <p class="card-meta"></p>
+              <div class="card-tags">
+                <span class="tag">Sustainability</span>
+                <span class="tag">Interactive</span>
+                <span class="tag">Brand Home</span>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Card 6: Solar Game -->
+        <article class="card"
+          data-project-title="Solar Game"
+          data-project-meta="Outdoor Adventure Center · Detroit, MI"
+          data-tools-title="Hands-on solar game for kids"
+          data-tools-meta="Game design · illustration · web"
+          data-topics-title="Playing with solar energy"
+          data-topics-meta="Climate · energy · play">
+          <a href="#" class="card-link">
+            <div class="card-media">
+              <img src="images/oac-solar-game.jpg" alt="Solar game" loading="lazy"
+                onerror="this.style.display='none';" />
+              <div class="card-media-placeholder">
+                [Image: Kids playing touchscreen solar panel game]
+              </div>
+              <div class="card-description">
+                <p class="card-description-text">
+                  Drag solar panels across a cartoon Detroit skyline, chase the sun, dodge clouds. Real solar concepts—angles, shading, efficiency—wrapped in play.
+                </p>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title"></h3>
+              <p class="card-meta"></p>
+              <div class="card-tags">
+                <span class="tag">Game</span>
+                <span class="tag">STEM</span>
+                <span class="tag">Illustration</span>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Card 7: Recycling Game -->
+        <article class="card"
+          data-project-title="Recycling Game"
+          data-project-meta="Outdoor Adventure Center · Detroit, MI"
+          data-tools-title="Local rules recycling game"
+          data-tools-meta="Game design · policy mapping"
+          data-topics-title="Teaching real Detroit recycling rules"
+          data-topics-meta="Behavior change · civic systems">
+          <a href="#" class="card-link">
+            <div class="card-media">
+              <img src="images/oac-recycling-game.jpg" alt="Recycling game" loading="lazy"
+                onerror="this.style.display='none';" />
+              <div class="card-media-placeholder">
+                [Image: Touchscreen game with colored recycling bins]
+              </div>
+              <div class="card-description">
+                <p class="card-description-text">
+                  Banana peel, pizza box, plastic bottle—where do they go? Detroit's real bin system becomes a fast sorting challenge. Learn by playing, not reading posters.
+                </p>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title"></h3>
+              <p class="card-meta"></p>
+              <div class="card-tags">
+                <span class="tag">Game</span>
+                <span class="tag">Civic</span>
+                <span class="tag">Behavior</span>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Card 8: Night Sky -->
+        <article class="card"
+          data-project-title="Night Sky Exhibit"
+          data-project-meta="Outdoor Adventure Center · Detroit, MI"
+          data-tools-title="Large-format constellation wall"
+          data-tools-meta="Illustration · animation · print"
+          data-topics-title="Looking up together, across cultures"
+          data-topics-meta="Astronomy · multiple sky stories">
+          <a href="#" class="card-link">
+            <div class="card-media">
+              <img src="images/night-sky-exhibit.jpg" alt="Night sky exhibit" loading="lazy"
+                onerror="this.style.display='none';" />
+              <div class="card-media-placeholder">
+                [Image: Illustrated constellation wall with cultural stories]
+              </div>
+              <div class="card-description">
+                <p class="card-description-text">
+                  Constellations slowly trace themselves into view, layered with stories from different traditions. A quiet, shared moment of wonder.
+                </p>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title"></h3>
+              <p class="card-meta"></p>
+              <div class="card-tags">
+                <span class="tag">Exhibit</span>
+                <span class="tag">Illustration</span>
+                <span class="tag">Story</span>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Card 9: Commercials Tower -->
+        <article class="card"
+          data-project-title="Commercials Tower"
+          data-project-meta="Toyota Experience Center · 65&quot; touchscreen"
+          data-tools-title="Archive-to-experience media browser"
+          data-tools-meta="Content curation · UX · video"
+          data-topics-title="Decades of brand storytelling"
+          data-topics-meta="Archive · messaging · culture">
+          <a href="#" class="card-link">
+            <div class="card-media">
+              <img src="images/commercials-tower.jpg" alt="Commercials tower" loading="lazy"
+                onerror="this.style.display='none';" />
+              <div class="card-media-placeholder">
+                [Image: 65-inch vertical touchscreen showing Toyota commercial archive]
+              </div>
+              <div class="card-description">
+                <p class="card-description-text">
+                  Scroll through decades of Toyota commercials on a 65" touchscreen—see how the brand talked about safety, family, and innovation in each era.
+                </p>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title"></h3>
+              <p class="card-meta"></p>
+              <div class="card-tags">
+                <span class="tag">Brand History</span>
+                <span class="tag">Interactive</span>
+                <span class="tag">Video</span>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Card 10: Interactive Map -->
+        <article class="card"
+          data-project-title="Interactive Map"
+          data-project-meta="Outdoor Adventure Center · ArcGIS"
+          data-tools-title="Tap-to-explore ArcGIS map"
+          data-tools-meta="ArcGIS · content curation"
+          data-topics-title="Connecting visitors to real places"
+          data-topics-meta="Place · recreation · wayfinding">
+          <a href="#" class="card-link">
+            <div class="card-media">
+              <img src="images/oac-map.jpg" alt="Interactive map" loading="lazy"
+                onerror="this.style.display='none';" />
+              <div class="card-media-placeholder">
+                [Image: Large touchscreen map of Michigan outdoor destinations]
+              </div>
+              <div class="card-description">
+                <p class="card-description-text">
+                  Families tap into Michigan's outdoor destinations—see what each place looks like and what they can do there. Exhibit meets real landscape.
+                </p>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title"></h3>
+              <p class="card-meta"></p>
+              <div class="card-tags">
+                <span class="tag">Map</span>
+                <span class="tag">ArcGIS</span>
+                <span class="tag">Outdoors</span>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Card 11: Environmental Dashboards -->
+        <article class="card"
+          data-project-title="Environmental Dashboards"
+          data-project-meta="Toyota HQ · Ambient data displays"
+          data-tools-title="Ambient environmental data displays"
+          data-tools-meta="API integration · ambient UX"
+          data-topics-title="Live data as architecture"
+          data-topics-meta="Environment · calm technology">
+          <a href="#" class="card-link">
+            <div class="card-media">
+              <img src="images/vesaboard-environmental.jpg" alt="Environmental dashboards" loading="lazy"
+                onerror="this.style.display='none';" />
+              <div class="card-media-placeholder">
+                [Image: Ambient environmental data displays on walls]
+              </div>
+              <div class="card-description">
+                <p class="card-description-text">
+                  Environmental data appears as quiet ambient information, not loud dashboards. Live data feels like part of the architecture.
+                </p>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title"></h3>
+              <p class="card-meta"></p>
+              <div class="card-tags">
+                <span class="tag">Data</span>
+                <span class="tag">Ambient</span>
+                <span class="tag">Architecture</span>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Card 12: CALTY eReader -->
+        <article class="card"
+          data-project-title="CALTY eReader"
+          data-project-meta="Toyota CALTY Design Research"
+          data-tools-title="On-site digital reader"
+          data-tools-meta="Software dev · implementation"
+          data-topics-title="Giving design stories a quiet home"
+          data-topics-meta="Knowledge · internal storytelling">
+          <a href="#" class="card-link">
+            <div class="card-media">
+              <img src="images/calty-ereader.jpg" alt="CALTY eReader" loading="lazy"
+                onerror="this.style.display='none';" />
+              <div class="card-media-placeholder">
+                [Image: Digital reader interface showing design documentation]
+              </div>
+              <div class="card-description">
+                <p class="card-description-text">
+                  A digital reader inside Toyota's design studio where people explore curated design stories. Finished product, not prototype.
+                </p>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title"></h3>
+              <p class="card-meta"></p>
+              <div class="card-tags">
+                <span class="tag">Internal</span>
+                <span class="tag">Software</span>
+                <span class="tag">Story</span>
+              </div>
+            </div>
+          </a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- How I Work - Made to Stick: SIMPLE (80% shorter) -->
+  <section id="approach" class="section">
+    <div class="container">
+      <header class="section-header">
+        <div class="section-label">Approach</div>
+        <h2 class="section-title">Technology should host, not dominate</h2>
+      </header>
+
+      <div class="philosophy">
+        <div class="philosophy-content">
+          <p class="philosophy-highlight">
+            "If this became my third place, how would I want it to feel?"
+          </p>
+          
+          <p>
+            That's the question I ask on every project. <strong>Third spaces—museums, visitor centers, brand homes—are where people show up as themselves and slowly build a sense of "this is our place."</strong> When I design an installation, I'm asking: does this make it easier for people to linger, talk, and belong?
+          </p>
+
+          <p>
+            Public technology cuts both ways. Done well, large interactives become intuitive interfaces where visitors steer their own journey. Done poorly, they're confusing gates that shut people out—especially elders, kids, and anyone who doesn't live inside screens all day.
+          </p>
+
+          <p>
+            <strong>I design installations so tech behaves like a good host:</strong> clear affordances, gentle error states, multiple ways to engage, and fallback stories that still work offline. Behind the scenes, I build content structures and systems so staff can update and run things without a PhD in the stack.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact - Made to Stick: CONCRETE -->
+  <section id="contact" class="section">
+    <div class="container">
+      <header class="section-header">
+        <div class="section-label">Let's Work Together</div>
+        <h2 class="section-title">Design your next experience</h2>
+        <p class="section-intro">
+          Whether you're shaping a brand home, rethinking a museum gallery, or prototyping a new interactive—I can help connect <strong>story, space, and systems</strong> so it all feels cohesive.
+        </p>
+      </header>
+
+      <div class="contact-card">
+        <h3>Ready to start?</h3>
+        <p>Send a short note about your project, timeline, and what success looks like.</p>
+        <a class="contact-email" href="mailto:christian@chexperiences.com">
+          christian@chexperiences.com →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-brand">CH Experiences LLC</div>
+      <div class="footer-meta">
+        <span>Based in Texas · Working globally</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- View Toggle Script -->
+  <script>
+    (function() {
+      const buttons = document.querySelectorAll('[data-view]');
+      const cards = document.querySelectorAll('.card');
+
+      const views = {
+        projects: { title: 'projectTitle', meta: 'projectMeta' },
+        tools: { title: 'toolsTitle', meta: 'toolsMeta' },
+        topics: { title: 'topicsTitle', meta: 'topicsMeta' }
+      };
+
+      function switchView(view) {
+        const config = views[view];
+        if (!config) return;
+
+        // Update button states
+        buttons.forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.view === view);
+        });
+
+        // Update card content
+        cards.forEach(card => {
+          const titleEl = card.querySelector('.card-title');
+          const metaEl = card.querySelector('.card-meta');
+          
+          if (titleEl && metaEl) {
+            titleEl.textContent = card.dataset[config.title] || '';
+            metaEl.textContent = card.dataset[config.meta] || '';
+          }
+        });
+      }
+
+      // Attach click handlers
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          switchView(btn.dataset.view);
+        });
+      });
+
+      // Initialize with projects view
+      switchView('projects');
+    })();
+
+    // Hero image rotation (passive, smooth)
+    (function() {
+      const images = document.querySelectorAll('.hero-image');
+      if (images.length === 0) return;
+
+      let currentIndex = 0;
+      const rotationInterval = 4500; // 4.5 seconds per image
+
+      function rotateImages() {
+        // Remove active class from current image
+        images[currentIndex].classList.remove('active');
+        
+        // Move to next image (loop back to start)
+        currentIndex = (currentIndex + 1) % images.length;
+        
+        // Add active class to new image
+        images[currentIndex].classList.add('active');
+      }
+
+      // Start rotation
+      setInterval(rotateImages, rotationInterval);
+    })();
+  </script>
+</body>
+</html>
