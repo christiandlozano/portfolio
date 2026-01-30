@@ -174,14 +174,15 @@
     .hero-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: var(--space-xl);
-      align-items: center;
+      gap: var(--space-lg);
+      align-items: start;
     }
 
     @media (min-width: 960px) {
       .hero-grid {
         grid-template-columns: 1.4fr 1fr;
         gap: var(--space-2xl);
+        align-items: center;
       }
     }
 
@@ -199,6 +200,57 @@
       border: 3px solid var(--beige);
       background: var(--cream-dark);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+    }
+
+    @media (max-width: 959px) {
+      .hero {
+        padding: var(--space-lg) 0 var(--space-xl);
+      }
+
+      .hero-content {
+        max-width: 100%;
+      }
+
+      .hero-images {
+        max-width: 520px;
+        margin: 0 auto;
+        aspect-ratio: 4 / 5;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .hero-actions .button {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .hero-proof {
+        justify-content: flex-start;
+        gap: var(--space-sm) var(--space-md);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .site-header .container {
+        flex-wrap: wrap;
+      }
+
+      .nav {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+      }
+
+      .hero-headline {
+        font-size: clamp(2.2rem, 8vw, 3rem);
+      }
+
+      .hero-subhead {
+        font-size: 1.05rem;
+      }
     }
 
     .hero-image {
@@ -455,6 +507,89 @@
       overflow: hidden;
     }
 
+    .card-carousel {
+      cursor: pointer;
+    }
+
+    .card-carousel .carousel-images {
+      position: absolute;
+      inset: 0;
+    }
+
+    .card-carousel .carousel-image {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 300ms ease-in-out, transform 400ms ease-out;
+    }
+
+    .card-carousel .carousel-image.active {
+      opacity: 1;
+    }
+
+    .carousel-control {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(26, 26, 26, 0.65);
+      color: white;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity var(--transition), transform var(--transition);
+      z-index: 3;
+    }
+
+    .carousel-control.prev {
+      left: 0.75rem;
+    }
+
+    .carousel-control.next {
+      right: 0.75rem;
+    }
+
+    .card:hover .carousel-control {
+      opacity: 1;
+    }
+
+    .carousel-dots {
+      position: absolute;
+      left: 50%;
+      bottom: 0.75rem;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 0.4rem;
+      z-index: 3;
+    }
+
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      border: none;
+      background: rgba(255, 255, 255, 0.6);
+      cursor: pointer;
+      transition: transform var(--transition), background var(--transition);
+    }
+
+    .carousel-dot.active {
+      background: white;
+      transform: scale(1.2);
+    }
+
+    @media (max-width: 767px) {
+      .carousel-control {
+        opacity: 1;
+      }
+    }
+
     .card-media img {
       width: 100%;
       height: 100%;
@@ -489,6 +624,7 @@
       padding: var(--space-md);
       opacity: 0;
       transition: opacity var(--transition);
+      z-index: 2;
     }
 
     .card:hover .card-description {
@@ -682,7 +818,7 @@
       <div class="hero-grid">
         <div class="hero-content">
           <h1 class="hero-headline">
-            I make museums and brand homes feel like <span class="hero-highlight">third spaces</span>
+            My goal is to make museums and brand homes feel like <span class="hero-highlight">third spaces</span>
           </h1>
           
           <p class="hero-subhead">
@@ -819,7 +955,7 @@
           data-topics-meta="R&D · people behind patents">
           <a href="#" class="card-link">
             <div class="card-media">
-              <img src="images/toyota-patents.png" alt="Toyota patents interactive" loading="lazy"
+              <img src="images/toyota-patents.jpg" alt="Toyota patents interactive" loading="lazy"
                 onerror="this.style.display='none';" />
 
               <div class="card-description">
@@ -912,7 +1048,7 @@
           data-topics-meta="Climate · energy · play">
           <a href="#" class="card-link">
             <div class="card-media">
-              <img src="images/oac-solar-game.png" alt="Solar game" loading="lazy"
+              <img src="images/oac-solar-game.jpg" alt="Solar game" loading="lazy"
                 onerror="this.style.display='none';" />
 
               <div class="card-description">
@@ -974,7 +1110,7 @@
           data-topics-meta="Astronomy · multiple sky stories">
           <a href="#" class="card-link">
             <div class="card-media">
-              <img src="images/night-sky-exhibit.png" alt="Night sky exhibit" loading="lazy"
+              <img src="images/night-sky-exhibit.jpg" alt="Night sky exhibit" loading="lazy"
                 onerror="this.style.display='none';" />
 
               <div class="card-description">
@@ -1118,6 +1254,89 @@
             </div>
           </a>
         </article>
+
+        <!-- Card 13: Editorial Work -->
+        <article class="card"
+          data-project-title="Editorial & Print Design"
+          data-project-meta="Printed publications · illustrated maps"
+          data-tools-title="Publication design and production"
+          data-tools-meta="Print layout · illustration · prepress"
+          data-topics-title="Print storytelling across formats"
+          data-topics-meta="Books · maps · business cards">
+          <a href="#" class="card-link">
+            <div class="card-media card-carousel" data-carousel>
+              <div class="carousel-images">
+                <img class="carousel-image active" src="images/EDITORIAL-1.JPG" alt="Editorial design sample 1" loading="lazy"
+                  onerror="this.style.display='none';" />
+                <img class="carousel-image" src="images/EDITORIAL-2.JPG" alt="Editorial design sample 2" loading="lazy"
+                  onerror="this.style.display='none';" />
+              </div>
+              <button class="carousel-control prev" type="button" aria-label="Previous image">‹</button>
+              <button class="carousel-control next" type="button" aria-label="Next image">›</button>
+              <div class="carousel-dots">
+                <button class="carousel-dot active" type="button" aria-label="Image 1"></button>
+                <button class="carousel-dot" type="button" aria-label="Image 2"></button>
+              </div>
+              <div class="card-description">
+                <p class="card-description-text">
+                  I've designed things for printed publications, illustrated maps, big format printing, and business cards.
+                </p>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title"></h3>
+              <p class="card-meta"></p>
+              <div class="card-tags">
+                <span class="tag tag-highlight">Print</span>
+                <span class="tag">Editorial</span>
+                <span class="tag">Illustration</span>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Card 14: Interactive Kiosks -->
+        <article class="card"
+          data-project-title="And much more"
+          data-project-meta="Interactive kiosks across exhibits"
+          data-tools-title="Touchscreen kiosks and wayfinding"
+          data-tools-meta="UX design · prototyping · content"
+          data-topics-title="Interactive kiosks that invite play"
+          data-topics-meta="Touch · wayfinding · learning">
+          <a href="#" class="card-link">
+            <div class="card-media card-carousel" data-carousel>
+              <div class="carousel-images">
+                <img class="carousel-image active" src="images/interactive-kiosk-1.JPG" alt="Interactive kiosk sample 1" loading="lazy"
+                  onerror="this.style.display='none';" />
+                <img class="carousel-image" src="images/interactive-kiosk-2.jpg" alt="Interactive kiosk sample 2" loading="lazy"
+                  onerror="this.style.display='none';" />
+                <img class="carousel-image" src="images/interactive-kiosk-3.JPG" alt="Interactive kiosk sample 3" loading="lazy"
+                  onerror="this.style.display='none';" />
+              </div>
+              <button class="carousel-control prev" type="button" aria-label="Previous image">‹</button>
+              <button class="carousel-control next" type="button" aria-label="Next image">›</button>
+              <div class="carousel-dots">
+                <button class="carousel-dot active" type="button" aria-label="Image 1"></button>
+                <button class="carousel-dot" type="button" aria-label="Image 2"></button>
+                <button class="carousel-dot" type="button" aria-label="Image 3"></button>
+              </div>
+              <div class="card-description">
+                <p class="card-description-text">
+                  Interactive kiosks that bring stories, maps, and wayfinding to life across brand homes and museums.
+                </p>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title"></h3>
+              <p class="card-meta"></p>
+              <div class="card-tags">
+                <span class="tag tag-highlight">Interactive</span>
+                <span class="tag">Kiosk</span>
+                <span class="tag">Touch</span>
+              </div>
+            </div>
+          </a>
+        </article>
       </div>
     </div>
   </section>
@@ -1127,25 +1346,17 @@
     <div class="container">
       <header class="section-header">
         <div class="section-label">Approach</div>
-        <h2 class="section-title">Technology should host, not dominate</h2>
+        <h2 class="section-title">Make technology worth its place</h2>
       </header>
 
       <div class="philosophy">
         <div class="philosophy-content">
-          <p class="philosophy-highlight">
-            "If this became my third place, how would I want it to feel?"
-          </p>
-          
           <p>
-            That's the question I ask on every project. <strong>Third spaces—museums, visitor centers, brand homes—are where people show up as themselves and slowly build a sense of "this is our place."</strong> When I design an installation, I'm asking: does this make it easier for people to linger, talk, and belong?
+            We live inside technology now. The question isn’t whether it belongs in public space, but whether it adds anything worth keeping. I want stories to read as invitations, not instructions—experiences people choose to look at, linger with, and return to.
           </p>
 
           <p>
-            Public technology cuts both ways. Done well, large interactives become intuitive interfaces where visitors steer their own journey. Done poorly, they're confusing gates that shut people out—especially elders, kids, and anyone who doesn't live inside screens all day.
-          </p>
-
-          <p>
-            <strong>I design installations so tech behaves like a good host:</strong> clear affordances, gentle error states, multiple ways to engage, and fallback stories that still work offline. Behind the scenes, I build content structures and systems so staff can update and run things without a PhD in the stack.
+            I make that happen by treating technology as a tool in service of narrative and place: clear affordances, legible pacing, and resilient content structures that keep working in the real world. The result is work that stays accessible, updateable, and coherent on the floor.
           </p>
         </div>
       </div>
@@ -1225,6 +1436,57 @@
 
       // Initialize with projects view
       switchView('projects');
+    })();
+
+    // Card carousels (editorial + kiosks)
+    (function() {
+      const carousels = document.querySelectorAll('[data-carousel]');
+
+      carousels.forEach(carousel => {
+        const images = Array.from(carousel.querySelectorAll('.carousel-image'));
+        const dots = Array.from(carousel.querySelectorAll('.carousel-dot'));
+        const nextBtn = carousel.querySelector('.carousel-control.next');
+        const prevBtn = carousel.querySelector('.carousel-control.prev');
+        if (images.length === 0) return;
+
+        let index = 0;
+
+        function show(nextIndex) {
+          const total = images.length;
+          const normalized = (nextIndex + total) % total;
+          images[index].classList.remove('active');
+          dots[index]?.classList.remove('active');
+          images[normalized].classList.add('active');
+          dots[normalized]?.classList.add('active');
+          index = normalized;
+        }
+
+        function handleAdvance(step, event) {
+          if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          show(index + step);
+        }
+
+        nextBtn?.addEventListener('click', event => handleAdvance(1, event));
+        prevBtn?.addEventListener('click', event => handleAdvance(-1, event));
+
+        dots.forEach((dot, dotIndex) => {
+          dot.addEventListener('click', event => {
+            event.preventDefault();
+            event.stopPropagation();
+            show(dotIndex);
+          });
+        });
+
+        carousel.addEventListener('click', event => {
+          if (event.target.closest('.carousel-control') || event.target.closest('.carousel-dot')) {
+            return;
+          }
+          handleAdvance(1, event);
+        });
+      });
     })();
 
     // Hero image rotation (passive, smooth)
