@@ -487,8 +487,6 @@
       overflow: hidden;
       transition: all var(--transition);
       position: relative;
-      content-visibility: auto;
-      contain-intrinsic-size: 420px;
     }
 
     .card:hover {
@@ -1177,10 +1175,10 @@
               <div class="carousel-images">
                 <img class="carousel-image active" src="images/leed-kiosk.png" alt="LEED sustainability kiosk" loading="lazy"
                   onerror="this.style.display='none';" />
-                <video class="carousel-image" muted loop playsinline preload="none" data-deferred="true"
+                <video class="carousel-image" muted loop playsinline preload="none"
                   aria-label="LEED sustainability kiosk video"
                   onerror="this.style.display='none';">
-                  <source data-src="images/LEEDweb.mp4" type="video/mp4" />
+                  <source src="images/LEEDweb.mp4" type="video/mp4" />
                 </video>
               </div>
               <button class="carousel-control prev" type="button" aria-label="Previous slide">‹</button>
@@ -1221,10 +1219,10 @@
               <div class="carousel-images">
                 <img class="carousel-image active" src="images/oac-solar-game.jpg" alt="Solar game" loading="lazy"
                   onerror="this.style.display='none';" />
-                <video class="carousel-image" muted loop playsinline preload="none" data-deferred="true"
+                <video class="carousel-image" muted loop playsinline preload="none"
                   aria-label="Solar game video"
                   onerror="this.style.display='none';">
-                  <source data-src="images/Solarweb.mp4" type="video/mp4" />
+                  <source src="images/Solarweb.mp4" type="video/mp4" />
                 </video>
               </div>
               <button class="carousel-control prev" type="button" aria-label="Previous slide">‹</button>
@@ -1265,10 +1263,10 @@
               <div class="carousel-images">
                 <img class="carousel-image active" src="images/oac-recycling-game.png" alt="Recycling game" loading="lazy"
                   onerror="this.style.display='none';" />
-                <video class="carousel-image" muted loop playsinline preload="none" data-deferred="true"
+                <video class="carousel-image" muted loop playsinline preload="none"
                   aria-label="Recycling game video"
                   onerror="this.style.display='none';">
-                  <source data-src="images/recyclingweb.mp4" type="video/mp4" />
+                  <source src="images/recyclingweb.mp4" type="video/mp4" />
                 </video>
               </div>
               <button class="carousel-control prev" type="button" aria-label="Previous slide">‹</button>
@@ -1692,47 +1690,11 @@
       switchView('projects');
     })();
 
-    // Defer card video sources until user interaction
-    (function() {
-      const deferredVideos = document.querySelectorAll('video[data-deferred="true"]');
-      if (deferredVideos.length === 0) return;
-      let activated = false;
-
-      function activateDeferredVideos() {
-        if (activated) return;
-        activated = true;
-
-        deferredVideos.forEach(video => {
-          const source = video.querySelector('source[data-src]');
-          if (!source || source.src) return;
-          source.src = source.dataset.src;
-          video.load();
-          if (video.classList.contains('active')) {
-            const playPromise = video.play();
-            if (playPromise && typeof playPromise.catch === 'function') {
-              playPromise.catch(() => {});
-            }
-          }
-        });
-
-        window.removeEventListener('scroll', activateDeferredVideos);
-        window.removeEventListener('touchstart', activateDeferredVideos);
-        window.removeEventListener('wheel', activateDeferredVideos);
-        window.removeEventListener('keydown', activateDeferredVideos);
-      }
-
-      window.addEventListener('scroll', activateDeferredVideos, { passive: true, once: true });
-      window.addEventListener('touchstart', activateDeferredVideos, { passive: true, once: true });
-      window.addEventListener('wheel', activateDeferredVideos, { passive: true, once: true });
-      window.addEventListener('keydown', activateDeferredVideos, { once: true });
-    })();
-
-    // Card carousels (lightweight auto-rotate + hover video preview)
+    // Card carousels (manual + hover video preview)
     (function() {
       const carousels = document.querySelectorAll('[data-carousel]');
-      const rotationIntervalMs = 5000;
 
-      carousels.forEach((carousel, carouselIndex) => {
+      carousels.forEach(carousel => {
         const slides = Array.from(carousel.querySelectorAll('.carousel-image'));
         const dots = Array.from(carousel.querySelectorAll('.carousel-dot'));
         const nextBtn = carousel.querySelector('.carousel-control.next');
@@ -1741,12 +1703,8 @@
 
         let index = 0;
         let hoverReturnIndex = null;
-        let autoRotateTimer = null;
-        const hasMultipleSlides = slides.length > 1;
         const videoSlideIndex = slides.findIndex(slide => slide.tagName === 'VIDEO');
-        const staggerOffsetMs = (carouselIndex % 5) * 450;
-        const effectiveIntervalMs = rotationIntervalMs + staggerOffsetMs;
-        let isInView = false;
+        const hoverPreviewIndex = videoSlideIndex >= 0 ? videoSlideIndex : (slides.length > 1 ? 1 : -1);
 
         function setSlidePlayback(slide, isActive) {
           if (!slide || slide.tagName !== 'VIDEO') return;
@@ -1773,19 +1731,6 @@
           index = normalized;
         }
 
-        function stopAutoRotate() {
-          if (!autoRotateTimer) return;
-          clearInterval(autoRotateTimer);
-          autoRotateTimer = null;
-        }
-
-        function startAutoRotate() {
-          if (!hasMultipleSlides || autoRotateTimer || !isInView) return;
-          autoRotateTimer = setInterval(() => {
-            show(index + 1);
-          }, effectiveIntervalMs);
-        }
-
         function handleAdvance(step, event) {
           if (event) {
             event.preventDefault();
@@ -1808,10 +1753,9 @@
         setSlidePlayback(slides[index], false);
 
         carousel.addEventListener('mouseenter', () => {
-          stopAutoRotate();
-          if (videoSlideIndex >= 0 && index !== videoSlideIndex) {
+          if (hoverPreviewIndex >= 0 && index !== hoverPreviewIndex) {
             hoverReturnIndex = index;
-            show(videoSlideIndex);
+            show(hoverPreviewIndex);
           }
         });
 
@@ -1820,23 +1764,7 @@
             show(hoverReturnIndex);
             hoverReturnIndex = null;
           }
-          startAutoRotate();
         });
-
-        const observer = new IntersectionObserver(entries => {
-          entries.forEach(entry => {
-            isInView = entry.isIntersecting;
-            if (isInView) {
-              setSlidePlayback(slides[index], true);
-              startAutoRotate();
-            } else {
-              stopAutoRotate();
-              slides.forEach(slide => setSlidePlayback(slide, false));
-            }
-          });
-        }, { threshold: 0.2 });
-
-        observer.observe(carousel);
       });
     })();
 
