@@ -1171,9 +1171,22 @@
           data-topics-title="Sustainability in human language"
           data-topics-meta="Energy · building performance">
           <a href="#" class="card-link">
-            <div class="card-media">
-              <img src="images/leed-kiosk.png" alt="LEED sustainability kiosk" loading="lazy"
-                onerror="this.style.display='none';" />
+            <div class="card-media card-carousel" data-carousel>
+              <div class="carousel-images">
+                <img class="carousel-image active" src="images/leed-kiosk.png" alt="LEED sustainability kiosk" loading="lazy"
+                  onerror="this.style.display='none';" />
+                <video class="carousel-image" muted loop playsinline preload="metadata"
+                  aria-label="LEED sustainability kiosk video"
+                  onerror="this.style.display='none';">
+                  <source src="images/LEEDweb.mp4" type="video/mp4" />
+                </video>
+              </div>
+              <button class="carousel-control prev" type="button" aria-label="Previous slide">‹</button>
+              <button class="carousel-control next" type="button" aria-label="Next slide">›</button>
+              <div class="carousel-dots">
+                <button class="carousel-dot active" type="button" aria-label="Slide 1"></button>
+                <button class="carousel-dot" type="button" aria-label="Slide 2"></button>
+              </div>
 
               <div class="card-description">
                 <p class="card-description-text">
@@ -1677,9 +1690,10 @@
       switchView('projects');
     })();
 
-    // Card carousels (editorial + kiosks)
+    // Card carousels (auto-rotate + video preview on hover)
     (function() {
       const carousels = document.querySelectorAll('[data-carousel]');
+      const rotationIntervalMs = 4000;
 
       carousels.forEach(carousel => {
         const slides = Array.from(carousel.querySelectorAll('.carousel-image'));
@@ -1689,6 +1703,10 @@
         if (slides.length === 0) return;
 
         let index = 0;
+        let hoverReturnIndex = null;
+        let autoRotateTimer = null;
+        const hasMultipleSlides = slides.length > 1;
+        const videoSlideIndex = slides.findIndex(slide => slide.tagName === 'VIDEO');
 
         function setSlidePlayback(slide, isActive) {
           if (!slide || slide.tagName !== 'VIDEO') return;
@@ -1715,6 +1733,19 @@
           index = normalized;
         }
 
+        function stopAutoRotate() {
+          if (!autoRotateTimer) return;
+          clearInterval(autoRotateTimer);
+          autoRotateTimer = null;
+        }
+
+        function startAutoRotate() {
+          if (!hasMultipleSlides || autoRotateTimer) return;
+          autoRotateTimer = setInterval(() => {
+            show(index + 1);
+          }, rotationIntervalMs);
+        }
+
         function handleAdvance(step, event) {
           if (event) {
             event.preventDefault();
@@ -1735,6 +1766,23 @@
         });
 
         setSlidePlayback(slides[index], true);
+        startAutoRotate();
+
+        carousel.addEventListener('mouseenter', () => {
+          stopAutoRotate();
+          if (videoSlideIndex >= 0 && index !== videoSlideIndex) {
+            hoverReturnIndex = index;
+            show(videoSlideIndex);
+          }
+        });
+
+        carousel.addEventListener('mouseleave', () => {
+          if (hoverReturnIndex !== null) {
+            show(hoverReturnIndex);
+            hoverReturnIndex = null;
+          }
+          startAutoRotate();
+        });
       });
     })();
 
