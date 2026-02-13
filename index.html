@@ -519,6 +519,9 @@
     .card-carousel .carousel-image {
       position: absolute;
       inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       opacity: 0;
       transition: opacity 300ms ease-in-out, transform 400ms ease-out;
     }
@@ -597,6 +600,13 @@
       transition: transform 400ms ease-out;
     }
 
+    .card-media video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: #000;
+    }
+
     .card:hover .card-media img {
       transform: scale(1.05);
     }
@@ -661,7 +671,34 @@
       justify-content: center;
     }
 
-    .image-modal img {
+    .image-modal-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--charcoal);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      z-index: 3;
+    }
+
+    .image-modal-prev {
+      left: 1rem;
+    }
+
+    .image-modal-next {
+      right: 1rem;
+    }
+
+    .image-modal img,
+    .image-modal video {
       max-width: 100%;
       max-height: 82vh;
       width: auto;
@@ -670,6 +707,14 @@
       border-radius: var(--radius-md);
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
       background: var(--cream-dark);
+    }
+
+    .image-modal video {
+      background: #000;
+    }
+
+    .is-hidden {
+      display: none !important;
     }
 
     .image-modal-close {
@@ -697,13 +742,27 @@
         max-height: 78vh;
       }
 
-      .image-modal img {
+      .image-modal img,
+      .image-modal video {
         max-height: 78vh;
       }
 
       .image-modal-close {
         top: -12px;
         right: 0;
+      }
+
+      .image-modal-nav {
+        width: 38px;
+        height: 38px;
+      }
+
+      .image-modal-prev {
+        left: 0.25rem;
+      }
+
+      .image-modal-next {
+        right: 0.25rem;
       }
     }
 
@@ -972,9 +1031,25 @@
           data-topics-title="Climate literacy for families"
           data-topics-meta="Weather systems · STEM learning · live data">
           <a href="#" class="card-link">
-            <div class="card-media">
-              <img src="images/how-we-know-the-weather.jpeg" alt="How We Know the Weather exhibit" loading="lazy" 
-                onerror="this.style.display='none';" />
+            <div class="card-media card-carousel" data-carousel>
+              <div class="carousel-images">
+                <img class="carousel-image active" src="images/how-we-know-the-weather-1.jpeg" alt="How We Know the Weather exhibit image 1" loading="lazy"
+                  onerror="this.style.display='none';" />
+                <img class="carousel-image" src="images/how-we-know-the-weather-2.JPG" alt="How We Know the Weather exhibit image 2" loading="lazy"
+                  onerror="this.style.display='none';" />
+                <img class="carousel-image" src="images/how-we-know-the-weather-3.JPG" alt="How We Know the Weather exhibit image 3" loading="lazy"
+                  onerror="this.style.display='none';" />
+                <img class="carousel-image" src="images/how-we-know-the-weather-5.JPG" alt="How We Know the Weather exhibit image 4" loading="lazy"
+                  onerror="this.style.display='none';" />
+              </div>
+              <button class="carousel-control prev" type="button" aria-label="Previous slide">‹</button>
+              <button class="carousel-control next" type="button" aria-label="Next slide">›</button>
+              <div class="carousel-dots">
+                <button class="carousel-dot active" type="button" aria-label="Slide 1"></button>
+                <button class="carousel-dot" type="button" aria-label="Slide 2"></button>
+                <button class="carousel-dot" type="button" aria-label="Slide 3"></button>
+                <button class="carousel-dot" type="button" aria-label="Slide 4"></button>
+              </div>
 
               <div class="card-description">
                 <p class="card-description-text">
@@ -1127,9 +1202,22 @@
           data-topics-title="Playing with solar energy"
           data-topics-meta="Climate · energy · play">
           <a href="#" class="card-link">
-            <div class="card-media">
-              <img src="images/oac-solar-game.jpg" alt="Solar game" loading="lazy"
-                onerror="this.style.display='none';" />
+            <div class="card-media card-carousel" data-carousel>
+              <div class="carousel-images">
+                <img class="carousel-image active" src="images/oac-solar-game.jpg" alt="Solar game" loading="lazy"
+                  onerror="this.style.display='none';" />
+                <video class="carousel-image" muted loop playsinline preload="metadata"
+                  aria-label="Solar game video"
+                  onerror="this.style.display='none';">
+                  <source src="images/Solarweb.mp4" type="video/mp4" />
+                </video>
+              </div>
+              <button class="carousel-control prev" type="button" aria-label="Previous slide">‹</button>
+              <button class="carousel-control next" type="button" aria-label="Next slide">›</button>
+              <div class="carousel-dots">
+                <button class="carousel-dot active" type="button" aria-label="Slide 1"></button>
+                <button class="carousel-dot" type="button" aria-label="Slide 2"></button>
+              </div>
 
               <div class="card-description">
                 <p class="card-description-text">
@@ -1158,9 +1246,22 @@
           data-topics-title="Teaching real Detroit recycling rules"
           data-topics-meta="Behavior change · civic systems">
           <a href="#" class="card-link">
-            <div class="card-media">
-              <img src="images/oac-recycling-game.png" alt="Recycling game" loading="lazy"
-                onerror="this.style.display='none';" />
+            <div class="card-media card-carousel" data-carousel>
+              <div class="carousel-images">
+                <img class="carousel-image active" src="images/oac-recycling-game.png" alt="Recycling game" loading="lazy"
+                  onerror="this.style.display='none';" />
+                <video class="carousel-image" muted loop playsinline preload="metadata"
+                  aria-label="Recycling game video"
+                  onerror="this.style.display='none';">
+                  <source src="images/recyclingweb.mp4" type="video/mp4" />
+                </video>
+              </div>
+              <button class="carousel-control prev" type="button" aria-label="Previous slide">‹</button>
+              <button class="carousel-control next" type="button" aria-label="Next slide">›</button>
+              <div class="carousel-dots">
+                <button class="carousel-dot active" type="button" aria-label="Slide 1"></button>
+                <button class="carousel-dot" type="button" aria-label="Slide 2"></button>
+              </div>
 
               <div class="card-description">
                 <p class="card-description-text">
@@ -1180,7 +1281,48 @@
           </a>
         </article>
 
-        <!-- Card 8: Night Sky -->
+        <!-- Card 8: OAC Registry -->
+        <article class="card"
+          data-project-title="Outdoor Adventure Center Registry"
+          data-project-meta="Outdoor Adventure Center · Detroit, MI"
+          data-tools-title="Guest registry and submission workflow"
+          data-tools-meta="Interactive map · drawing tools · PM integration"
+          data-topics-title="Turning visitor input into museum insight"
+          data-topics-meta="Participation · storytelling · operations">
+          <a href="#" class="card-link">
+            <div class="card-media card-carousel" data-carousel>
+              <div class="carousel-images">
+                <img class="carousel-image active" src="images/OAC-Registry-1.jpg" alt="OAC registry experience" loading="lazy"
+                  onerror="this.style.display='none';" />
+                <img class="carousel-image" src="images/OAC-Registry-2.jpg" alt="OAC registry submissions" loading="lazy"
+                  onerror="this.style.display='none';" />
+              </div>
+              <button class="carousel-control prev" type="button" aria-label="Previous slide">‹</button>
+              <button class="carousel-control next" type="button" aria-label="Next slide">›</button>
+              <div class="carousel-dots">
+                <button class="carousel-dot active" type="button" aria-label="Slide 1"></button>
+                <button class="carousel-dot" type="button" aria-label="Slide 2"></button>
+              </div>
+
+              <div class="card-description">
+                <p class="card-description-text">
+                  Guests can drop a pin for where they are from, kids can draw and submit stories, and everything routes directly into the museum team's project management flow for review and reposting.
+                </p>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title"></h3>
+              <p class="card-meta"></p>
+              <div class="card-tags">
+                <span class="tag">Community</span>
+                <span class="tag">Interactive</span>
+                <span class="tag">Workflow</span>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Card 9: Night Sky -->
         <article class="card"
           data-project-title="Night Sky Exhibit"
           data-project-meta="Outdoor Adventure Center · Detroit, MI"
@@ -1211,7 +1353,7 @@
           </a>
         </article>
 
-        <!-- Card 9: Commercials Tower -->
+        <!-- Card 10: Commercials Tower -->
         <article class="card"
           data-project-title="Commercials Tower"
           data-project-meta="Toyota Experience Center · 65&quot; touchscreen"
@@ -1242,7 +1384,7 @@
           </a>
         </article>
 
-        <!-- Card 10: Interactive Map -->
+        <!-- Card 11: Interactive Map -->
         <article class="card"
           data-project-title="Interactive Map"
           data-project-meta="Outdoor Adventure Center · ArcGIS"
@@ -1273,7 +1415,7 @@
           </a>
         </article>
 
-        <!-- Card 11: Environmental Dashboards -->
+        <!-- Card 12: Environmental Dashboards -->
         <article class="card"
           data-project-title="Environmental Dashboards"
           data-project-meta="Toyota HQ · Ambient data displays"
@@ -1304,7 +1446,7 @@
           </a>
         </article>
 
-        <!-- Card 12: CALTY eReader -->
+        <!-- Card 13: CALTY eReader -->
         <article class="card"
           data-project-title="CALTY eReader"
           data-project-meta="Toyota CALTY Design Research"
@@ -1335,7 +1477,7 @@
           </a>
         </article>
 
-        <!-- Card 13: Editorial Work -->
+        <!-- Card 14: Editorial Work -->
         <article class="card"
           data-project-title="Editorial & Print Design"
           data-project-meta="Printed publications · illustrated maps"
@@ -1350,12 +1492,15 @@
                   onerror="this.style.display='none';" />
                 <img class="carousel-image" src="images/EDITORIAL-2.JPG" alt="Editorial design sample 2" loading="lazy"
                   onerror="this.style.display='none';" />
+                <img class="carousel-image" src="images/EDITORIAL-3.JPG" alt="Editorial design sample 3" loading="lazy"
+                  onerror="this.style.display='none';" />
               </div>
               <button class="carousel-control prev" type="button" aria-label="Previous image">‹</button>
               <button class="carousel-control next" type="button" aria-label="Next image">›</button>
               <div class="carousel-dots">
                 <button class="carousel-dot active" type="button" aria-label="Image 1"></button>
                 <button class="carousel-dot" type="button" aria-label="Image 2"></button>
+                <button class="carousel-dot" type="button" aria-label="Image 3"></button>
               </div>
               <div class="card-description">
                 <p class="card-description-text">
@@ -1375,7 +1520,7 @@
           </a>
         </article>
 
-        <!-- Card 14: Interactive Kiosks -->
+        <!-- Card 15: Interactive Kiosks -->
         <article class="card"
           data-project-title="And much more"
           data-project-meta="Interactive kiosks across exhibits"
@@ -1392,6 +1537,8 @@
                   onerror="this.style.display='none';" />
                 <img class="carousel-image" src="images/interactive-kiosk-3.JPG" alt="Interactive kiosk sample 3" loading="lazy"
                   onerror="this.style.display='none';" />
+                <img class="carousel-image" src="images/satx-toyota-community-wall.jpg" alt="Toyota Community Wall installation" loading="lazy"
+                  onerror="this.style.display='none';" />
               </div>
               <button class="carousel-control prev" type="button" aria-label="Previous image">‹</button>
               <button class="carousel-control next" type="button" aria-label="Next image">›</button>
@@ -1399,6 +1546,7 @@
                 <button class="carousel-dot active" type="button" aria-label="Image 1"></button>
                 <button class="carousel-dot" type="button" aria-label="Image 2"></button>
                 <button class="carousel-dot" type="button" aria-label="Image 3"></button>
+                <button class="carousel-dot" type="button" aria-label="Image 4"></button>
               </div>
               <div class="card-description">
                 <p class="card-description-text">
@@ -1477,8 +1625,11 @@
   <!-- Image Viewer Modal -->
   <div class="image-modal" id="imageModal" aria-hidden="true">
     <div class="image-modal-content">
+      <button class="image-modal-nav image-modal-prev is-hidden" type="button" aria-label="Previous">‹</button>
+      <button class="image-modal-nav image-modal-next is-hidden" type="button" aria-label="Next">›</button>
       <button class="image-modal-close" type="button" aria-label="Close">×</button>
       <img src="" alt="Project image" />
+      <video class="is-hidden" muted loop playsinline preload="metadata"></video>
     </div>
   </div>
 
@@ -1531,20 +1682,35 @@
       const carousels = document.querySelectorAll('[data-carousel]');
 
       carousels.forEach(carousel => {
-        const images = Array.from(carousel.querySelectorAll('.carousel-image'));
+        const slides = Array.from(carousel.querySelectorAll('.carousel-image'));
         const dots = Array.from(carousel.querySelectorAll('.carousel-dot'));
         const nextBtn = carousel.querySelector('.carousel-control.next');
         const prevBtn = carousel.querySelector('.carousel-control.prev');
-        if (images.length === 0) return;
+        if (slides.length === 0) return;
 
         let index = 0;
 
+        function setSlidePlayback(slide, isActive) {
+          if (!slide || slide.tagName !== 'VIDEO') return;
+          if (isActive) {
+            const playPromise = slide.play();
+            if (playPromise && typeof playPromise.catch === 'function') {
+              playPromise.catch(() => {});
+            }
+          } else {
+            slide.pause();
+            slide.currentTime = 0;
+          }
+        }
+
         function show(nextIndex) {
-          const total = images.length;
+          const total = slides.length;
           const normalized = (nextIndex + total) % total;
-          images[index].classList.remove('active');
+          slides[index].classList.remove('active');
+          setSlidePlayback(slides[index], false);
           dots[index]?.classList.remove('active');
-          images[normalized].classList.add('active');
+          slides[normalized].classList.add('active');
+          setSlidePlayback(slides[normalized], true);
           dots[normalized]?.classList.add('active');
           index = normalized;
         }
@@ -1568,12 +1734,7 @@
           });
         });
 
-        carousel.addEventListener('click', event => {
-          if (event.target.closest('.carousel-control') || event.target.closest('.carousel-dot')) {
-            return;
-          }
-          handleAdvance(1, event);
-        });
+        setSlidePlayback(slides[index], true);
       });
     })();
 
@@ -1582,39 +1743,103 @@
       const modal = document.getElementById('imageModal');
       if (!modal) return;
       const modalImage = modal.querySelector('img');
+      const modalVideo = modal.querySelector('video');
       const modalClose = modal.querySelector('.image-modal-close');
+      const modalPrev = modal.querySelector('.image-modal-prev');
+      const modalNext = modal.querySelector('.image-modal-next');
       const cardLinks = document.querySelectorAll('.card-link');
+      let activeSlides = [];
+      let activeIndex = 0;
 
-      function openModal(src, alt) {
-        if (!src) return;
-        modalImage.src = src;
-        modalImage.alt = alt || 'Project image';
+      function renderModalSlide() {
+        const mediaEl = activeSlides[activeIndex];
+        if (!mediaEl) return;
+        const isVideo = mediaEl.tagName === 'VIDEO';
+        const mediaSrc = mediaEl.currentSrc || mediaEl.src;
+        if (!mediaSrc) return;
+
+        if (isVideo) {
+          modalImage.classList.add('is-hidden');
+          modalVideo.classList.remove('is-hidden');
+          modalVideo.src = mediaSrc;
+          const playPromise = modalVideo.play();
+          if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(() => {});
+          }
+        } else {
+          modalVideo.pause();
+          modalVideo.removeAttribute('src');
+          modalVideo.classList.add('is-hidden');
+          modalImage.classList.remove('is-hidden');
+          modalImage.src = mediaSrc;
+          modalImage.alt = mediaEl.alt || 'Project image';
+        }
+      }
+
+      function updateModalNavVisibility() {
+        const showNav = activeSlides.length > 1;
+        modalPrev?.classList.toggle('is-hidden', !showNav);
+        modalNext?.classList.toggle('is-hidden', !showNav);
+      }
+
+      function openModalFromCard(card) {
+        if (!card) return;
+        const cardSlides = Array.from(card.querySelectorAll('.card-carousel .carousel-image'));
+        const fallbackMedia = card.querySelector('.card-media img, .card-media video');
+        activeSlides = cardSlides.length ? cardSlides : (fallbackMedia ? [fallbackMedia] : []);
+        if (activeSlides.length === 0) return;
+
+        const currentIndex = activeSlides.findIndex(slide => slide.classList.contains('active'));
+        activeIndex = currentIndex >= 0 ? currentIndex : 0;
+        renderModalSlide();
+        updateModalNavVisibility();
         modal.classList.add('active');
         modal.setAttribute('aria-hidden', 'false');
         document.body.classList.add('modal-open');
       }
 
+      function showModalSlide(nextIndex) {
+        if (!activeSlides.length) return;
+        const total = activeSlides.length;
+        activeIndex = (nextIndex + total) % total;
+        renderModalSlide();
+      }
+
       function closeModal() {
+        modalVideo.pause();
+        modalVideo.removeAttribute('src');
+        modalVideo.classList.add('is-hidden');
+        modalImage.classList.remove('is-hidden');
         modal.classList.remove('active');
         modal.setAttribute('aria-hidden', 'true');
         document.body.classList.remove('modal-open');
+        activeSlides = [];
+        activeIndex = 0;
       }
 
       cardLinks.forEach(link => {
         link.addEventListener('click', event => {
+          if (event.target.closest('.carousel-control') || event.target.closest('.carousel-dot')) {
+            return;
+          }
           event.preventDefault();
           const card = link.closest('.card');
-          if (!card) return;
-          const activeCarouselImage = card.querySelector('.card-carousel .carousel-image.active');
-          const fallbackImage = card.querySelector('.card-media img');
-          const targetImage = activeCarouselImage || fallbackImage;
-          if (!targetImage || !targetImage.src) return;
-          openModal(targetImage.src, targetImage.alt);
+          openModalFromCard(card);
         });
       });
 
       modal.addEventListener('click', () => {
         closeModal();
+      });
+
+      modalPrev?.addEventListener('click', event => {
+        event.stopPropagation();
+        showModalSlide(activeIndex - 1);
+      });
+
+      modalNext?.addEventListener('click', event => {
+        event.stopPropagation();
+        showModalSlide(activeIndex + 1);
       });
 
       modalClose?.addEventListener('click', event => {
