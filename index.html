@@ -102,11 +102,26 @@
     }
 
     .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 0.125rem;
+      color: var(--charcoal);
+      line-height: 1.2;
+    }
+
+    .brand-name {
       font-size: 0.875rem;
       font-weight: 600;
       letter-spacing: 0.05em;
       text-transform: uppercase;
-      color: var(--charcoal);
+    }
+
+    .brand-role {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      color: var(--gray-light);
+      text-transform: none;
     }
 
     .nav {
@@ -449,6 +464,21 @@
       cursor: pointer;
       transition: all var(--transition);
       white-space: nowrap;
+    }
+
+    @media (max-width: 767px) {
+      .view-toggle {
+        width: 100%;
+        max-width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        border-radius: var(--radius-md);
+      }
+
+      .view-toggle-btn {
+        width: 100%;
+        text-align: center;
+      }
     }
 
     .view-toggle-btn:hover {
@@ -903,6 +933,17 @@
       transition: all var(--transition);
     }
 
+    @media (max-width: 767px) {
+      .contact-email {
+        width: 100%;
+        max-width: 100%;
+        justify-content: center;
+        font-size: 1rem;
+        padding: 0.9rem 1rem;
+        overflow-wrap: anywhere;
+      }
+    }
+
     .contact-email:hover {
       background: rgba(255, 255, 255, 0.25);
       transform: translateY(-2px);
@@ -942,7 +983,10 @@
   <!-- Header -->
   <header class="site-header">
     <div class="container">
-      <div class="brand">Christian Lozano</div>
+      <div class="brand">
+        <span class="brand-name">Christian Lozano</span>
+        <span class="brand-role">Experience Developer and Designer</span>
+      </div>
       <nav class="nav">
         <a class="nav-link" href="#work">Work</a>
         <a class="nav-link" href="#approach">Approach</a>
