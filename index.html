@@ -487,6 +487,8 @@
       overflow: hidden;
       transition: all var(--transition);
       position: relative;
+      content-visibility: auto;
+      contain-intrinsic-size: 420px;
     }
 
     .card:hover {
@@ -980,7 +982,7 @@
         <!-- Passive rotating hero images -->
         <div class="hero-images">
           <div class="hero-image active">
-            <img src="images/picture1.png" alt="Project showcase" loading="eager" 
+            <img src="images/picture1.png" alt="Project showcase" loading="eager" fetchpriority="high"
               onerror="this.parentElement.style.display='none';" />
           </div>
           <div class="hero-image">
@@ -1175,10 +1177,10 @@
               <div class="carousel-images">
                 <img class="carousel-image active" src="images/leed-kiosk.png" alt="LEED sustainability kiosk" loading="lazy"
                   onerror="this.style.display='none';" />
-                <video class="carousel-image" muted loop playsinline preload="none"
+                <video class="carousel-image" muted loop playsinline preload="none" data-deferred="true"
                   aria-label="LEED sustainability kiosk video"
                   onerror="this.style.display='none';">
-                  <source src="images/LEEDweb.mp4" type="video/mp4" />
+                  <source data-src="images/LEEDweb.mp4" type="video/mp4" />
                 </video>
               </div>
               <button class="carousel-control prev" type="button" aria-label="Previous slide">‹</button>
@@ -1219,10 +1221,10 @@
               <div class="carousel-images">
                 <img class="carousel-image active" src="images/oac-solar-game.jpg" alt="Solar game" loading="lazy"
                   onerror="this.style.display='none';" />
-                <video class="carousel-image" muted loop playsinline preload="none"
+                <video class="carousel-image" muted loop playsinline preload="none" data-deferred="true"
                   aria-label="Solar game video"
                   onerror="this.style.display='none';">
-                  <source src="images/Solarweb.mp4" type="video/mp4" />
+                  <source data-src="images/Solarweb.mp4" type="video/mp4" />
                 </video>
               </div>
               <button class="carousel-control prev" type="button" aria-label="Previous slide">‹</button>
@@ -1263,10 +1265,10 @@
               <div class="carousel-images">
                 <img class="carousel-image active" src="images/oac-recycling-game.png" alt="Recycling game" loading="lazy"
                   onerror="this.style.display='none';" />
-                <video class="carousel-image" muted loop playsinline preload="none"
+                <video class="carousel-image" muted loop playsinline preload="none" data-deferred="true"
                   aria-label="Recycling game video"
                   onerror="this.style.display='none';">
-                  <source src="images/recyclingweb.mp4" type="video/mp4" />
+                  <source data-src="images/recyclingweb.mp4" type="video/mp4" />
                 </video>
               </div>
               <button class="carousel-control prev" type="button" aria-label="Previous slide">‹</button>
@@ -1688,6 +1690,41 @@
 
       // Initialize with projects view
       switchView('projects');
+    })();
+
+    // Defer card video sources until user interaction
+    (function() {
+      const deferredVideos = document.querySelectorAll('video[data-deferred="true"]');
+      if (deferredVideos.length === 0) return;
+      let activated = false;
+
+      function activateDeferredVideos() {
+        if (activated) return;
+        activated = true;
+
+        deferredVideos.forEach(video => {
+          const source = video.querySelector('source[data-src]');
+          if (!source || source.src) return;
+          source.src = source.dataset.src;
+          video.load();
+          if (video.classList.contains('active')) {
+            const playPromise = video.play();
+            if (playPromise && typeof playPromise.catch === 'function') {
+              playPromise.catch(() => {});
+            }
+          }
+        });
+
+        window.removeEventListener('scroll', activateDeferredVideos);
+        window.removeEventListener('touchstart', activateDeferredVideos);
+        window.removeEventListener('wheel', activateDeferredVideos);
+        window.removeEventListener('keydown', activateDeferredVideos);
+      }
+
+      window.addEventListener('scroll', activateDeferredVideos, { passive: true, once: true });
+      window.addEventListener('touchstart', activateDeferredVideos, { passive: true, once: true });
+      window.addEventListener('wheel', activateDeferredVideos, { passive: true, once: true });
+      window.addEventListener('keydown', activateDeferredVideos, { once: true });
     })();
 
     // Card carousels (lightweight auto-rotate + hover video preview)
