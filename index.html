@@ -35,6 +35,12 @@
       --transition: 180ms ease;
       --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
       --font-mono: "SF Mono", "Monaco", "Courier New", monospace;
+
+      /* Hero text shadow — tweak these to taste */
+      --hero-shadow-x: 2px;
+      --hero-shadow-y: 4px;
+      --hero-shadow-blur: 6px;
+      --hero-shadow-color: rgba(0, 0, 0, 1);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -192,6 +198,7 @@
       color: var(--white);
       margin-bottom: var(--space-md);
       max-width: 720px;
+      text-shadow: var(--hero-shadow-x) var(--hero-shadow-y) var(--hero-shadow-blur) var(--hero-shadow-color);
     }
 
     .hero-highlight { color: var(--accent); }
@@ -202,6 +209,7 @@
       color: rgba(255,255,255,0.8);
       max-width: 540px;
       margin-bottom: var(--space-lg);
+      text-shadow: var(--hero-shadow-x) var(--hero-shadow-y) var(--hero-shadow-blur) var(--hero-shadow-color);
     }
 
     .hero-proof {
@@ -213,6 +221,7 @@
       color: rgba(255,255,255,0.6);
       letter-spacing: 0.03em;
       text-transform: uppercase;
+      text-shadow: var(--hero-shadow-x) var(--hero-shadow-y) var(--hero-shadow-blur) var(--hero-shadow-color);
     }
 
     .hero-proof-item { display: flex; align-items: center; gap: 0.4rem; }
@@ -753,7 +762,7 @@
   <section id="work" class="section">
     <div class="container">
       <header class="section-header">
-        <div class="section-label">Selected Work</div>
+        <div class="section-label">Featured Work</div>
         <h2 class="section-title">Choose how you want to explore</h2>
         <p class="section-intro">
           Some people care about <strong>projects and places</strong>. Others want to see <strong>tools and methods</strong> or <strong>topics and themes</strong>. Same work, different lens.
