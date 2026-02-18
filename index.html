@@ -2,270 +2,149 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Christian Lozano · Tech Design for Third Spaces</title>
+  <title>Christian Lozano · Experience Developer and Designer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="I design brand homes and museums that feel like third spaces—places where technology hosts the story, not the other way around." />
+  <meta name="description" content="I design brand homes and museums that feel like third spaces — places where technology serves the story." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
     :root {
-      /* New warm, human palette */
-      --cream: #f9f6f0;
-      --cream-dark: #f0ebe0;
-      --beige: #e8e3d6;
-      --blue: #0066ff;
-      --blue-dark: #0052cc;
-      --blue-soft: rgba(0, 102, 255, 0.08);
-      --blue-border: rgba(0, 102, 255, 0.2);
-      --charcoal: #1a1a1a;
-      --gray: #4a4a4a;
-      --gray-light: #8a8a8a;
-      
-      /* Retro-modern spacing (8pt grid, generous) */
+      --white: #ffffff;
+      --off-white: #fafafa;
+      --gray-50: #f5f5f5;
+      --gray-100: #ebebeb;
+      --gray-200: #e0e0e0;
+      --gray-300: #c7c7c7;
+      --gray-400: #a0a0a0;
+      --gray-500: #6b6b6b;
+      --gray-600: #4a4a4a;
+      --gray-700: #333333;
+      --black: #111111;
+      --accent: #ff6f00;
+      --accent-hover: #e06200;
+
       --space-xs: 0.5rem;
       --space-sm: 1rem;
       --space-md: 1.5rem;
       --space-lg: 2.5rem;
       --space-xl: 4rem;
       --space-2xl: 6rem;
-      
-      --radius-sm: 8px;
-      --radius-md: 16px;
-      --radius-lg: 24px;
-      
-      --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
-      
-      /* Retro-modernist type */
-      --font-sans: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", 
-        system-ui, sans-serif;
+
+      --transition: 180ms ease;
+      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
       --font-mono: "SF Mono", "Monaco", "Courier New", monospace;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: var(--font-sans);
-      background: var(--cream);
-      color: var(--charcoal);
+      background: var(--white);
+      color: var(--black);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
 
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    /* Container */
     .container {
-      max-width: 1200px;
+      max-width: 1160px;
       margin: 0 auto;
       padding: 0 var(--space-md);
     }
 
     @media (min-width: 768px) {
-      .container {
-        padding: 0 var(--space-lg);
-      }
+      .container { padding: 0 var(--space-lg); }
     }
 
-    /* Header - simplified, cleaner */
+    /* ---- HEADER ---- */
     .site-header {
-      position: sticky;
+      position: fixed;
       top: 0;
+      left: 0;
+      right: 0;
       z-index: 100;
-      background: rgba(249, 246, 240, 0.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 2px solid var(--beige);
+      background: transparent;
+      transition: background var(--transition), border-color var(--transition);
+      border-bottom: 1px solid transparent;
+    }
+
+    .site-header.scrolled {
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(8px);
+      border-bottom-color: var(--gray-200);
     }
 
     .site-header .container {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-top: var(--space-md);
-      padding-bottom: var(--space-md);
-      gap: var(--space-md);
+      height: 56px;
     }
 
-    .brand {
-      display: flex;
-      flex-direction: column;
-      gap: 0.125rem;
-      color: var(--charcoal);
-      line-height: 1.2;
-    }
+    .brand { display: flex; flex-direction: column; line-height: 1.2; }
 
     .brand-name {
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
       font-weight: 600;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
       text-transform: uppercase;
+      color: var(--white);
+      transition: color var(--transition);
     }
 
     .brand-role {
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.03em;
-      color: var(--gray-light);
-      text-transform: none;
+      font-size: 0.6875rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.7);
+      transition: color var(--transition);
     }
 
-    .nav {
-      display: flex;
-      gap: var(--space-sm);
-      font-size: 0.875rem;
-      font-weight: 500;
-    }
+    .site-header.scrolled .brand-name { color: var(--black); }
+    .site-header.scrolled .brand-role { color: var(--gray-500); }
+
+    .nav { display: flex; gap: 0.25rem; font-size: 0.8125rem; font-weight: 500; }
 
     .nav-link {
-      padding: 0.5rem 1rem;
-      border-radius: 100px;
-      transition: all var(--transition);
-      color: var(--gray);
+      padding: 0.375rem 0.75rem;
+      color: rgba(255,255,255,0.85);
+      transition: color var(--transition), background var(--transition);
     }
 
-    .nav-link:hover {
-      color: var(--charcoal);
-      background: var(--beige);
-    }
+    .nav-link:hover { color: var(--white); }
+
+    .site-header.scrolled .nav-link { color: var(--gray-600); }
+    .site-header.scrolled .nav-link:hover { color: var(--black); }
 
     .nav-link-primary {
-      background: var(--blue);
-      color: white;
+      background: var(--accent);
+      color: var(--white) !important;
+      padding: 0.375rem 1rem;
     }
 
-    .nav-link-primary:hover {
-      background: var(--blue-dark);
-      transform: translateY(-1px);
-    }
+    .nav-link-primary:hover { background: var(--accent-hover); }
 
-    /* Hero - MASSIVELY simplified, Made to Stick: SIMPLE */
+    /* ---- HERO (full-screen, immersive) ---- */
     .hero {
-      padding: var(--space-xl) 0;
       position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 600px;
       overflow: hidden;
+      display: flex;
+      align-items: flex-end;
     }
 
-    @media (min-width: 768px) {
-      .hero {
-        padding: var(--space-2xl) 0;
-      }
-    }
-
-    /* Subtle background pattern */
-    .hero::before {
-      content: '';
+    .hero-bg {
       position: absolute;
-      top: 0;
-      right: 0;
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(135deg, transparent 30%, var(--blue-soft) 100%);
-      opacity: 0.3;
-      pointer-events: none;
+      inset: 0;
       z-index: 0;
-    }
-
-    .hero .container {
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Hero grid layout */
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: var(--space-lg);
-      align-items: start;
-    }
-
-    @media (min-width: 960px) {
-      .hero-grid {
-        grid-template-columns: 1.4fr 1fr;
-        gap: var(--space-2xl);
-        align-items: start;
-      }
-    }
-
-    .hero-content {
-      max-width: 42rem;
-    }
-
-    /* Hero images - passive, rotating */
-    .hero-images {
-      position: relative;
-      /* Make the hero photos container ~20% taller */
-      aspect-ratio: 5 / 6;
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      border: 3px solid var(--beige);
-      background: var(--cream-dark);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-    }
-
-    @media (max-width: 959px) {
-      .hero {
-        padding: var(--space-lg) 0 var(--space-xl);
-      }
-
-      .hero-content {
-        max-width: 100%;
-      }
-
-      .hero-images {
-        max-width: 520px;
-        margin: 0 auto;
-        aspect-ratio: 4 / 5;
-      }
-
-      .hero-actions {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .hero-actions .button {
-        width: 100%;
-        justify-content: center;
-      }
-
-      .hero-proof {
-        justify-content: flex-start;
-        gap: var(--space-sm) var(--space-md);
-      }
-    }
-
-    @media (max-width: 600px) {
-      .site-header .container {
-        flex-wrap: wrap;
-      }
-
-      .nav {
-        width: 100%;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-      }
-
-      .hero-headline {
-        font-size: clamp(2.2rem, 8vw, 3rem);
-      }
-
-      .hero-subhead {
-        font-size: 1.05rem;
-      }
     }
 
     .hero-image {
@@ -275,132 +154,107 @@
       transition: opacity 1200ms ease-in-out;
     }
 
-    .hero-image.active {
-      opacity: 1;
-    }
+    .hero-image.active { opacity: 1; }
 
     .hero-image img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      /* Align image content to the top of the frame */
-      object-position: top;
-      filter: saturate(0.9) brightness(0.95);
+      object-position: center;
+      will-change: filter;
     }
 
-    /* Subtle overlay for passive feel */
-    .hero-images::after {
-      content: '';
+    .hero-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(
-        to bottom,
-        transparent 0%,
-        rgba(249, 246, 240, 0.05) 50%,
-        rgba(249, 246, 240, 0.15) 100%
-      );
-      pointer-events: none;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 1;
     }
 
-    /* Made to Stick: SIMPLE - One big idea */
-    .hero-headline {
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      font-weight: 700;
-      margin-bottom: var(--space-md);
-      color: var(--charcoal);
-    }
-
-    .hero-highlight {
-      color: var(--blue);
+    .hero-content {
       position: relative;
-      display: inline-block;
+      z-index: 2;
+      width: 100%;
+      padding: 0 var(--space-md) var(--space-2xl);
+      max-width: 1160px;
+      margin: 0 auto;
     }
 
-    /* Made to Stick: CONCRETE */
+    @media (min-width: 768px) {
+      .hero-content { padding: 0 var(--space-lg) var(--space-2xl); }
+    }
+
+    .hero-headline {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: var(--space-md);
+      max-width: 720px;
+    }
+
+    .hero-highlight { color: var(--accent); }
+
     .hero-subhead {
-      font-size: 1.25rem;
-      line-height: 1.5;
-      color: var(--gray);
-      margin-bottom: var(--space-lg);
-      font-weight: 400;
-    }
-
-    .hero-subhead strong {
-      color: var(--charcoal);
-      font-weight: 600;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-sm);
+      font-size: clamp(0.95rem, 1.5vw, 1.125rem);
+      line-height: 1.6;
+      color: rgba(255,255,255,0.8);
+      max-width: 540px;
       margin-bottom: var(--space-lg);
     }
 
-    .button {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.875rem 1.75rem;
-      border-radius: 100px;
-      font-size: 0.9375rem;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      transition: all var(--transition);
-      cursor: pointer;
-      border: 2px solid transparent;
-    }
-
-    .button-primary {
-      background: var(--blue);
-      color: white;
-      box-shadow: 0 4px 16px rgba(0, 102, 255, 0.2);
-    }
-
-    .button-primary:hover {
-      background: var(--blue-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 102, 255, 0.3);
-    }
-
-    .button-secondary {
-      background: transparent;
-      color: var(--blue);
-      border-color: var(--blue-border);
-    }
-
-    .button-secondary:hover {
-      background: var(--blue-soft);
-      border-color: var(--blue);
-    }
-
-    /* Social proof - Made to Stick: CREDIBLE */
     .hero-proof {
       display: flex;
       flex-wrap: wrap;
-      gap: var(--space-md) var(--space-lg);
-      font-size: 0.8125rem;
-      color: var(--gray-light);
-      font-family: var(--font-mono);
+      gap: var(--space-sm) var(--space-lg);
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.6);
       letter-spacing: 0.03em;
+      text-transform: uppercase;
     }
 
-    .hero-proof-item {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+    .hero-proof-item { display: flex; align-items: center; gap: 0.4rem; }
+    .hero-proof-item::before { content: '--'; color: var(--accent); }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: var(--space-lg);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      color: rgba(255,255,255,0.5);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-align: center;
+      animation: pulseDown 2s ease-in-out infinite;
     }
 
-    .hero-proof-item::before {
-      content: '→';
-      color: var(--blue);
-      font-weight: bold;
+    @keyframes pulseDown {
+      0%, 100% { opacity: 0.5; transform: translateX(-50%) translateY(0); }
+      50% { opacity: 1; transform: translateX(-50%) translateY(4px); }
     }
 
-    /* Section spacing */
+    @media (max-width: 600px) {
+      .hero { min-height: 100svh; }
+      .hero-content { padding-bottom: 5rem; }
+      .nav { gap: 0; }
+      .nav-link { padding: 0.375rem 0.5rem; font-size: 0.75rem; }
+    }
+
+    /* ---- SECTIONS ---- */
     .section {
       padding: var(--space-2xl) 0;
+      border-top: 1px solid var(--gray-200);
+    }
+
+    #work {
+      position: relative;
+      z-index: 10;
+      background: var(--white);
     }
 
     .section-header {
@@ -409,142 +263,111 @@
     }
 
     .section-label {
-      font-size: 0.8125rem;
+      font-size: 0.6875rem;
       font-weight: 600;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--blue);
-      margin-bottom: var(--space-sm);
-      font-family: var(--font-mono);
+      color: var(--accent);
+      margin-bottom: var(--space-xs);
     }
 
     .section-title {
-      font-size: clamp(2rem, 4vw, 3rem);
+      font-size: clamp(1.75rem, 3.5vw, 2.5rem);
       line-height: 1.15;
       letter-spacing: -0.02em;
       font-weight: 700;
-      margin-bottom: var(--space-md);
-      color: var(--charcoal);
+      margin-bottom: var(--space-sm);
+      color: var(--black);
     }
 
     .section-intro {
-      font-size: 1.125rem;
+      font-size: 1rem;
       line-height: 1.6;
-      color: var(--gray);
+      color: var(--gray-500);
     }
 
-    .section-intro strong {
-      color: var(--charcoal);
-      font-weight: 600;
-    }
+    .section-intro strong { color: var(--black); font-weight: 600; }
 
-    /* Made to Stick: UNEXPECTED - The toggle is the star */
-    .view-toggle-wrapper {
-      margin-bottom: var(--space-xl);
-    }
+    /* ---- VIEW TOGGLE ---- */
+    .view-toggle-wrapper { margin-bottom: var(--space-xl); }
 
     .view-toggle {
       display: inline-flex;
-      background: white;
-      border: 2px solid var(--beige);
-      border-radius: 100px;
-      padding: 0.25rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--gray-200);
+      background: var(--off-white);
     }
 
     .view-toggle-btn {
       background: transparent;
       border: none;
-      padding: 0.625rem 1.25rem;
-      border-radius: 100px;
-      font-size: 0.875rem;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      color: var(--gray);
+      padding: 0.5rem 1.25rem;
+      font-family: var(--font-sans);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--gray-500);
       cursor: pointer;
       transition: all var(--transition);
       white-space: nowrap;
+      border-right: 1px solid var(--gray-200);
     }
 
-    @media (max-width: 767px) {
-      .view-toggle {
-        width: 100%;
-        max-width: 100%;
-        display: grid;
-        grid-template-columns: 1fr;
-        border-radius: var(--radius-md);
-      }
-
-      .view-toggle-btn {
-        width: 100%;
-        text-align: center;
-      }
-    }
-
-    .view-toggle-btn:hover {
-      color: var(--charcoal);
-    }
+    .view-toggle-btn:last-child { border-right: none; }
+    .view-toggle-btn:hover { color: var(--black); background: var(--gray-50); }
 
     .view-toggle-btn.active {
-      background: var(--blue);
-      color: white;
-      box-shadow: 0 2px 8px rgba(0, 102, 255, 0.3);
+      background: var(--black);
+      color: var(--white);
     }
 
-    /* Cards - more spacious, retro-modern */
+    @media (max-width: 600px) {
+      .view-toggle {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+      .view-toggle-btn {
+        border-right: none;
+        border-bottom: 1px solid var(--gray-200);
+        text-align: left;
+        padding: 0.625rem 1rem;
+      }
+      .view-toggle-btn:last-child { border-bottom: none; }
+    }
+
+    /* ---- CARD GRID ---- */
     .card-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: var(--space-lg);
+      gap: 1px;
+      background: var(--gray-200);
+      border: 1px solid var(--gray-200);
     }
 
     @media (min-width: 640px) {
-      .card-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .card-grid {
-        gap: var(--space-xl);
-      }
+      .card-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     .card {
-      background: white;
-      border: 2px solid var(--beige);
-      border-radius: var(--radius-lg);
+      background: var(--white);
       overflow: hidden;
-      transition: all var(--transition);
+      transition: background var(--transition);
       position: relative;
     }
 
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
-      border-color: var(--blue);
-    }
+    .card:hover { background: var(--off-white); }
 
-    .card-link {
-      display: block;
-      color: inherit;
-    }
+    .card-link { display: block; color: inherit; }
 
     .card-media {
       position: relative;
       aspect-ratio: 16 / 10;
-      background: var(--cream-dark);
+      background: var(--gray-50);
       overflow: hidden;
     }
 
-    .card-carousel {
-      cursor: pointer;
-    }
+    .card-carousel { cursor: pointer; }
 
-    .card-carousel .carousel-images {
-      position: absolute;
-      inset: 0;
-    }
+    .card-carousel .carousel-images { position: absolute; inset: 0; }
 
     .card-carousel .carousel-image {
       position: absolute;
@@ -553,74 +376,57 @@
       height: 100%;
       object-fit: cover;
       opacity: 0;
-      transition: opacity 300ms ease-in-out, transform 400ms ease-out;
+      transition: opacity 300ms ease-in-out;
     }
 
-    .card-carousel .carousel-image.active {
-      opacity: 1;
-    }
+    .card-carousel .carousel-image.active { opacity: 1; }
 
     .carousel-control {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
+      width: 30px;
+      height: 30px;
       border: none;
-      background: rgba(26, 26, 26, 0.65);
-      color: white;
+      background: rgba(0, 0, 0, 0.6);
+      color: var(--white);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
+      font-size: 1rem;
       cursor: pointer;
       opacity: 0;
-      transition: opacity var(--transition), transform var(--transition);
+      transition: opacity var(--transition);
       z-index: 3;
     }
 
-    .carousel-control.prev {
-      left: 0.75rem;
-    }
-
-    .carousel-control.next {
-      right: 0.75rem;
-    }
-
-    .card:hover .carousel-control {
-      opacity: 1;
-    }
+    .carousel-control.prev { left: 0.5rem; }
+    .carousel-control.next { right: 0.5rem; }
+    .card:hover .carousel-control { opacity: 1; }
 
     .carousel-dots {
       position: absolute;
       left: 50%;
-      bottom: 0.75rem;
+      bottom: 0.5rem;
       transform: translateX(-50%);
       display: flex;
-      gap: 0.4rem;
+      gap: 0.35rem;
       z-index: 3;
     }
 
     .carousel-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
+      width: 6px;
+      height: 6px;
       border: none;
-      background: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.5);
       cursor: pointer;
-      transition: transform var(--transition), background var(--transition);
+      transition: background var(--transition);
     }
 
-    .carousel-dot.active {
-      background: white;
-      transform: scale(1.2);
-    }
+    .carousel-dot.active { background: var(--white); }
 
     @media (max-width: 767px) {
-      .carousel-control {
-        opacity: 1;
-      }
+      .carousel-control { opacity: 1; }
     }
 
     .card-media img {
@@ -634,48 +440,170 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      background: #000;
+      background: var(--black);
     }
 
-    .card:hover .card-media img {
-      transform: scale(1.05);
-    }
+    .card:hover .card-media img { transform: scale(1.03); }
 
-    .card-media-placeholder {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.875rem;
-      color: var(--gray-light);
-      font-family: var(--font-mono);
-      text-align: center;
-      padding: var(--space-md);
-    }
-
-    /* Made to Stick: STORIES - descriptions visible on mobile */
     .card-description {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent 50%);
+      background: rgba(0, 0, 0, 0.7);
       display: flex;
       align-items: flex-end;
-      padding: var(--space-md);
+      padding: var(--space-sm);
       opacity: 0;
       transition: opacity var(--transition);
       z-index: 2;
     }
 
-    /* Image viewer modal */
-    .modal-open {
-      overflow: hidden;
+    .card:hover .card-description { opacity: 1; }
+
+    @media (max-width: 767px) {
+      .card-description {
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.55);
+      }
     }
+
+    .card-description-text {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      color: var(--white);
+    }
+
+    .card-body { padding: var(--space-sm) var(--space-md); }
+
+    .card-title {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.25rem;
+      color: var(--black);
+    }
+
+    .card-meta {
+      font-size: 0.8125rem;
+      color: var(--gray-500);
+      margin-bottom: var(--space-xs);
+    }
+
+    .card-tags { display: flex; flex-wrap: wrap; gap: 0.375rem; }
+
+    .tag {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.175rem 0.5rem;
+      background: var(--gray-50);
+      color: var(--gray-500);
+      border: 1px solid var(--gray-200);
+    }
+
+    .tag-highlight {
+      background: var(--accent);
+      color: var(--white);
+      border-color: var(--accent);
+    }
+
+    /* ---- PHILOSOPHY ---- */
+    .philosophy {
+      border: 1px solid var(--gray-200);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+
+    @media (min-width: 768px) {
+      .philosophy { padding: var(--space-xl); }
+    }
+
+    .philosophy-content {
+      max-width: 38rem;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--gray-600);
+    }
+
+    .philosophy-content p { margin-bottom: var(--space-md); }
+    .philosophy-content p:last-child { margin-bottom: 0; }
+    .philosophy-content strong { color: var(--black); font-weight: 600; }
+
+    /* ---- CONTACT ---- */
+    .contact-card {
+      background: var(--black);
+      color: var(--white);
+      padding: var(--space-xl);
+      text-align: center;
+      margin-top: var(--space-xl);
+    }
+
+    .contact-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: var(--space-xs);
+      font-weight: 600;
+    }
+
+    .contact-card p {
+      font-size: 1rem;
+      margin-bottom: var(--space-lg);
+      color: var(--gray-400);
+    }
+
+    .contact-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--black);
+      padding: 0.75rem 1.5rem;
+      background: var(--accent);
+      color: var(--white);
+      border: none;
+      transition: background var(--transition);
+    }
+
+    .contact-email:hover { background: var(--accent-hover); }
+
+    @media (max-width: 600px) {
+      .contact-email {
+        width: 100%;
+        justify-content: center;
+        font-size: 0.875rem;
+        overflow-wrap: anywhere;
+      }
+    }
+
+    /* ---- FOOTER ---- */
+    footer {
+      border-top: 1px solid var(--gray-200);
+      padding: var(--space-lg) 0;
+    }
+
+    footer .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--space-md);
+      font-size: 0.8125rem;
+      color: var(--gray-400);
+    }
+
+    .footer-brand {
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+    }
+
+    /* ---- IMAGE MODAL ---- */
+    .modal-open { overflow: hidden; }
 
     .image-modal {
       position: fixed;
       inset: 0;
-      background: rgba(15, 15, 15, 0.92);
+      background: rgba(0, 0, 0, 0.92);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -686,10 +614,7 @@
       z-index: 200;
     }
 
-    .image-modal.active {
-      opacity: 1;
-      visibility: visible;
-    }
+    .image-modal.active { opacity: 1; visibility: visible; }
 
     .image-modal-content {
       position: relative;
@@ -705,12 +630,11 @@
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
+      width: 40px;
+      height: 40px;
       border: none;
       background: rgba(255, 255, 255, 0.9);
-      color: var(--charcoal);
+      color: var(--black);
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -719,13 +643,8 @@
       z-index: 3;
     }
 
-    .image-modal-prev {
-      left: 1rem;
-    }
-
-    .image-modal-next {
-      right: 1rem;
-    }
+    .image-modal-prev { left: 1rem; }
+    .image-modal-next { right: 1rem; }
 
     .image-modal img,
     .image-modal video {
@@ -734,254 +653,53 @@
       width: auto;
       height: auto;
       object-fit: contain;
-      border-radius: var(--radius-md);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
-      background: var(--cream-dark);
+      background: var(--gray-50);
     }
 
-    .image-modal video {
-      background: #000;
-    }
+    .image-modal video { background: var(--black); }
 
-    .is-hidden {
-      display: none !important;
-    }
+    .is-hidden { display: none !important; }
 
     .image-modal-close {
       position: absolute;
-      top: -16px;
+      top: -14px;
       right: -8px;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
+      width: 34px;
+      height: 34px;
       border: none;
-      background: rgba(255, 255, 255, 0.95);
-      color: var(--charcoal);
-      font-size: 1.1rem;
+      background: var(--white);
+      color: var(--black);
+      font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
     }
 
     @media (max-width: 600px) {
-      .image-modal {
-        padding: var(--space-md);
-      }
-
-      .image-modal-content {
-        max-height: 78vh;
-      }
-
-      .image-modal img,
-      .image-modal video {
-        max-height: 78vh;
-      }
-
-      .image-modal-close {
-        top: -12px;
-        right: 0;
-      }
-
-      .image-modal-nav {
-        width: 38px;
-        height: 38px;
-      }
-
-      .image-modal-prev {
-        left: 0.25rem;
-      }
-
-      .image-modal-next {
-        right: 0.25rem;
-      }
+      .image-modal { padding: var(--space-sm); }
+      .image-modal-content { max-height: 78vh; }
+      .image-modal img, .image-modal video { max-height: 78vh; }
+      .image-modal-close { top: -10px; right: 0; }
+      .image-modal-nav { width: 36px; height: 36px; }
+      .image-modal-prev { left: 0.25rem; }
+      .image-modal-next { right: 0.25rem; }
     }
 
-    .card:hover .card-description {
-      opacity: 1;
-    }
-
-    @media (max-width: 767px) {
-      .card-description {
-        opacity: 1;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 60%);
-      }
-    }
-
-    .card-description-text {
-      font-size: 0.875rem;
-      line-height: 1.5;
-      color: white;
-    }
-
-    .card-body {
-      padding: var(--space-md);
-    }
-
-    .card-title {
-      font-size: 1.125rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      margin-bottom: 0.375rem;
-      color: var(--charcoal);
-    }
-
-    .card-meta {
-      font-size: 0.875rem;
-      color: var(--gray);
-      margin-bottom: var(--space-sm);
-    }
-
-    .card-tags {
+    .card-media-placeholder {
+      position: absolute;
+      inset: 0;
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .tag {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      padding: 0.25rem 0.75rem;
-      border-radius: 100px;
-      background: var(--cream-dark);
-      color: var(--gray);
-      font-family: var(--font-mono);
-    }
-
-    .tag-highlight {
-      background: var(--blue);
-      color: white;
-    }
-
-    /* How I Work - Made to Stick: SIMPLE (cut 80%) */
-    .philosophy {
-      background: white;
-      border: 2px solid var(--beige);
-      border-radius: var(--radius-lg);
-      padding: var(--space-lg);
-      margin-bottom: var(--space-xl);
-    }
-
-    @media (min-width: 768px) {
-      .philosophy {
-        padding: var(--space-xl);
-      }
-    }
-
-    .philosophy-content {
-      max-width: 40rem;
-      font-size: 1.125rem;
-      line-height: 1.7;
-      color: var(--gray);
-    }
-
-    .philosophy-content p {
-      margin-bottom: var(--space-md);
-    }
-
-    .philosophy-content p:last-child {
-      margin-bottom: 0;
-    }
-
-    .philosophy-content strong {
-      color: var(--charcoal);
-      font-weight: 600;
-    }
-
-    .philosophy-highlight {
-      font-size: 1.5rem;
-      font-weight: 600;
-      line-height: 1.4;
-      color: var(--blue);
-      margin-bottom: var(--space-md);
-    }
-
-    /* Contact - Made to Stick: CONCRETE CTA */
-    .contact-card {
-      background: var(--blue);
-      color: white;
-      border-radius: var(--radius-lg);
-      padding: var(--space-xl);
-      text-align: center;
-      margin-top: var(--space-xl);
-    }
-
-    .contact-card h3 {
-      font-size: 1.5rem;
-      margin-bottom: var(--space-sm);
-      font-weight: 600;
-    }
-
-    .contact-card p {
-      font-size: 1.125rem;
-      margin-bottom: var(--space-lg);
-      opacity: 0.9;
-    }
-
-    .contact-email {
-      display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: white;
-      padding: 1rem 2rem;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 100px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      transition: all var(--transition);
-    }
-
-    @media (max-width: 767px) {
-      .contact-email {
-        width: 100%;
-        max-width: 100%;
-        justify-content: center;
-        font-size: 1rem;
-        padding: 0.9rem 1rem;
-        overflow-wrap: anywhere;
-      }
-    }
-
-    .contact-email:hover {
-      background: rgba(255, 255, 255, 0.25);
-      transform: translateY(-2px);
-    }
-
-    /* Footer */
-    footer {
-      border-top: 2px solid var(--beige);
-      padding: var(--space-lg) 0;
-      margin-top: var(--space-2xl);
-    }
-
-    footer .container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: var(--space-md);
-      font-size: 0.875rem;
-      color: var(--gray-light);
-    }
-
-    .footer-brand {
-      font-weight: 600;
-      font-family: var(--font-mono);
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-
-    .footer-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-md);
+      justify-content: center;
+      font-size: 0.8125rem;
+      color: var(--gray-400);
+      text-align: center;
+      padding: var(--space-md);
     }
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header class="site-header">
+
+  <header class="site-header" id="siteHeader">
     <div class="container">
       <div class="brand">
         <span class="brand-name">Christian Lozano</span>
@@ -995,67 +713,50 @@
     </div>
   </header>
 
-  <!-- Hero - Made to Stick: SIMPLE + UNEXPECTED -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-grid">
-        <div class="hero-content">
-          <h1 class="hero-headline">
-            My goal is to make museums and brand homes feel like <span class="hero-highlight">third spaces</span>
-          </h1>
-          
-          <p class="hero-subhead">
-             From Toyota's experience centers to science museums, I connect story, space, and systems into experiences that run reliably in the real world.
-          </p>
+  <section class="hero" id="hero">
+    <div class="hero-bg" id="heroBg">
+      <div class="hero-image active">
+        <img src="images/how-we-know-the-weather-1.jpeg" alt="Project showcase" loading="eager" fetchpriority="high" />
+      </div>
+      <div class="hero-image">
+        <img src="images/toyota-north-america.jpeg" alt="Project showcase" loading="lazy" />
+      </div>
+      <div class="hero-image">
+        <img src="images/how-we-know-the-weather-2.JPG" alt="Project showcase" loading="lazy" />
+      </div>
+      <div class="hero-image">
+        <img src="images/picture4.jpg" alt="Project showcase" loading="lazy" />
+      </div>
+      <div class="hero-overlay"></div>
+    </div>
 
-          <div class="hero-actions">
-            <a class="button button-primary" href="#work">See the work</a>
-            <a class="button button-secondary" href="#approach">How I think</a>
-          </div>
-
-          <!-- Made to Stick: CREDIBLE -->
-          <div class="hero-proof">
-            <div class="hero-proof-item">Toyota Experience Centers</div>
-            <div class="hero-proof-item">U.S. Space & Rocket Center</div>
-            <div class="hero-proof-item">50+ live installations</div>
-          </div>
-        </div>
-
-        <!-- Passive rotating hero images -->
-        <div class="hero-images">
-          <div class="hero-image active">
-            <img src="images/picture1.png" alt="Project showcase" loading="eager" fetchpriority="high"
-              onerror="this.parentElement.style.display='none';" />
-          </div>
-          <div class="hero-image">
-            <img src="images/picture2.png" alt="Project showcase" loading="lazy"
-              onerror="this.parentElement.style.display='none';" />
-          </div>
-          <div class="hero-image">
-            <img src="images/picture3.png" alt="Project showcase" loading="lazy"
-              onerror="this.parentElement.style.display='none';" />
-          </div>
-          <div class="hero-image">
-            <img src="images/picture4.png" alt="Project showcase" loading="lazy"
-              onerror="this.parentElement.style.display='none';" />
-          </div>
-        </div>
+    <div class="hero-content">
+      <h1 class="hero-headline">
+        <span class="hero-highlight">Interactive experiences</span>, built to work in the real world. 
+      </h1>
+      <p class="hero-subhead">
+        I help brands, museums, and cultural spaces turn ideas into reliable, physical installations, from concept to launch.
+      </p>
+      <div class="hero-proof">
+        <div class="hero-proof-item">Toyota Experience Centers</div>
+        <div class="hero-proof-item">U.S. Space & Rocket Center</div>
+        <div class="hero-proof-item">50+ live installations</div>
       </div>
     </div>
+
+    <div class="hero-scroll-hint">Scroll</div>
   </section>
 
-  <!-- Work Section - Made to Stick: UNEXPECTED (the toggle) -->
   <section id="work" class="section">
     <div class="container">
       <header class="section-header">
         <div class="section-label">Selected Work</div>
         <h2 class="section-title">Choose how you want to explore</h2>
         <p class="section-intro">
-          Some people care about <strong>projects and places</strong>. Others want to see <strong>tools and methods</strong> or <strong>topics and themes</strong>. Same work, different lens—pick yours.
+          Some people care about <strong>projects and places</strong>. Others want to see <strong>tools and methods</strong> or <strong>topics and themes</strong>. Same work, different lens.
         </p>
       </header>
 
-      <!-- Made to Stick: UNEXPECTED - This is the hook -->
       <div class="view-toggle-wrapper">
         <div class="view-toggle">
           <button class="view-toggle-btn active" data-view="projects">Projects</button>
@@ -1064,7 +765,6 @@
         </div>
       </div>
 
-      <!-- Cards - Made to Stick: CONCRETE + STORIES -->
       <div class="card-grid">
         <!-- Card 1: Weather -->
         <article class="card"
@@ -1077,28 +777,21 @@
           <a href="#" class="card-link">
             <div class="card-media card-carousel" data-carousel>
               <div class="carousel-images">
-                <img class="carousel-image active" src="images/how-we-know-the-weather-1.jpeg" alt="How We Know the Weather exhibit image 1" loading="lazy"
-                  onerror="this.style.display='none';" />
-                <img class="carousel-image" src="images/how-we-know-the-weather-2.JPG" alt="How We Know the Weather exhibit image 2" loading="lazy"
-                  onerror="this.style.display='none';" />
-                <img class="carousel-image" src="images/how-we-know-the-weather-3.JPG" alt="How We Know the Weather exhibit image 3" loading="lazy"
-                  onerror="this.style.display='none';" />
-                <img class="carousel-image" src="images/how-we-know-the-weather-5.JPG" alt="How We Know the Weather exhibit image 4" loading="lazy"
-                  onerror="this.style.display='none';" />
+                <img class="carousel-image active" src="images/how-we-know-the-weather-1.jpeg" alt="How We Know the Weather exhibit image 1" loading="lazy" />
+                <img class="carousel-image" src="images/how-we-know-the-weather-2.JPG" alt="How We Know the Weather exhibit image 2" loading="lazy" />
+                <img class="carousel-image" src="images/how-we-know-the-weather-3.JPG" alt="How We Know the Weather exhibit image 3" loading="lazy" />
+                <img class="carousel-image" src="images/how-we-know-the-weather-5.JPG" alt="How We Know the Weather exhibit image 4" loading="lazy" />
               </div>
-              <button class="carousel-control prev" type="button" aria-label="Previous slide">‹</button>
-              <button class="carousel-control next" type="button" aria-label="Next slide">›</button>
+              <button class="carousel-control prev" type="button" aria-label="Previous slide">&#8249;</button>
+              <button class="carousel-control next" type="button" aria-label="Next slide">&#8250;</button>
               <div class="carousel-dots">
                 <button class="carousel-dot active" type="button" aria-label="Slide 1"></button>
                 <button class="carousel-dot" type="button" aria-label="Slide 2"></button>
                 <button class="carousel-dot" type="button" aria-label="Slide 3"></button>
                 <button class="carousel-dot" type="button" aria-label="Slide 4"></button>
               </div>
-
               <div class="card-description">
-                <p class="card-description-text">
-                  a 24' LED wall and real radar data dance to life. 50+ screens, live NOAA feeds, hands-on games.
-                </p>
+                <p class="card-description-text">A 24' LED wall and real radar data dance to life. 50+ screens, live NOAA feeds, hands-on games.</p>
               </div>
             </div>
             <div class="card-body">
@@ -1123,13 +816,9 @@
           data-topics-meta="Brand narrative · people & place">
           <a href="#" class="card-link">
             <div class="card-media">
-              <img src="images/toyota-north-america.jpeg" alt="Toyota North America exhibit" loading="lazy"
-                onerror="this.style.display='none';" />
-
+              <img src="images/toyota-north-america.jpeg" alt="Toyota North America exhibit" loading="lazy" />
               <div class="card-description">
-                <p class="card-description-text">
-                  Six apps, six videos, one continent. The most technically complex experience in the Center—yet visitors see one simple story about people, places, and cars.
-                </p>
+                <p class="card-description-text">Six apps, six videos, one continent. The most technically complex experience in the Center -- yet visitors see one simple story about people, places, and cars.</p>
               </div>
             </div>
             <div class="card-body">
@@ -1154,13 +843,9 @@
           data-topics-meta="R&D · people behind patents">
           <a href="#" class="card-link">
             <div class="card-media">
-              <img src="images/toyota-patents.jpg" alt="Toyota patents interactive" loading="lazy"
-                onerror="this.style.display='none';" />
-
+              <img src="images/toyota-patents.jpg" alt="Toyota patents interactive" loading="lazy" />
               <div class="card-description">
-                <p class="card-description-text">
-                  One touchscreen drives a wall of innovation. Swipe through decades of Toyota patents—from a single, intuitive interface.
-                </p>
+                <p class="card-description-text">One touchscreen drives a wall of innovation. Swipe through decades of Toyota patents -- from a single, intuitive interface.</p>
               </div>
             </div>
             <div class="card-body">
@@ -1185,13 +870,9 @@
           data-topics-meta="Place · community · infrastructure">
           <a href="#" class="card-link">
             <div class="card-media">
-              <img src="images/satx-projection-table.jpg" alt="San Antonio projection table" loading="lazy"
-                onerror="this.style.display='none';" />
-             
+              <img src="images/satx-projection-table.jpg" alt="San Antonio projection table" loading="lazy" />
               <div class="card-description">
-                <p class="card-description-text">
-                  A glowing map where the Toyota plant, roads, and neighborhoods come alive. Satellite imagery + hand-crafted animation tell a story of manufacturing and community.
-                </p>
+                <p class="card-description-text">A glowing map where the Toyota plant, roads, and neighborhoods come alive. Satellite imagery + hand-crafted animation tell a story of manufacturing and community.</p>
               </div>
             </div>
             <div class="card-body">
@@ -1217,25 +898,19 @@
           <a href="#" class="card-link">
             <div class="card-media card-carousel" data-carousel>
               <div class="carousel-images">
-                <img class="carousel-image active" src="images/leed-kiosk.png" alt="LEED sustainability kiosk" loading="lazy"
-                  onerror="this.style.display='none';" />
-                <video class="carousel-image" muted loop playsinline preload="none"
-                  aria-label="LEED sustainability kiosk video"
-                  onerror="this.style.display='none';">
+                <img class="carousel-image active" src="images/leed-kiosk.png" alt="LEED sustainability kiosk" loading="lazy" />
+                <video class="carousel-image" muted loop playsinline preload="none" aria-label="LEED kiosk video">
                   <source src="images/LEEDweb.mp4" type="video/mp4" />
                 </video>
               </div>
-              <button class="carousel-control prev" type="button" aria-label="Previous slide">‹</button>
-              <button class="carousel-control next" type="button" aria-label="Next slide">›</button>
+              <button class="carousel-control prev" type="button" aria-label="Previous slide">&#8249;</button>
+              <button class="carousel-control next" type="button" aria-label="Next slide">&#8250;</button>
               <div class="carousel-dots">
                 <button class="carousel-dot active" type="button" aria-label="Slide 1"></button>
                 <button class="carousel-dot" type="button" aria-label="Slide 2"></button>
               </div>
-
               <div class="card-description">
-                <p class="card-description-text">
-                  Instead of a dusty plaque, Toyota Mississippi's LEED Platinum certification lives inside a touchscreen story about how the building breathes and saves energy.
-                </p>
+                <p class="card-description-text">Instead of a dusty plaque, Toyota Mississippi's LEED Platinum certification lives inside a touchscreen story about how the building breathes and saves energy.</p>
               </div>
             </div>
             <div class="card-body">
@@ -1261,25 +936,19 @@
           <a href="#" class="card-link">
             <div class="card-media card-carousel" data-carousel>
               <div class="carousel-images">
-                <img class="carousel-image active" src="images/oac-solar-game.jpg" alt="Solar game" loading="lazy"
-                  onerror="this.style.display='none';" />
-                <video class="carousel-image" muted loop playsinline preload="none"
-                  aria-label="Solar game video"
-                  onerror="this.style.display='none';">
+                <img class="carousel-image active" src="images/oac-solar-game.jpg" alt="Solar game" loading="lazy" />
+                <video class="carousel-image" muted loop playsinline preload="none" aria-label="Solar game video">
                   <source src="images/Solarweb.mp4" type="video/mp4" />
                 </video>
               </div>
-              <button class="carousel-control prev" type="button" aria-label="Previous slide">‹</button>
-              <button class="carousel-control next" type="button" aria-label="Next slide">›</button>
+              <button class="carousel-control prev" type="button" aria-label="Previous slide">&#8249;</button>
+              <button class="carousel-control next" type="button" aria-label="Next slide">&#8250;</button>
               <div class="carousel-dots">
                 <button class="carousel-dot active" type="button" aria-label="Slide 1"></button>
                 <button class="carousel-dot" type="button" aria-label="Slide 2"></button>
               </div>
-
               <div class="card-description">
-                <p class="card-description-text">
-                  Drag solar panels across a cartoon Detroit skyline, chase the sun, dodge clouds. Real solar concepts—angles, shading, efficiency—wrapped in play.
-                </p>
+                <p class="card-description-text">Drag solar panels across a cartoon Detroit skyline, chase the sun, dodge clouds. Real solar concepts -- angles, shading, efficiency -- wrapped in play.</p>
               </div>
             </div>
             <div class="card-body">
@@ -1305,25 +974,19 @@
           <a href="#" class="card-link">
             <div class="card-media card-carousel" data-carousel>
               <div class="carousel-images">
-                <img class="carousel-image active" src="images/oac-recycling-game.png" alt="Recycling game" loading="lazy"
-                  onerror="this.style.display='none';" />
-                <video class="carousel-image" muted loop playsinline preload="none"
-                  aria-label="Recycling game video"
-                  onerror="this.style.display='none';">
+                <img class="carousel-image active" src="images/oac-recycling-game.png" alt="Recycling game" loading="lazy" />
+                <video class="carousel-image" muted loop playsinline preload="none" aria-label="Recycling game video">
                   <source src="images/recyclingweb.mp4" type="video/mp4" />
                 </video>
               </div>
-              <button class="carousel-control prev" type="button" aria-label="Previous slide">‹</button>
-              <button class="carousel-control next" type="button" aria-label="Next slide">›</button>
+              <button class="carousel-control prev" type="button" aria-label="Previous slide">&#8249;</button>
+              <button class="carousel-control next" type="button" aria-label="Next slide">&#8250;</button>
               <div class="carousel-dots">
                 <button class="carousel-dot active" type="button" aria-label="Slide 1"></button>
                 <button class="carousel-dot" type="button" aria-label="Slide 2"></button>
               </div>
-
               <div class="card-description">
-                <p class="card-description-text">
-                  Banana peel, pizza box, plastic bottle—where do they go? Detroit's real bin system becomes a fast sorting challenge. Learn by playing, not reading posters.
-                </p>
+                <p class="card-description-text">Banana peel, pizza box, plastic bottle -- where do they go? Detroit's real bin system becomes a fast sorting challenge.</p>
               </div>
             </div>
             <div class="card-body">
@@ -1349,22 +1012,17 @@
           <a href="#" class="card-link">
             <div class="card-media card-carousel" data-carousel>
               <div class="carousel-images">
-                <img class="carousel-image active" src="images/OAC-Registry-1.jpg" alt="OAC registry experience" loading="lazy"
-                  onerror="this.style.display='none';" />
-                <img class="carousel-image" src="images/OAC-Registry-2.jpg" alt="OAC registry submissions" loading="lazy"
-                  onerror="this.style.display='none';" />
+                <img class="carousel-image active" src="images/OAC-Registry-1.jpg" alt="OAC registry experience" loading="lazy" />
+                <img class="carousel-image" src="images/OAC-Registry-2.jpg" alt="OAC registry submissions" loading="lazy" />
               </div>
-              <button class="carousel-control prev" type="button" aria-label="Previous slide">‹</button>
-              <button class="carousel-control next" type="button" aria-label="Next slide">›</button>
+              <button class="carousel-control prev" type="button" aria-label="Previous slide">&#8249;</button>
+              <button class="carousel-control next" type="button" aria-label="Next slide">&#8250;</button>
               <div class="carousel-dots">
                 <button class="carousel-dot active" type="button" aria-label="Slide 1"></button>
                 <button class="carousel-dot" type="button" aria-label="Slide 2"></button>
               </div>
-
               <div class="card-description">
-                <p class="card-description-text">
-                  Guests can drop a pin for where they are from, kids can draw and submit stories, and everything routes directly into the museum team's project management flow for review and reposting.
-                </p>
+                <p class="card-description-text">Guests drop a pin for where they are from, kids draw and submit stories, and everything routes directly into the museum team's project management flow.</p>
               </div>
             </div>
             <div class="card-body">
@@ -1389,13 +1047,9 @@
           data-topics-meta="Astronomy · multiple sky stories">
           <a href="#" class="card-link">
             <div class="card-media">
-              <img src="images/night-sky-exhibit.jpg" alt="Night sky exhibit" loading="lazy"
-                onerror="this.style.display='none';" />
-
+              <img src="images/night-sky-exhibit.jpg" alt="Night sky exhibit" loading="lazy" />
               <div class="card-description">
-                <p class="card-description-text">
-                  Constellations slowly trace themselves into view, layered with stories from different traditions. A quiet, shared moment of wonder.
-                </p>
+                <p class="card-description-text">Constellations slowly trace themselves into view, layered with stories from different traditions. A quiet, shared moment of wonder.</p>
               </div>
             </div>
             <div class="card-body">
@@ -1420,13 +1074,9 @@
           data-topics-meta="Archive · messaging · culture">
           <a href="#" class="card-link">
             <div class="card-media">
-              <img src="images/commercials-tower.jpg" alt="Commercials tower" loading="lazy"
-                onerror="this.style.display='none';" />
-
+              <img src="images/commercials-tower.jpg" alt="Commercials tower" loading="lazy" />
               <div class="card-description">
-                <p class="card-description-text">
-                  Scroll through decades of Toyota commercials on a 65" touchscreen—see how the brand talked about safety, family, and innovation in each era.
-                </p>
+                <p class="card-description-text">Scroll through decades of Toyota commercials on a 65" touchscreen -- see how the brand talked about safety, family, and innovation in each era.</p>
               </div>
             </div>
             <div class="card-body">
@@ -1451,13 +1101,9 @@
           data-topics-meta="Place · recreation · wayfinding">
           <a href="#" class="card-link">
             <div class="card-media">
-              <img src="images/oac-map.jpg" alt="Interactive map" loading="lazy"
-                onerror="this.style.display='none';" />
-
+              <img src="images/oac-map.jpg" alt="Interactive map" loading="lazy" />
               <div class="card-description">
-                <p class="card-description-text">
-                  Families tap into Michigan's outdoor destinations—see what each place looks like and what they can do there. Exhibit meets real landscape.
-                </p>
+                <p class="card-description-text">Families tap into Michigan's outdoor destinations -- see what each place looks like and what they can do there.</p>
               </div>
             </div>
             <div class="card-body">
@@ -1482,13 +1128,9 @@
           data-topics-meta="Environment · calm technology">
           <a href="#" class="card-link">
             <div class="card-media">
-              <img src="images/vestaboard-environmental.jpg" alt="Environmental dashboards" loading="lazy"
-                onerror="this.style.display='none';" />
-
+              <img src="images/vestaboard-environmental.jpg" alt="Environmental dashboards" loading="lazy" />
               <div class="card-description">
-                <p class="card-description-text">
-                  Environmental data appears as quiet ambient information, not loud dashboards. Live data feels like part of the architecture.
-                </p>
+                <p class="card-description-text">Environmental data appears as quiet ambient information, not loud dashboards. Live data feels like part of the architecture.</p>
               </div>
             </div>
             <div class="card-body">
@@ -1513,13 +1155,9 @@
           data-topics-meta="Knowledge · internal storytelling">
           <a href="#" class="card-link">
             <div class="card-media">
-              <img src="images/calty-ereader.jpg" alt="CALTY eReader" loading="lazy"
-                onerror="this.style.display='none';" />
-
+              <img src="images/calty-ereader.jpg" alt="CALTY eReader" loading="lazy" />
               <div class="card-description">
-                <p class="card-description-text">
-                  A digital reader inside Toyota's design studio where people explore curated design stories. Finished product, not prototype.
-                </p>
+                <p class="card-description-text">A digital reader inside Toyota's design studio where people explore curated design stories. Finished product, not prototype.</p>
               </div>
             </div>
             <div class="card-body">
@@ -1545,24 +1183,19 @@
           <a href="#" class="card-link">
             <div class="card-media card-carousel" data-carousel>
               <div class="carousel-images">
-                <img class="carousel-image active" src="images/EDITORIAL-1.JPG" alt="Editorial design sample 1" loading="lazy"
-                  onerror="this.style.display='none';" />
-                <img class="carousel-image" src="images/EDITORIAL-2.JPG" alt="Editorial design sample 2" loading="lazy"
-                  onerror="this.style.display='none';" />
-                <img class="carousel-image" src="images/EDITORIAL-3.JPG" alt="Editorial design sample 3" loading="lazy"
-                  onerror="this.style.display='none';" />
+                <img class="carousel-image active" src="images/EDITORIAL-1.JPG" alt="Editorial design sample 1" loading="lazy" />
+                <img class="carousel-image" src="images/EDITORIAL-2.JPG" alt="Editorial design sample 2" loading="lazy" />
+                <img class="carousel-image" src="images/EDITORIAL-3.JPG" alt="Editorial design sample 3" loading="lazy" />
               </div>
-              <button class="carousel-control prev" type="button" aria-label="Previous image">‹</button>
-              <button class="carousel-control next" type="button" aria-label="Next image">›</button>
+              <button class="carousel-control prev" type="button" aria-label="Previous image">&#8249;</button>
+              <button class="carousel-control next" type="button" aria-label="Next image">&#8250;</button>
               <div class="carousel-dots">
                 <button class="carousel-dot active" type="button" aria-label="Image 1"></button>
                 <button class="carousel-dot" type="button" aria-label="Image 2"></button>
                 <button class="carousel-dot" type="button" aria-label="Image 3"></button>
               </div>
               <div class="card-description">
-                <p class="card-description-text">
-                  I've designed things for printed publications, illustrated maps, big format printing, and business cards.
-                </p>
+                <p class="card-description-text">Printed publications, illustrated maps, big format printing, and business cards.</p>
               </div>
             </div>
             <div class="card-body">
@@ -1588,17 +1221,13 @@
           <a href="#" class="card-link">
             <div class="card-media card-carousel" data-carousel>
               <div class="carousel-images">
-                <img class="carousel-image active" src="images/interactive-kiosk-1.JPG" alt="Interactive kiosk sample 1" loading="lazy"
-                  onerror="this.style.display='none';" />
-                <img class="carousel-image" src="images/interactive-kiosk-2.jpg" alt="Interactive kiosk sample 2" loading="lazy"
-                  onerror="this.style.display='none';" />
-                <img class="carousel-image" src="images/interactive-kiosk-3.JPG" alt="Interactive kiosk sample 3" loading="lazy"
-                  onerror="this.style.display='none';" />
-                <img class="carousel-image" src="images/satx-toyota-community-wall.jpg" alt="Toyota Community Wall installation" loading="lazy"
-                  onerror="this.style.display='none';" />
+                <img class="carousel-image active" src="images/interactive-kiosk-1.JPG" alt="Interactive kiosk sample 1" loading="lazy" />
+                <img class="carousel-image" src="images/interactive-kiosk-2.jpg" alt="Interactive kiosk sample 2" loading="lazy" />
+                <img class="carousel-image" src="images/interactive-kiosk-3.JPG" alt="Interactive kiosk sample 3" loading="lazy" />
+                <img class="carousel-image" src="images/satx-toyota-community-wall.jpg" alt="Toyota Community Wall installation" loading="lazy" />
               </div>
-              <button class="carousel-control prev" type="button" aria-label="Previous image">‹</button>
-              <button class="carousel-control next" type="button" aria-label="Next image">›</button>
+              <button class="carousel-control prev" type="button" aria-label="Previous image">&#8249;</button>
+              <button class="carousel-control next" type="button" aria-label="Next image">&#8250;</button>
               <div class="carousel-dots">
                 <button class="carousel-dot active" type="button" aria-label="Image 1"></button>
                 <button class="carousel-dot" type="button" aria-label="Image 2"></button>
@@ -1606,9 +1235,7 @@
                 <button class="carousel-dot" type="button" aria-label="Image 4"></button>
               </div>
               <div class="card-description">
-                <p class="card-description-text">
-                  Interactive kiosks that bring stories, maps, and wayfinding to life across brand homes and museums.
-                </p>
+                <p class="card-description-text">Interactive kiosks that bring stories, maps, and wayfinding to life across brand homes and museums.</p>
               </div>
             </div>
             <div class="card-body">
@@ -1626,7 +1253,6 @@
     </div>
   </section>
 
-  <!-- How I Work - Made to Stick: SIMPLE (80% shorter) -->
   <section id="approach" class="section">
     <div class="container">
       <header class="section-header">
@@ -1637,25 +1263,23 @@
       <div class="philosophy">
         <div class="philosophy-content">
           <p>
-            We live inside technology now. The question isn’t whether it belongs in public space, but whether it adds anything worth keeping. I want stories to read as invitations, not instructions—experiences people choose to look at, linger with, and return to.
+            Technology isn’t the question anymore. Value is. I design public experiences that invite attention, reward curiosity, and leave an impression.
           </p>
-
           <p>
-            I make that happen by treating technology as a tool in service of narrative and place: clear affordances, legible pacing, and resilient content structures that keep working in the real world. The result is work that stays accessible, updateable, and coherent on the floor.
+            I work from story and place first, using technology to support clear interaction, natural pacing, and durable systems that function in the real world.
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Contact - Made to Stick: CONCRETE -->
   <section id="contact" class="section">
     <div class="container">
       <header class="section-header">
         <div class="section-label">Let's Work Together</div>
         <h2 class="section-title">Design your next experience</h2>
         <p class="section-intro">
-          Whether you're shaping a brand home, rethinking a museum gallery, or prototyping a new interactive—I can help connect <strong>story, space, and systems</strong> so it all feels cohesive.
+          Whether you're shaping a brand home, rethinking a museum gallery, or prototyping a new interactive, I can help connect <strong>story, space, and systems</strong>.
         </p>
       </header>
 
@@ -1663,13 +1287,12 @@
         <h3>Ready to start?</h3>
         <p>Send a short note about your project, timeline, and what success looks like.</p>
         <a class="contact-email" href="mailto:christian@chexperiences.com">
-          christian@chexperiences.com →
+          christian@chexperiences.com
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
   <footer>
     <div class="container">
       <div class="footer-brand">CH Experiences LLC</div>
@@ -1679,23 +1302,75 @@
     </div>
   </footer>
 
-  <!-- Image Viewer Modal -->
   <div class="image-modal" id="imageModal" aria-hidden="true">
     <div class="image-modal-content">
-      <button class="image-modal-nav image-modal-prev is-hidden" type="button" aria-label="Previous">‹</button>
-      <button class="image-modal-nav image-modal-next is-hidden" type="button" aria-label="Next">›</button>
-      <button class="image-modal-close" type="button" aria-label="Close">×</button>
+      <button class="image-modal-nav image-modal-prev is-hidden" type="button" aria-label="Previous">&#8249;</button>
+      <button class="image-modal-nav image-modal-next is-hidden" type="button" aria-label="Next">&#8250;</button>
+      <button class="image-modal-close" type="button" aria-label="Close">&times;</button>
       <img src="" alt="Project image" />
       <video class="is-hidden" muted loop playsinline preload="none"></video>
     </div>
   </div>
 
-  <!-- View Toggle Script -->
   <script>
+    // Header: transparent on hero, solid on scroll
+    (function() {
+      const header = document.getElementById('siteHeader');
+      const hero = document.getElementById('hero');
+      if (!header || !hero) return;
+
+      function check() {
+        const heroBottom = hero.getBoundingClientRect().bottom;
+        header.classList.toggle('scrolled', heroBottom <= 56);
+      }
+
+      window.addEventListener('scroll', check, { passive: true });
+      check();
+    })();
+
+    // Hero: scroll-driven blur
+    (function() {
+      const hero = document.getElementById('hero');
+      const heroBg = document.getElementById('heroBg');
+      if (!hero || !heroBg) return;
+      const heroImages = heroBg.querySelectorAll('.hero-image img');
+
+      let ticking = false;
+
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          const heroH = hero.offsetHeight;
+          const progress = Math.min(scrollY / (heroH * 0.6), 1);
+          const blurPx = progress * 20;
+          heroImages.forEach(img => {
+            img.style.filter = 'blur(' + blurPx + 'px)';
+          });
+          ticking = false;
+        });
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+    })();
+
+    // Hero image rotation
+    (function() {
+      const images = document.querySelectorAll('.hero-image');
+      if (images.length === 0) return;
+      let currentIndex = 0;
+      setInterval(() => {
+        images[currentIndex].classList.remove('active');
+        currentIndex = (currentIndex + 1) % images.length;
+        images[currentIndex].classList.add('active');
+      }, 4500);
+    })();
+
+    // View toggle
     (function() {
       const buttons = document.querySelectorAll('[data-view]');
       const cards = document.querySelectorAll('.card');
-
       const views = {
         projects: { title: 'projectTitle', meta: 'projectMeta' },
         tools: { title: 'toolsTitle', meta: 'toolsMeta' },
@@ -1705,17 +1380,10 @@
       function switchView(view) {
         const config = views[view];
         if (!config) return;
-
-        // Update button states
-        buttons.forEach(btn => {
-          btn.classList.toggle('active', btn.dataset.view === view);
-        });
-
-        // Update card content
+        buttons.forEach(btn => btn.classList.toggle('active', btn.dataset.view === view));
         cards.forEach(card => {
           const titleEl = card.querySelector('.card-title');
           const metaEl = card.querySelector('.card-meta');
-          
           if (titleEl && metaEl) {
             titleEl.textContent = card.dataset[config.title] || '';
             metaEl.textContent = card.dataset[config.meta] || '';
@@ -1723,18 +1391,11 @@
         });
       }
 
-      // Attach click handlers
-      buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          switchView(btn.dataset.view);
-        });
-      });
-
-      // Initialize with projects view
+      buttons.forEach(btn => btn.addEventListener('click', () => switchView(btn.dataset.view)));
       switchView('projects');
     })();
 
-    // Card carousels (manual + hover video preview)
+    // Card carousels (manual + hover preview)
     (function() {
       const carousels = document.querySelectorAll('[data-carousel]');
 
@@ -1747,16 +1408,14 @@
 
         let index = 0;
         let hoverReturnIndex = null;
-        const videoSlideIndex = slides.findIndex(slide => slide.tagName === 'VIDEO');
+        const videoSlideIndex = slides.findIndex(s => s.tagName === 'VIDEO');
         const hoverPreviewIndex = videoSlideIndex >= 0 ? videoSlideIndex : (slides.length > 1 ? 1 : -1);
 
         function setSlidePlayback(slide, isActive) {
           if (!slide || slide.tagName !== 'VIDEO') return;
           if (isActive) {
-            const playPromise = slide.play();
-            if (playPromise && typeof playPromise.catch === 'function') {
-              playPromise.catch(() => {});
-            }
+            const p = slide.play();
+            if (p && typeof p.catch === 'function') p.catch(() => {});
           } else {
             slide.pause();
             slide.currentTime = 0;
@@ -1776,10 +1435,7 @@
         }
 
         function handleAdvance(step, event) {
-          if (event) {
-            event.preventDefault();
-            event.stopPropagation();
-          }
+          if (event) { event.preventDefault(); event.stopPropagation(); }
           show(index + step);
         }
 
@@ -1812,7 +1468,7 @@
       });
     })();
 
-    // Image viewer modal for cards
+    // Image viewer modal
     (function() {
       const modal = document.getElementById('imageModal');
       if (!modal) return;
@@ -1836,10 +1492,8 @@
           modalImage.classList.add('is-hidden');
           modalVideo.classList.remove('is-hidden');
           modalVideo.src = mediaSrc;
-          const playPromise = modalVideo.play();
-          if (playPromise && typeof playPromise.catch === 'function') {
-            playPromise.catch(() => {});
-          }
+          const p = modalVideo.play();
+          if (p && typeof p.catch === 'function') p.catch(() => {});
         } else {
           modalVideo.pause();
           modalVideo.removeAttribute('src');
@@ -1874,8 +1528,7 @@
 
       function showModalSlide(nextIndex) {
         if (!activeSlides.length) return;
-        const total = activeSlides.length;
-        activeIndex = (nextIndex + total) % total;
+        activeIndex = (nextIndex + activeSlides.length) % activeSlides.length;
         renderModalSlide();
       }
 
@@ -1893,56 +1546,17 @@
 
       cardLinks.forEach(link => {
         link.addEventListener('click', event => {
-          if (event.target.closest('.carousel-control') || event.target.closest('.carousel-dot')) {
-            return;
-          }
+          if (event.target.closest('.carousel-control') || event.target.closest('.carousel-dot')) return;
           event.preventDefault();
           const card = link.closest('.card');
           openModalFromCard(card);
         });
       });
 
-      modal.addEventListener('click', () => {
-        closeModal();
-      });
-
-      modalPrev?.addEventListener('click', event => {
-        event.stopPropagation();
-        showModalSlide(activeIndex - 1);
-      });
-
-      modalNext?.addEventListener('click', event => {
-        event.stopPropagation();
-        showModalSlide(activeIndex + 1);
-      });
-
-      modalClose?.addEventListener('click', event => {
-        event.stopPropagation();
-        closeModal();
-      });
-    })();
-
-    // Hero image rotation (passive, smooth)
-    (function() {
-      const images = document.querySelectorAll('.hero-image');
-      if (images.length === 0) return;
-
-      let currentIndex = 0;
-      const rotationInterval = 4500; // 4.5 seconds per image
-
-      function rotateImages() {
-        // Remove active class from current image
-        images[currentIndex].classList.remove('active');
-        
-        // Move to next image (loop back to start)
-        currentIndex = (currentIndex + 1) % images.length;
-        
-        // Add active class to new image
-        images[currentIndex].classList.add('active');
-      }
-
-      // Start rotation
-      setInterval(rotateImages, rotationInterval);
+      modal.addEventListener('click', () => closeModal());
+      modalPrev?.addEventListener('click', event => { event.stopPropagation(); showModalSlide(activeIndex - 1); });
+      modalNext?.addEventListener('click', event => { event.stopPropagation(); showModalSlide(activeIndex + 1); });
+      modalClose?.addEventListener('click', event => { event.stopPropagation(); closeModal(); });
     })();
   </script>
 </body>
