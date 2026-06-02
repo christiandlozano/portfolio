@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Christian Lozano · Experience Developer and Designer</title>
+  <title>Christian Lozano · Creative Technologist &amp; Experiential Design</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="I design brand homes and museums that feel like third spaces — places where technology serves the story." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -516,6 +516,32 @@
       border-color: var(--accent);
     }
 
+    .card-hook {
+      font-size: 0.875rem;
+      line-height: 1.5;
+      color: var(--gray-700);
+      margin-bottom: var(--space-sm);
+    }
+
+    .card-note {
+      font-size: 0.8125rem;
+      line-height: 1.55;
+      color: var(--gray-600);
+      border-left: 2px solid var(--accent);
+      padding-left: 0.75rem;
+      margin-bottom: var(--space-sm);
+    }
+
+    .card-note-label {
+      display: block;
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.2rem;
+    }
+
     /* ---- PHILOSOPHY ---- */
     .philosophy {
       border: 1px solid var(--gray-200);
@@ -712,7 +738,7 @@
     <div class="container">
       <div class="brand">
         <span class="brand-name">Christian Lozano</span>
-        <span class="brand-role">Experience Developer and Designer</span>
+        <span class="brand-role">Creative Technologist · Experiential Design</span>
       </div>
       <nav class="nav">
         <a class="nav-link" href="#work">Work</a>
@@ -744,10 +770,10 @@
 
     <div class="hero-content">
       <h1 class="hero-headline">
-        <span class="hero-highlight">Interactive experiences</span>, built to work in the real world. 
+        <span class="hero-highlight">Interactive experiences</span> that hold up in the real world.
       </h1>
       <p class="hero-subhead">
-        I help brands, museums, and cultural spaces turn ideas into reliable, physical installations, from concept to launch.
+        Brand homes, museums, and immersive spaces — sold, designed, built, and shipped to run every day, unattended, for years.
       </p>
       <div class="hero-proof">
         <div class="hero-proof-item">Toyota Experience Centers</div>
@@ -762,20 +788,12 @@
   <section id="work" class="section">
     <div class="container">
       <header class="section-header">
-        <div class="section-label">Featured Work</div>
-        <h2 class="section-title">Choose how you want to explore</h2>
+        <div class="section-label">Selected Work</div>
+        <h2 class="section-title">Built, shipped, still running.</h2>
         <p class="section-intro">
-          Some people care about <strong>projects and places</strong>. Others want to see <strong>tools and methods</strong> or <strong>topics and themes</strong>. Same work, different lens.
+          Installations across museums and brand homes. Each one had a real technical problem worth solving — so here's the work, and what it actually took to ship it.
         </p>
       </header>
-
-      <div class="view-toggle-wrapper">
-        <div class="view-toggle">
-          <button class="view-toggle-btn active" data-view="projects">Projects</button>
-          <button class="view-toggle-btn" data-view="tools">Tools & Methods</button>
-          <button class="view-toggle-btn" data-view="topics">Topics & Themes</button>
-        </div>
-      </div>
 
       <div class="card-grid">
         <!-- Card 1: Weather -->
@@ -802,13 +820,12 @@
                 <button class="carousel-dot" type="button" aria-label="Slide 3"></button>
                 <button class="carousel-dot" type="button" aria-label="Slide 4"></button>
               </div>
-              <div class="card-description">
-                <p class="card-description-text">A 24' LED wall and real radar data dance to life. 50+ screens, live NOAA feeds, hands-on games.</p>
-              </div>
             </div>
             <div class="card-body">
-              <h3 class="card-title"></h3>
-              <p class="card-meta"></p>
+              <h3 class="card-title">How We Know the Weather</h3>
+              <p class="card-meta">U.S. Space &amp; Rocket Center · Huntsville, AL · 800K visitors/yr</p>
+              <p class="card-hook">A 24-ft LED wall and live NOAA radar, driven across 50+ screens with hands-on games.</p>
+              <p class="card-note"><span class="card-note-label">What it took</span>The wall renders an HTML layout off a video processor that crashes if you feed it the wrong resolution. Every layout block got pinned to its exact pixel region, with fallbacks that let a dropped feed fail quietly instead of taking the whole wall down.</p>
               <div class="card-tags">
                 <span class="tag tag-highlight">Museum</span>
                 <span class="tag">Multi-screen</span>
@@ -829,13 +846,12 @@
           <a href="#" class="card-link">
             <div class="card-media">
               <img src="images/toyota-north-america.jpeg" alt="Toyota North America exhibit" loading="lazy" />
-              <div class="card-description">
-                <p class="card-description-text">Six apps, six videos, one continent. The most technically complex experience in the Center -- yet visitors see one simple story about people, places, and cars.</p>
-              </div>
             </div>
             <div class="card-body">
-              <h3 class="card-title"></h3>
-              <p class="card-meta"></p>
+              <h3 class="card-title">Toyota North America</h3>
+              <p class="card-meta">Toyota Experience Center · Plano, TX</p>
+              <p class="card-hook">Six synchronized apps and six video channels mapping a continent-scale brand story.</p>
+              <p class="card-note"><span class="card-note-label">What it took</span>Everything stays in lockstep over WebSockets, built end to end inside Toyota's design system. The most complex build in the Center — engineered to read as one simple story about people, places, and cars.</p>
               <div class="card-tags">
                 <span class="tag tag-highlight">Brand Home</span>
                 <span class="tag">WebSockets</span>
@@ -856,13 +872,12 @@
           <a href="#" class="card-link">
             <div class="card-media">
               <img src="images/toyota-patents.jpg" alt="Toyota patents interactive" loading="lazy" />
-              <div class="card-description">
-                <p class="card-description-text">One touchscreen drives a wall of innovation. Swipe through decades of Toyota patents -- from a single, intuitive interface.</p>
-              </div>
             </div>
             <div class="card-body">
-              <h3 class="card-title"></h3>
-              <p class="card-meta"></p>
+              <h3 class="card-title">Patents Interactive</h3>
+              <p class="card-meta">Toyota HQ · Multi-screen installation</p>
+              <p class="card-hook">One touchscreen driving a four-display wall of innovation.</p>
+              <p class="card-note"><span class="card-note-label">What it took</span>WebSockets sync the four displays to the touch interface; a second script fires UDP to the lighting controller so the room reacts as you swipe. Content pulled and cleared straight from Toyota's patent archives.</p>
               <div class="card-tags">
                 <span class="tag tag-highlight">Innovation</span>
                 <span class="tag">Multi-screen</span>
@@ -892,14 +907,12 @@
                 <button class="carousel-dot active" type="button" aria-label="Slide 1"></button>
                 <button class="carousel-dot" type="button" aria-label="Slide 2"></button>
               </div>
-              <img src="images/toyota-stx-projection-table.JPG" alt="San Antonio projection table" loading="lazy" />
-              <div class="card-description">
-                <p class="card-description-text">A glowing map where the Toyota plant, roads, and neighborhoods come alive. Satellite imagery + hand-crafted animation tell a story of manufacturing and community.</p>
-              </div>
             </div>
             <div class="card-body">
-              <h3 class="card-title"></h3>
-              <p class="card-meta"></p>
+              <h3 class="card-title">San Antonio Projection Table</h3>
+              <p class="card-meta">Toyota Texas · San Antonio, TX</p>
+              <p class="card-hook">A projection-mapped table where the plant, roads, and neighborhoods light up.</p>
+              <p class="card-note"><span class="card-note-label">What it took</span>Hand-crafted animation aligned to real satellite imagery and the plant's actual footprint, calibrated to the physical table so the map lands exactly where the geography does.</p>
               <div class="card-tags">
                 <span class="tag">Brand Home</span>
                 <span class="tag">Projection</span>
@@ -931,13 +944,12 @@
                 <button class="carousel-dot active" type="button" aria-label="Slide 1"></button>
                 <button class="carousel-dot" type="button" aria-label="Slide 2"></button>
               </div>
-              <div class="card-description">
-                <p class="card-description-text">Instead of a dusty plaque, Toyota Mississippi's LEED Platinum certification lives inside a touchscreen story about how the building breathes and saves energy.</p>
-              </div>
             </div>
             <div class="card-body">
-              <h3 class="card-title"></h3>
-              <p class="card-meta"></p>
+              <h3 class="card-title">LEED Platinum Kiosk</h3>
+              <p class="card-meta">Toyota Mississippi · Sustainability exhibit</p>
+              <p class="card-hook">A LEED Platinum certification told as a touchscreen story instead of a plaque.</p>
+              <p class="card-note"><span class="card-note-label">What it took</span>Plain-language sustainability built to ADA touch-reach ranges, with an attract loop that resets after inactivity to pull the next guest in.</p>
               <div class="card-tags">
                 <span class="tag">Sustainability</span>
                 <span class="tag">Interactive</span>
@@ -969,13 +981,12 @@
                 <button class="carousel-dot active" type="button" aria-label="Slide 1"></button>
                 <button class="carousel-dot" type="button" aria-label="Slide 2"></button>
               </div>
-              <div class="card-description">
-                <p class="card-description-text">Drag solar panels across a cartoon Detroit skyline, chase the sun, dodge clouds. Real solar concepts -- angles, shading, efficiency -- wrapped in play.</p>
-              </div>
             </div>
             <div class="card-body">
-              <h3 class="card-title"></h3>
-              <p class="card-meta"></p>
+              <h3 class="card-title">Solar Game</h3>
+              <p class="card-meta">Outdoor Adventure Center · Detroit, MI</p>
+              <p class="card-hook">Drag solar panels across a cartoon Detroit skyline, chase the sun, dodge clouds.</p>
+              <p class="card-note"><span class="card-note-label">What it took</span>Real solar concepts — angle, shading, efficiency — wrapped in a fast, kid-height game with short cycles so the station never bottlenecks during a school group.</p>
               <div class="card-tags">
                 <span class="tag">Game</span>
                 <span class="tag">STEM</span>
@@ -1007,13 +1018,12 @@
                 <button class="carousel-dot active" type="button" aria-label="Slide 1"></button>
                 <button class="carousel-dot" type="button" aria-label="Slide 2"></button>
               </div>
-              <div class="card-description">
-                <p class="card-description-text">Banana peel, pizza box, plastic bottle -- where do they go? Detroit's real bin system becomes a fast sorting challenge.</p>
-              </div>
             </div>
             <div class="card-body">
-              <h3 class="card-title"></h3>
-              <p class="card-meta"></p>
+              <h3 class="card-title">Recycling Game</h3>
+              <p class="card-meta">Outdoor Adventure Center · Detroit, MI</p>
+              <p class="card-hook">Banana peel, pizza box, bottle — where does it go?</p>
+              <p class="card-note"><span class="card-note-label">What it took</span>Localized to Detroit's actual bin rules, so what a kid learns on the floor is still true when they get home.</p>
               <div class="card-tags">
                 <span class="tag">Game</span>
                 <span class="tag">Civic</span>
@@ -1043,13 +1053,12 @@
                 <button class="carousel-dot active" type="button" aria-label="Slide 1"></button>
                 <button class="carousel-dot" type="button" aria-label="Slide 2"></button>
               </div>
-              <div class="card-description">
-                <p class="card-description-text">Guests drop a pin for where they are from, kids draw and submit stories, and everything routes directly into the museum team's project management flow.</p>
-              </div>
             </div>
             <div class="card-body">
-              <h3 class="card-title"></h3>
-              <p class="card-meta"></p>
+              <h3 class="card-title">Visitor Registry</h3>
+              <p class="card-meta">Outdoor Adventure Center · Detroit, MI</p>
+              <p class="card-hook">Guests drop a pin for where they're from; kids draw and submit their stories.</p>
+              <p class="card-note"><span class="card-note-label">What it took</span>Offline-first so it never stalls without a network, with a drawing canvas and an admin panel that routes every submission straight into the museum team's project-management flow.</p>
               <div class="card-tags">
                 <span class="tag">Community</span>
                 <span class="tag">Interactive</span>
@@ -1070,13 +1079,12 @@
           <a href="#" class="card-link">
             <div class="card-media">
               <img src="images/night-sky-exhibit.jpg" alt="Night sky exhibit" loading="lazy" />
-              <div class="card-description">
-                <p class="card-description-text">Constellations slowly trace themselves into view, layered with stories from different traditions. A quiet, shared moment of wonder.</p>
-              </div>
             </div>
             <div class="card-body">
-              <h3 class="card-title"></h3>
-              <p class="card-meta"></p>
+              <h3 class="card-title">Night Sky</h3>
+              <p class="card-meta">Outdoor Adventure Center · Detroit, MI</p>
+              <p class="card-hook">Constellations trace themselves in, layered with stories from different traditions.</p>
+              <p class="card-note"><span class="card-note-label">What it took</span>Fact-checked across multiple cultural sky traditions and the astronomy before a single line was drawn — large-format print paired with quiet animation.</p>
               <div class="card-tags">
                 <span class="tag">Exhibit</span>
                 <span class="tag">Illustration</span>
@@ -1097,13 +1105,12 @@
           <a href="#" class="card-link">
             <div class="card-media">
               <img src="images/commercials-tower.jpg" alt="Commercials tower" loading="lazy" />
-              <div class="card-description">
-                <p class="card-description-text">Scroll through decades of Toyota commercials on a 65" touchscreen -- see how the brand talked about safety, family, and innovation in each era.</p>
-              </div>
             </div>
             <div class="card-body">
-              <h3 class="card-title"></h3>
-              <p class="card-meta"></p>
+              <h3 class="card-title">Commercials Tower</h3>
+              <p class="card-meta">Toyota Experience Center · 65&quot; touchscreen</p>
+              <p class="card-hook">Decades of Toyota commercials, browsable on a 65-inch portrait touchscreen.</p>
+              <p class="card-note"><span class="card-note-label">What it took</span>Curated with Toyota's brand and archival team to clear and sequence each era — safety, family, innovation — into one timeline a visitor can actually scrub through.</p>
               <div class="card-tags">
                 <span class="tag">Brand History</span>
                 <span class="tag">Interactive</span>
@@ -1124,13 +1131,12 @@
           <a href="#" class="card-link">
             <div class="card-media">
               <img src="images/oac-map.jpg" alt="Interactive map" loading="lazy" />
-              <div class="card-description">
-                <p class="card-description-text">Families tap into Michigan's outdoor destinations -- see what each place looks like and what they can do there.</p>
-              </div>
             </div>
             <div class="card-body">
-              <h3 class="card-title"></h3>
-              <p class="card-meta"></p>
+              <h3 class="card-title">Interactive Map</h3>
+              <p class="card-meta">Outdoor Adventure Center · Detroit, MI</p>
+              <p class="card-hook">Families tap into Michigan's outdoor destinations and see what they can do there.</p>
+              <p class="card-note"><span class="card-note-label">What it took</span>Built in ArcGIS Experience Builder so the museum can add places and update content over time without touching code or calling me.</p>
               <div class="card-tags">
                 <span class="tag">Map</span>
                 <span class="tag">ArcGIS</span>
@@ -1151,13 +1157,12 @@
           <a href="#" class="card-link">
             <div class="card-media">
               <img src="images/vestaboard-environmental.jpg" alt="Environmental dashboards" loading="lazy" />
-              <div class="card-description">
-                <p class="card-description-text">Environmental data appears as quiet ambient information, not loud dashboards. Live data feels like part of the architecture.</p>
-              </div>
             </div>
             <div class="card-body">
-              <h3 class="card-title"></h3>
-              <p class="card-meta"></p>
+              <h3 class="card-title">Environmental Dashboards</h3>
+              <p class="card-meta">Toyota HQ · Ambient data displays</p>
+              <p class="card-hook">Live environmental data rendered as calm, ambient information.</p>
+              <p class="card-note"><span class="card-note-label">What it took</span>API-fed displays designed to read as part of the architecture rather than one more loud dashboard — calm technology, on purpose.</p>
               <div class="card-tags">
                 <span class="tag">Data</span>
                 <span class="tag">Ambient</span>
@@ -1178,13 +1183,12 @@
           <a href="#" class="card-link">
             <div class="card-media">
               <img src="images/calty-ereader.jpg" alt="CALTY eReader" loading="lazy" />
-              <div class="card-description">
-                <p class="card-description-text">A digital reader inside Toyota's design studio where people explore curated design stories. Finished product, not prototype.</p>
-              </div>
             </div>
             <div class="card-body">
-              <h3 class="card-title"></h3>
-              <p class="card-meta"></p>
+              <h3 class="card-title">CALTY eReader</h3>
+              <p class="card-meta">Toyota CALTY Design Research · Newport Beach, CA</p>
+              <p class="card-hook">A digital reader living inside Toyota's California design studio.</p>
+              <p class="card-note"><span class="card-note-label">What it took</span>A finished, deployed product — not a prototype — running every day inside a working design-research environment.</p>
               <div class="card-tags">
                 <span class="tag">Internal</span>
                 <span class="tag">Software</span>
@@ -1222,13 +1226,12 @@
                 <button class="carousel-dot" type="button" aria-label="Image 5"></button>
                 <button class="carousel-dot" type="button" aria-label="Image 6"></button>
               </div>
-              <div class="card-description">
-                <p class="card-description-text">Printed publications, illustrated maps, big format printing, and business cards.</p>
-              </div>
             </div>
             <div class="card-body">
-              <h3 class="card-title"></h3>
-              <p class="card-meta"></p>
+              <h3 class="card-title">Editorial &amp; Print</h3>
+              <p class="card-meta">Publications · illustrated maps · big-format</p>
+              <p class="card-hook">Publications, illustrated maps, large-format printing, and identity.</p>
+              <p class="card-note"><span class="card-note-label">What it took</span>Print-ready prepress and original illustration for when the experience lives on paper, not a screen.</p>
               <div class="card-tags">
                 <span class="tag tag-highlight">Print</span>
                 <span class="tag">Editorial</span>
@@ -1262,13 +1265,12 @@
                 <button class="carousel-dot" type="button" aria-label="Image 3"></button>
                 <button class="carousel-dot" type="button" aria-label="Image 4"></button>
               </div>
-              <div class="card-description">
-                <p class="card-description-text">Interactive kiosks that bring stories, maps, and wayfinding to life across brand homes and museums.</p>
-              </div>
             </div>
             <div class="card-body">
-              <h3 class="card-title"></h3>
-              <p class="card-meta"></p>
+              <h3 class="card-title">Kiosks &amp; Wayfinding</h3>
+              <p class="card-meta">Across brand homes &amp; museums</p>
+              <p class="card-hook">Touchscreen kiosks, wayfinding, and community walls across brand homes and museums.</p>
+              <p class="card-note"><span class="card-note-label">What it took</span>Built to run unattended for years, designed for every age and comfort level, and instrumented so the client can see what people actually touch.</p>
               <div class="card-tags">
                 <span class="tag tag-highlight">Interactive</span>
                 <span class="tag">Kiosk</span>
@@ -1291,10 +1293,10 @@
       <div class="philosophy">
         <div class="philosophy-content">
           <p>
-            Technology isn’t the question anymore. Value is. I design public experiences that invite attention, reward curiosity, and leave an impression.
+            Technology isn’t the flex anymore — value is. I design public experiences that pull people in, reward curiosity, and survive contact with hundreds of thousands of visitors a year.
           </p>
           <p>
-            I work from story and place first, using technology to support clear interaction, natural pacing, and durable systems that function in the real world.
+            Story and place first, then the systems: ADA-compliant, multilingual, offline-first, remotely monitored, built to run unattended. I sell it, design it, build it, and I’m there on opening day.
           </p>
         </div>
       </div>
@@ -1307,7 +1309,7 @@
         <div class="section-label">Let's Work Together</div>
         <h2 class="section-title">Design your next experience</h2>
         <p class="section-intro">
-          Whether you're shaping a brand home, rethinking a museum gallery, or prototyping a new interactive, I can help connect <strong>story, space, and systems</strong>.
+          Shaping a brand home, rethinking a gallery, or scoping a new interactive? I connect <strong>story, space, and systems</strong> — and make sure it still works a year after launch.
         </p>
       </header>
 
@@ -1325,7 +1327,7 @@
     <div class="container">
       <div class="footer-brand">CH Experiences LLC</div>
       <div class="footer-meta">
-        <span>Based in Texas · Working globally</span>
+        <span>Los Angeles · Working globally</span>
       </div>
     </div>
   </footer>
@@ -1393,34 +1395,6 @@
         currentIndex = (currentIndex + 1) % images.length;
         images[currentIndex].classList.add('active');
       }, 4500);
-    })();
-
-    // View toggle
-    (function() {
-      const buttons = document.querySelectorAll('[data-view]');
-      const cards = document.querySelectorAll('.card');
-      const views = {
-        projects: { title: 'projectTitle', meta: 'projectMeta' },
-        tools: { title: 'toolsTitle', meta: 'toolsMeta' },
-        topics: { title: 'topicsTitle', meta: 'topicsMeta' }
-      };
-
-      function switchView(view) {
-        const config = views[view];
-        if (!config) return;
-        buttons.forEach(btn => btn.classList.toggle('active', btn.dataset.view === view));
-        cards.forEach(card => {
-          const titleEl = card.querySelector('.card-title');
-          const metaEl = card.querySelector('.card-meta');
-          if (titleEl && metaEl) {
-            titleEl.textContent = card.dataset[config.title] || '';
-            metaEl.textContent = card.dataset[config.meta] || '';
-          }
-        });
-      }
-
-      buttons.forEach(btn => btn.addEventListener('click', () => switchView(btn.dataset.view)));
-      switchView('projects');
     })();
 
     // Card carousels (manual + hover preview)
