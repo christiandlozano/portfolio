@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <title>Christian Lozano — Creative Developer for Physical Places</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Christian Lozano builds the interactive layer of museums and brand homes — Unreal Engine simulators, LED walls, projection tables, WebSocket-synced exhibits — engineered to run unattended for years." />
+  <meta name="description" content="Christian Lozano makes web applications, games, and interactive content for museums and brand homes — built to run every day, unattended, for years." />
   <meta name="theme-color" content="#0a0a0b" />
 
   <!-- Open Graph / social -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Christian Lozano — Creative Developer for Physical Places" />
-  <meta property="og:description" content="Interactive museums and brand homes: Unreal Engine, LED walls, projection mapping, synced systems. Built to run every day, unattended, for years." />
+  <meta property="og:description" content="Web applications, games, and interactive content for museums and brand homes — built to run every day, unattended, for years." />
   <meta property="og:url" content="https://chexperiences.com/" />
   <meta property="og:image" content="https://chexperiences.com/images/web/how-we-know-the-weather-1.jpeg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -208,7 +208,23 @@
       justify-content: flex-end;
       padding-top: 8rem;
       padding-bottom: clamp(2rem, 6vh, 4.5rem);
+      overflow: clip;
     }
+    /* project stills that flicker through as the cursor moves */
+    .hero-flicker {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 600ms ease;
+      pointer-events: none;
+    }
+    .hero-flicker.on { opacity: 0.2; }
+    .hero-flicker img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero-inner { width: 100%; }
     .hero-eyebrow {
       color: var(--paper-faint);
       margin-bottom: clamp(1rem, 3vh, 2rem);
@@ -419,9 +435,10 @@
       margin-top: 0.5rem;
     }
     .thumb-strip img {
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 16 / 10;
       object-fit: cover;
       width: 100%;
+      height: auto;
       cursor: zoom-in;
       border: 1px solid var(--hairline-soft);
       transition: opacity var(--t-fast);
@@ -602,8 +619,14 @@
       position: relative;
       overflow: hidden;
       border: 1px solid var(--hairline-soft);
+      aspect-ratio: 4 / 5;
     }
-    .portrait img { width: 100%; }
+    .portrait img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 22%;
+    }
     @media (prefers-reduced-motion: no-preference) {
       .portrait img {
         filter: grayscale(1) contrast(1.05);
@@ -806,25 +829,29 @@
   <main id="top">
 
     <!-- ================= HERO ================= -->
-    <section class="hero container" aria-label="Introduction">
-      <p class="hero-eyebrow mono">
-        <span>Creative developer — physical places</span>
-        <span class="tick">/</span>
-        <span>Los Angeles → working globally</span>
-      </p>
-      <h1 class="hero-name">
-        <span class="line"><span class="line-in">Christian</span></span>
-        <span class="line"><span class="line-in">Lozano<span class="accent">.</span></span></span>
-      </h1>
-      <div class="hero-foot">
-        <p class="hero-sub">
-          I build the interactive layer of <strong>museums and brand homes</strong> —
-          and engineer it to run every day, unattended, for years.
+    <section class="hero" aria-label="Introduction">
+      <div class="hero-flicker" id="heroFlicker" aria-hidden="true"><img src="" alt="" /></div>
+      <div class="container hero-inner">
+        <p class="hero-eyebrow mono">
+          <span>Creative developer — physical places</span>
+          <span class="tick">/</span>
+          <span>Los Angeles → working globally</span>
         </p>
-        <div class="hero-proof mono">
-          <span>Toyota Experience Centers</span>
-          <span>U.S. Space &amp; Rocket Center</span>
-          <span>50+ live installations</span>
+        <h1 class="hero-name">
+          <span class="line"><span class="line-in">Christian</span></span>
+          <span class="line"><span class="line-in">Lozano<span class="accent">.</span></span></span>
+        </h1>
+        <div class="hero-foot">
+          <p class="hero-sub">
+            Web applications, games, and interactive content for
+            <strong>museums and brand homes</strong> — built to run every day,
+            unattended, for years.
+          </p>
+          <div class="hero-proof mono">
+            <span>Toyota Experience Centers</span>
+            <span>U.S. Space &amp; Rocket Center</span>
+            <span>50+ live installations</span>
+          </div>
         </div>
       </div>
       <span class="scroll-cue mono" aria-hidden="true">Scroll</span>
@@ -834,28 +861,24 @@
     <div class="marquee" aria-hidden="true">
       <div class="marquee-track">
         <div class="marquee-chunk mono">
-          <span>Unreal Engine</span><i>/</i>
-          <span>WebSockets</span><i>/</i>
-          <span>Projection mapping</span><i>/</i>
-          <span>LED processors</span><i>/</i>
-          <span>UDP lighting control</span><i>/</i>
-          <span>Custom sensors</span><i>/</i>
-          <span>ArcGIS</span><i>/</i>
-          <span>Offline-first</span><i>/</i>
-          <span>ADA by default</span><i>/</i>
-          <span>Live NOAA data</span><i>/</i>
+          <span>Creative web applications</span><i>/</i>
+          <span>Games &amp; interactives</span><i>/</i>
+          <span>Real-time 3D &amp; simulation</span><i>/</i>
+          <span>Live data in exhibits</span><i>/</i>
+          <span>Interactive maps</span><i>/</i>
+          <span>Video editing &amp; motion</span><i>/</i>
+          <span>Touchscreen experiences</span><i>/</i>
+          <span>Content built to run unattended</span><i>/</i>
         </div>
         <div class="marquee-chunk mono">
-          <span>Unreal Engine</span><i>/</i>
-          <span>WebSockets</span><i>/</i>
-          <span>Projection mapping</span><i>/</i>
-          <span>LED processors</span><i>/</i>
-          <span>UDP lighting control</span><i>/</i>
-          <span>Custom sensors</span><i>/</i>
-          <span>ArcGIS</span><i>/</i>
-          <span>Offline-first</span><i>/</i>
-          <span>ADA by default</span><i>/</i>
-          <span>Live NOAA data</span><i>/</i>
+          <span>Creative web applications</span><i>/</i>
+          <span>Games &amp; interactives</span><i>/</i>
+          <span>Real-time 3D &amp; simulation</span><i>/</i>
+          <span>Live data in exhibits</span><i>/</i>
+          <span>Interactive maps</span><i>/</i>
+          <span>Video editing &amp; motion</span><i>/</i>
+          <span>Touchscreen experiences</span><i>/</i>
+          <span>Content built to run unattended</span><i>/</i>
         </div>
       </div>
     </div>
@@ -887,7 +910,7 @@
             <p class="feature-desc">
               Take the helm. Three screens wrap the bridge as its windows; a physical
               wheel and throttle run through <strong>custom sensors</strong> into the latest
-              distribution of <strong>Unreal Engine</strong>. Visitors pilot a real vessel
+              distribution of <strong>Unreal Engine</strong>. Visitors pilot a vessel
               through open water — wind, wake, and momentum included — on a museum floor.
             </p>
             <div class="field-note">
@@ -922,18 +945,18 @@
             <p class="feature-kicker mono">U.S. Space &amp; Rocket Center · Huntsville, AL</p>
             <h3 class="feature-title">How We Know the Weather</h3>
             <p class="feature-desc">
-              A <strong>24-foot LED wall</strong> streaming live NOAA radar, driven across
-              <strong>50+ screens</strong> with hands-on games — climate literacy for
+              A <strong>24-foot LED wall</strong> with live weather radar, and
+              <strong>50+ screens</strong> of hands-on games — climate literacy for
               families at one of the country's busiest science centers.
             </p>
             <div class="field-note">
               <span class="field-note-label mono">Field note</span>
-              <p>The wall renders an HTML layout off a video processor that crashes if you
-              feed it the wrong resolution. Every block is pinned to its exact pixel region,
-              with fallbacks that let a dropped feed fail quietly instead of taking the
-              whole wall down.</p>
+              <p>I build the content, not the wall. My layout feeds a broadcast video
+              processor that crashes on the wrong resolution, so every block is pinned to
+              its exact pixel region — and a dropped feed fails quietly instead of taking
+              the wall down with it.</p>
             </div>
-            <p class="stack-line mono">24-ft LED wall <i>·</i> 50+ screens <i>·</i> live NOAA radar <i>·</i> pixel-mapped HTML</p>
+            <p class="stack-line mono">Live weather data <i>·</i> 24-ft LED wall <i>·</i> 50+ screens <i>·</i> interactive games</p>
           </div>
         </article>
 
@@ -953,16 +976,17 @@
             <p class="feature-kicker mono">Toyota Experience Center · Plano, TX</p>
             <h3 class="feature-title">Toyota North America</h3>
             <p class="feature-desc">
-              <strong>Six synchronized apps</strong> and six video channels mapping a
-              continent-scale brand story — the most complex build in the Center,
-              engineered to read as one simple story about people, places, and cars.
+              <strong>Six synchronized applications</strong> and six video channels mapping
+              a continent-scale brand story — the most complex build in the Center,
+              designed to read as one simple story about people, places, and cars.
             </p>
             <div class="field-note">
               <span class="field-note-label mono">Field note</span>
-              <p>Everything stays in lockstep over WebSockets, built end to end inside
-              Toyota's design system. Complexity is the budget; simplicity is the product.</p>
+              <p>Six screens acting as one: every app stays in sync in real time, built end
+              to end inside Toyota's design system. Complexity is the budget; simplicity is
+              the product.</p>
             </div>
-            <p class="stack-line mono">6 synced apps <i>·</i> WebSockets <i>·</i> 6 video channels <i>·</i> Toyota design system</p>
+            <p class="stack-line mono">Six synced applications <i>·</i> real-time sync <i>·</i> interactive map <i>·</i> Toyota design system</p>
           </div>
         </article>
       </div>
@@ -982,7 +1006,7 @@
             <button class="row-head" aria-expanded="false">
               <span class="row-num mono">04</span>
               <span class="row-title">Patents Interactive<small>Toyota HQ · Plano, TX</small></span>
-              <span class="row-stack mono">WebSockets · UDP lighting · 4-screen</span>
+              <span class="row-stack mono">One touchscreen, four displays · lighting cues</span>
               <span class="row-x" aria-hidden="true"></span>
             </button>
             <div class="row-panel">
@@ -990,9 +1014,9 @@
                 <div class="row-panel-grid">
                   <div class="row-note">
                     <span class="field-note-label mono">Field note</span>
-                    One touchscreen drives a four-display wall of innovation; a side script
-                    fires UDP at the lighting controller so the room itself reacts as you
-                    swipe. Content pulled and cleared from Toyota's archives.
+                    One touchscreen drives a four-display wall of innovation, and the room
+                    lighting responds as you browse. Every patent story pulled and cleared
+                    from Toyota's archives.
                   </div>
                   <div class="media-strip">
                     <img class="zoomable" src="images/web/toyota-patents.jpg" alt="Patents Interactive touchscreen and display wall" width="1800" height="1350" loading="lazy" decoding="async" />
@@ -1031,7 +1055,7 @@
             <button class="row-head" aria-expanded="false">
               <span class="row-num mono">06</span>
               <span class="row-title">LEED Platinum Kiosk<small>Toyota Mississippi</small></span>
-              <span class="row-stack mono">UX · ADA reach ranges · attract loop</span>
+              <span class="row-stack mono">Touchscreen story · accessible design</span>
               <span class="row-x" aria-hidden="true"></span>
             </button>
             <div class="row-panel">
@@ -1081,7 +1105,7 @@
             <button class="row-head" aria-expanded="false">
               <span class="row-num mono">08</span>
               <span class="row-title">Recycling Game<small>Outdoor Adventure Center · Detroit, MI</small></span>
-              <span class="row-stack mono">Game design · civic data</span>
+              <span class="row-stack mono">Game design · local recycling rules</span>
               <span class="row-x" aria-hidden="true"></span>
             </button>
             <div class="row-panel">
@@ -1107,7 +1131,7 @@
             <button class="row-head" aria-expanded="false">
               <span class="row-num mono">09</span>
               <span class="row-title">Visitor Registry<small>Outdoor Adventure Center · Detroit, MI</small></span>
-              <span class="row-stack mono">Offline-first · canvas · admin panel</span>
+              <span class="row-stack mono">Pin map · drawing canvas · admin workflow</span>
               <span class="row-x" aria-hidden="true"></span>
             </button>
             <div class="row-panel">
@@ -1156,7 +1180,7 @@
             <button class="row-head" aria-expanded="false">
               <span class="row-num mono">11</span>
               <span class="row-title">Commercials Tower<small>Toyota Experience Center · Plano, TX</small></span>
-              <span class="row-stack mono">Curation · 65″ portrait touch</span>
+              <span class="row-stack mono">Archive curation · 65″ touchscreen</span>
               <span class="row-x" aria-hidden="true"></span>
             </button>
             <div class="row-panel">
@@ -1180,7 +1204,7 @@
             <button class="row-head" aria-expanded="false">
               <span class="row-num mono">12</span>
               <span class="row-title">Interactive Map<small>Outdoor Adventure Center · Detroit, MI</small></span>
-              <span class="row-stack mono">ArcGIS Experience Builder</span>
+              <span class="row-stack mono">Interactive map · self-serve updates</span>
               <span class="row-x" aria-hidden="true"></span>
             </button>
             <div class="row-panel">
@@ -1204,7 +1228,7 @@
             <button class="row-head" aria-expanded="false">
               <span class="row-num mono">13</span>
               <span class="row-title">Environmental Dashboards<small>Toyota HQ · Plano, TX</small></span>
-              <span class="row-stack mono">REST APIs · Vestaboard · ambient UX</span>
+              <span class="row-stack mono">Live data · ambient displays</span>
               <span class="row-x" aria-hidden="true"></span>
             </button>
             <div class="row-panel">
@@ -1212,9 +1236,9 @@
                 <div class="row-panel-grid">
                   <div class="row-note">
                     <span class="field-note-label mono">Field note</span>
-                    Environmental data as calm technology — API-fed Vestaboards turning
-                    sustainability initiatives into quiet, visible moments people can take
-                    in without a screen demanding attention.
+                    Live environmental data on split-flap Vestaboard displays — designed
+                    as calm, ambient moments rather than one more screen demanding
+                    attention.
                   </div>
                   <div class="media-strip">
                     <img class="zoomable" src="images/web/vestaboard-environmental.JPG" alt="Vestaboard displaying environmental data" width="1800" height="1350" loading="lazy" decoding="async" />
@@ -1228,7 +1252,7 @@
             <button class="row-head" aria-expanded="false">
               <span class="row-num mono">14</span>
               <span class="row-title">CALTY eReader<small>Toyota CALTY Design Research · Newport Beach, CA</small></span>
-              <span class="row-stack mono">Local hosting · hardware spec</span>
+              <span class="row-stack mono">Digital publication · runs offline</span>
               <span class="row-x" aria-hidden="true"></span>
             </button>
             <div class="row-panel">
@@ -1281,7 +1305,7 @@
             <button class="row-head" aria-expanded="false">
               <span class="row-num mono">16</span>
               <span class="row-title">Kiosks &amp; Wayfinding<small>Across brand homes &amp; museums</small></span>
-              <span class="row-stack mono">UX · prototyping · unattended ops</span>
+              <span class="row-stack mono">Touchscreen UX · built for years of use</span>
               <span class="row-x" aria-hidden="true"></span>
             </button>
             <div class="row-panel">
@@ -1325,19 +1349,19 @@
             </p>
           </div>
           <div class="about-copy reveal">
-            <p class="about-lede">I sell it, design it, build it — and <em>stand next to it</em> when the doors open.</p>
+            <p class="about-lede">A studio of one. I design it, build it, and <em>stand next to it</em> when the doors open.</p>
             <p class="about-body">
-              Brand homes and museums hire me when an idea has to leave the pitch deck and
-              survive the floor: <strong>Toyota's experience centers</strong> in Texas and
-              Mississippi, <strong>CALTY Design Research</strong>, the
-              <strong>U.S. Space &amp; Rocket Center</strong>, Detroit's
+              I make the software side of exhibits — web applications, games, interactive
+              maps, video — for <strong>Toyota's experience centers</strong>,
+              <strong>CALTY Design Research</strong>, the
+              <strong>U.S. Space &amp; Rocket Center</strong>, and Detroit's
               <strong>Outdoor Adventure Center</strong>.
             </p>
             <p class="about-body">
-              In between: WebSockets holding six apps in lockstep, UDP firing lighting cues,
-              satellite imagery projected onto furniture — and now a ship's bridge running
-              in Unreal Engine. Story and place first; then the unglamorous systems that
-              keep it alive.
+              Most of this work is judgment: what belongs on a screen, what belongs in the
+              room, and what a visitor should feel in the few seconds they give you. I
+              bring the taste to make those calls and the engineering to make them
+              dependable long after opening night.
             </p>
             <div class="stats">
               <div class="stat">
@@ -1376,8 +1400,9 @@
           <li class="principle reveal">
             <div>
               <h3>Story first, systems underneath</h3>
-              <p>Place and narrative lead. Then the part nobody applauds: ADA-compliant,
-              multilingual, offline-first, remotely monitored, built to run unattended.</p>
+              <p>Place and narrative lead. Then the part nobody applauds: accessible to
+              every visitor, working in more than one language, online or off, and still
+              running when nobody's watching.</p>
             </div>
           </li>
           <li class="principle reveal">
@@ -1408,7 +1433,7 @@
     <div class="container mono">
       <span>CH Experiences LLC</span>
       <span>Los Angeles · working globally</span>
-      <span class="footer-note">This site: one HTML file <i>·</i> zero dependencies <i>·</i> view source</span>
+      <span class="footer-note">© 2026 <i>·</i> designed &amp; built by hand</span>
     </div>
   </footer>
 
@@ -1553,6 +1578,57 @@
         head.addEventListener('pointerleave', function () { visible = false; ghost.classList.remove('on'); });
         head.addEventListener('click', function () { visible = false; ghost.classList.remove('on'); });
       });
+    }
+
+    /* ---- hero: project stills flicker through as the cursor travels ---- */
+    var flicker = document.getElementById('heroFlicker');
+    if (flicker) {
+      var fimg = flicker.querySelector('img');
+      var stills = [
+        'images/web/how-we-know-the-weather-1.jpeg',
+        'images/web/toyota-north-america.jpeg',
+        'images/web/satx-projection-table.JPG',
+        'images/web/night-sky-exhibit.jpg',
+        'images/web/oac-solar-game.jpg',
+        'images/web/commercials-tower.jpg',
+        'images/web/satx-toyota-community-wall.jpg',
+        'images/web/picture4.jpg',
+        'images/web/toyota-stx-projection-table.JPG'
+      ];
+      if (RM) {
+        fimg.src = stills[0];
+        flicker.classList.add('on');
+      } else {
+        setTimeout(function () {
+          stills.forEach(function (s) { var i = new Image(); i.src = s; });
+        }, 1200);
+        var fi = 0, travelled = 0, lastX = null, lastY = null, hideTimer = null;
+        var hero = document.querySelector('.hero');
+        var showStill = function () {
+          fimg.src = stills[fi % stills.length];
+          flicker.classList.add('on');
+          clearTimeout(hideTimer);
+          hideTimer = setTimeout(function () { flicker.classList.remove('on'); }, 1600);
+        };
+        if (FINE) {
+          hero.addEventListener('pointermove', function (e) {
+            if (lastX !== null) travelled += Math.hypot(e.clientX - lastX, e.clientY - lastY);
+            lastX = e.clientX; lastY = e.clientY;
+            if (travelled > 110) { travelled = 0; fi++; showStill(); }
+            else if (!flicker.classList.contains('on')) showStill();
+          });
+          hero.addEventListener('pointerleave', function () {
+            clearTimeout(hideTimer);
+            flicker.classList.remove('on');
+            lastX = lastY = null;
+          });
+        } else {
+          /* touch: slow cycle while the hero is on screen */
+          setInterval(function () {
+            if (window.scrollY < window.innerHeight && !document.hidden) { fi++; showStill(); }
+          }, 3200);
+        }
+      }
     }
 
     /* ---- magnetic email button ---- */
