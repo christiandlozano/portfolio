@@ -2,1564 +2,1772 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Christian Lozano · Creative Technologist &amp; Experiential Design</title>
+  <title>Christian Lozano — Creative Developer for Physical Places</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="I design brand homes and museums that feel like third spaces — places where technology serves the story." />
+  <meta name="description" content="Christian Lozano builds the interactive layer of museums and brand homes — Unreal Engine simulators, LED walls, projection tables, WebSocket-synced exhibits — engineered to run unattended for years." />
+  <meta name="theme-color" content="#0a0a0b" />
+
+  <!-- Open Graph / social -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Christian Lozano — Creative Developer for Physical Places" />
+  <meta property="og:description" content="Interactive museums and brand homes: Unreal Engine, LED walls, projection mapping, synced systems. Built to run every day, unattended, for years." />
+  <meta property="og:url" content="https://chexperiences.com/" />
+  <meta property="og:image" content="https://chexperiences.com/images/web/how-we-know-the-weather-1.jpeg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0a0b'/%3E%3Ctext x='32' y='44' font-family='Arial Black,sans-serif' font-size='34' font-weight='900' fill='%23ff6f00' text-anchor='middle'%3ECL%3C/text%3E%3C/svg%3E" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Christian Lozano",
+    "jobTitle": "Creative Developer / Creative Technologist",
+    "email": "mailto:christian@chexperiences.com",
+    "url": "https://chexperiences.com",
+    "worksFor": { "@type": "Organization", "name": "CH Experiences LLC" },
+    "address": { "@type": "PostalAddress", "addressLocality": "Los Angeles", "addressRegion": "CA" },
+    "knowsAbout": ["Experiential design", "Unreal Engine", "WebSockets", "Projection mapping", "Interactive installations", "Museum exhibits"]
+  }
+  </script>
 
   <style>
+    /* ============================================================
+       CHEXPERIENCES.COM — hand-built, one file, zero dependencies.
+       Motion is opt-in: every animation lives inside
+       prefers-reduced-motion: no-preference. The base page is
+       complete and readable with motion off.
+       ============================================================ */
+
     :root {
-      --white: #ffffff;
-      --off-white: #fafafa;
-      --gray-50: #f5f5f5;
-      --gray-100: #ebebeb;
-      --gray-200: #e0e0e0;
-      --gray-300: #c7c7c7;
-      --gray-400: #a0a0a0;
-      --gray-500: #6b6b6b;
-      --gray-600: #4a4a4a;
-      --gray-700: #333333;
-      --black: #111111;
+      --ink: #0a0a0b;            /* the room with the lights off */
+      --ink-2: #111113;
+      --ink-3: #18181b;
+      --paper: #f2efe9;          /* warm gallery white */
+      --paper-dim: rgba(242, 239, 233, 0.62);
+      --paper-faint: rgba(242, 239, 233, 0.38);
+      --hairline: rgba(242, 239, 233, 0.12);
+      --hairline-soft: rgba(242, 239, 233, 0.07);
       --accent: #ff6f00;
-      --accent-hover: #e06200;
+      --accent-dim: rgba(255, 111, 0, 0.55);
 
-      --space-xs: 0.5rem;
-      --space-sm: 1rem;
-      --space-md: 1.5rem;
-      --space-lg: 2.5rem;
-      --space-xl: 4rem;
-      --space-2xl: 6rem;
+      --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+      --font-mono: "IBM Plex Mono", "SF Mono", Menlo, monospace;
 
-      --transition: 180ms ease;
-      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-      --font-mono: "SF Mono", "Monaco", "Courier New", monospace;
+      --pad: clamp(1.25rem, 4vw, 4rem);
+      --maxw: 1480px;
 
-      /* Hero text shadow — tweak these to taste */
-      --hero-shadow-x: 2px;
-      --hero-shadow-y: 4px;
-      --hero-shadow-blur: 6px;
-      --hero-shadow-color: rgba(0, 0, 0, 1);
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+      --t-fast: 220ms;
+      --t-slow: 900ms;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
 
     body {
-      font-family: var(--font-sans);
-      background: var(--white);
-      color: var(--black);
+      font-family: var(--font-display);
+      font-weight: 400;
+      background: var(--ink);
+      color: var(--paper);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
+      overflow-x: clip;
     }
+
+    ::selection { background: var(--accent); color: var(--ink); }
 
     a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; display: block; }
+    img, video { max-width: 100%; display: block; }
+    button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: -100%;
+      left: var(--pad);
+      z-index: 300;
+      background: var(--accent);
+      color: var(--ink);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      padding: 0.6rem 1rem;
+    }
+    .skip-link:focus { top: 0.75rem; }
 
     .container {
-      max-width: 1160px;
+      max-width: var(--maxw);
       margin: 0 auto;
-      padding: 0 var(--space-md);
+      padding-left: var(--pad);
+      padding-right: var(--pad);
     }
 
-    @media (min-width: 768px) {
-      .container { padding: 0 var(--space-lg); }
+    .mono {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
-    /* ---- HEADER ---- */
+    /* ---- generative field canvas (hero backdrop) ---- */
+    #field {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ---- film grain ---- */
+    .grain {
+      position: fixed;
+      inset: -50%;
+      z-index: 90;
+      pointer-events: none;
+      opacity: 0.055;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* ---- scroll progress ---- */
+    .progress {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--accent);
+      transform-origin: 0 50%;
+      transform: scaleX(0);
+      z-index: 210;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      @supports (animation-timeline: scroll()) {
+        .progress {
+          animation: progress-grow linear both;
+          animation-timeline: scroll(root);
+        }
+      }
+    }
+    @keyframes progress-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+    /* ---- header ---- */
     .site-header {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      background: transparent;
-      transition: background var(--transition), border-color var(--transition);
-      border-bottom: 1px solid transparent;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      border-bottom: 1px solid var(--hairline-soft);
+      background: rgba(10, 10, 11, 0.6);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
     }
-
-    .site-header.scrolled {
-      background: rgba(255, 255, 255, 0.97);
-      backdrop-filter: blur(8px);
-      border-bottom-color: var(--gray-200);
-    }
-
     .site-header .container {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 56px;
+      height: 60px;
     }
-
-    .brand { display: flex; flex-direction: column; line-height: 1.2; }
-
-    .brand-name {
-      font-size: 0.8125rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
+    .brand-mark {
+      font-weight: 900;
+      font-stretch: 120%;
+      font-size: 1.05rem;
+      letter-spacing: 0.02em;
+    }
+    .brand-mark em { color: var(--accent); font-style: normal; }
+    .header-meta { display: flex; align-items: center; gap: 1.75rem; }
+    .clock { color: var(--paper-faint); }
+    @media (max-width: 720px) { .clock { display: none; } }
+    .nav { display: flex; gap: 1.5rem; }
+    .nav a {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--white);
-      transition: color var(--transition);
+      color: var(--paper-dim);
+      transition: color var(--t-fast);
     }
+    .nav a:hover { color: var(--accent); }
 
-    .brand-role {
-      font-size: 0.6875rem;
-      font-weight: 400;
-      color: rgba(255,255,255,0.7);
-      transition: color var(--transition);
-    }
-
-    .site-header.scrolled .brand-name { color: var(--black); }
-    .site-header.scrolled .brand-role { color: var(--gray-500); }
-
-    .nav { display: flex; gap: 0.25rem; font-size: 0.8125rem; font-weight: 500; }
-
-    .nav-link {
-      padding: 0.375rem 0.75rem;
-      color: rgba(255,255,255,0.85);
-      transition: color var(--transition), background var(--transition);
-    }
-
-    .nav-link:hover { color: var(--white); }
-
-    .site-header.scrolled .nav-link { color: var(--gray-600); }
-    .site-header.scrolled .nav-link:hover { color: var(--black); }
-
-    .nav-link-primary {
-      background: var(--accent);
-      color: var(--white) !important;
-      padding: 0.375rem 1rem;
-    }
-
-    .nav-link-primary:hover { background: var(--accent-hover); }
-
-    /* ---- HERO (full-screen, immersive) ---- */
+    /* ---- hero ---- */
     .hero {
       position: relative;
-      width: 100%;
-      height: 100vh;
-      min-height: 600px;
-      overflow: hidden;
+      z-index: 10;
+      min-height: 100svh;
       display: flex;
-      align-items: flex-end;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-top: 8rem;
+      padding-bottom: clamp(2rem, 6vh, 4.5rem);
     }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
+    .hero-eyebrow {
+      color: var(--paper-faint);
+      margin-bottom: clamp(1rem, 3vh, 2rem);
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      flex-wrap: wrap;
     }
-
-    .hero-image {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      transition: opacity 1200ms ease-in-out;
+    .hero-eyebrow .tick { color: var(--accent); }
+    .hero-name {
+      font-weight: 900;
+      font-stretch: 115%;
+      font-size: clamp(3.2rem, 12.5vw, 11.5rem);
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      margin-bottom: clamp(1.5rem, 4vh, 3rem);
     }
-
-    .hero-image.active { opacity: 1; }
-
-    .hero-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      will-change: filter;
-    }
-
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.45);
-      z-index: 1;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      padding: 0 var(--space-md) var(--space-2xl);
-      max-width: 1160px;
-      margin: 0 auto;
-    }
-
-    @media (min-width: 768px) {
-      .hero-content { padding: 0 var(--space-lg) var(--space-2xl); }
-    }
-
-    .hero-headline {
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      line-height: 1.1;
-      letter-spacing: -0.025em;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: var(--space-md);
-      max-width: 720px;
-      text-shadow: var(--hero-shadow-x) var(--hero-shadow-y) var(--hero-shadow-blur) var(--hero-shadow-color);
-    }
-
-    .hero-highlight { color: var(--accent); }
-
-    .hero-subhead {
-      font-size: clamp(0.95rem, 1.5vw, 1.125rem);
-      line-height: 1.6;
-      color: rgba(255,255,255,0.8);
-      max-width: 540px;
-      margin-bottom: var(--space-lg);
-      text-shadow: var(--hero-shadow-x) var(--hero-shadow-y) var(--hero-shadow-blur) var(--hero-shadow-color);
-    }
-
-    .hero-proof {
+    .hero-name .line { display: block; overflow: hidden; }
+    .hero-name .line-in { display: block; }
+    .hero-name .accent { color: var(--accent); }
+    .hero-foot {
       display: flex;
       flex-wrap: wrap;
-      gap: var(--space-sm) var(--space-lg);
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: rgba(255,255,255,0.6);
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-      text-shadow: var(--hero-shadow-x) var(--hero-shadow-y) var(--hero-shadow-blur) var(--hero-shadow-color);
+      gap: 2rem 4rem;
+      align-items: flex-end;
+      justify-content: space-between;
+      border-top: 1px solid var(--hairline);
+      padding-top: 1.5rem;
     }
-
-    .hero-proof-item { display: flex; align-items: center; gap: 0.4rem; }
-    .hero-proof-item::before { content: '--'; color: var(--accent); }
-
-    .hero-scroll-hint {
+    .hero-sub {
+      max-width: 34rem;
+      font-size: clamp(1rem, 1.5vw, 1.25rem);
+      line-height: 1.55;
+      color: var(--paper-dim);
+    }
+    .hero-sub strong { color: var(--paper); font-weight: 600; }
+    .hero-proof {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      color: var(--paper-faint);
+    }
+    .hero-proof span::before { content: "— "; color: var(--accent); }
+    .scroll-cue {
       position: absolute;
-      bottom: var(--space-lg);
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 2;
-      color: rgba(255,255,255,0.5);
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-align: center;
-      animation: pulseDown 2s ease-in-out infinite;
+      right: var(--pad);
+      top: 50%;
+      color: var(--paper-faint);
+      writing-mode: vertical-rl;
+      letter-spacing: 0.3em;
     }
+    @media (max-width: 900px) { .scroll-cue { display: none; } }
 
-    @keyframes pulseDown {
-      0%, 100% { opacity: 0.5; transform: translateX(-50%) translateY(0); }
-      50% { opacity: 1; transform: translateX(-50%) translateY(4px); }
+    /* hero load choreography — opt-in */
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-name .line-in {
+        transform: translateY(110%);
+        animation: rise 1s var(--ease-out) forwards;
+      }
+      .hero-name .line:nth-child(2) .line-in { animation-delay: 0.12s; }
+      .hero-eyebrow, .hero-foot {
+        opacity: 0;
+        animation: fade-up 0.9s var(--ease-out) forwards;
+      }
+      .hero-eyebrow { animation-delay: 0.5s; }
+      .hero-foot { animation-delay: 0.65s; }
+      .scroll-cue { animation: cue-pulse 2.4s ease-in-out infinite; }
     }
+    @keyframes rise { to { transform: translateY(0); } }
+    @keyframes fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes cue-pulse { 0%, 100% { opacity: 0.35; } 50% { opacity: 0.9; } }
 
-    @media (max-width: 600px) {
-      .hero { min-height: 100svh; }
-      .hero-content { padding-bottom: 5rem; }
-      .nav { gap: 0; }
-      .nav-link { padding: 0.375rem 0.5rem; font-size: 0.75rem; }
-    }
-
-    /* ---- SECTIONS ---- */
-    .section {
-      padding: var(--space-2xl) 0;
-      border-top: 1px solid var(--gray-200);
-    }
-
-    #work {
+    /* ---- marquee ---- */
+    .marquee {
       position: relative;
       z-index: 10;
-      background: var(--white);
+      border-top: 1px solid var(--hairline);
+      border-bottom: 1px solid var(--hairline);
+      background: var(--ink);
+      overflow: hidden;
+      padding: 0.8rem 0;
+      white-space: nowrap;
+    }
+    .marquee-track { display: inline-flex; gap: 0; }
+    .marquee-chunk {
+      display: inline-flex;
+      align-items: center;
+      gap: 2.25rem;
+      padding-right: 2.25rem;
+      color: var(--paper-faint);
+    }
+    .marquee-chunk i { color: var(--accent); font-style: normal; }
+    @media (prefers-reduced-motion: no-preference) {
+      .marquee-track { animation: marquee 46s linear infinite; }
+    }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+
+    /* ---- shared section chrome ---- */
+    main { position: relative; z-index: 10; background: transparent; }
+    .section { padding: clamp(4rem, 10vh, 8rem) 0; }
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: clamp(2.5rem, 6vh, 4.5rem);
+    }
+    .section-label { color: var(--accent); }
+    .section-title {
+      font-weight: 900;
+      font-stretch: 115%;
+      font-size: clamp(2.2rem, 5.5vw, 4.5rem);
+      line-height: 1;
+      letter-spacing: -0.025em;
+      text-transform: uppercase;
     }
 
-    .section-header {
-      margin-bottom: var(--space-xl);
-      max-width: 42rem;
+    /* reveal-on-scroll — opt-in; base state is fully visible */
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition: opacity var(--t-slow) var(--ease-out), transform var(--t-slow) var(--ease-out);
+      }
+      .reveal.is-in { opacity: 1; transform: none; }
+      /* clip the inner frame, not the observed element — Chrome computes
+         IntersectionObserver geometry after the element's own clip-path */
+      .reveal-clip .frame { clip-path: inset(0 0 100% 0); transition: clip-path 1.1s var(--ease-out); }
+      .reveal-clip.is-in .frame { clip-path: inset(0 0 0 0); }
     }
 
-    .section-label {
-      font-size: 0.6875rem;
-      font-weight: 600;
+    /* ---- featured work ---- */
+    .feature {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: clamp(1.5rem, 3vw, 3rem);
+      align-items: start;
+      padding: clamp(3rem, 7vh, 5.5rem) 0;
+      border-top: 1px solid var(--hairline);
+      position: relative;
+    }
+    .feature:first-of-type { border-top: none; padding-top: 0; }
+    .feature-media { grid-column: 1 / 8; position: relative; }
+    .feature-copy { grid-column: 8 / 13; position: relative; }
+    .feature.flip .feature-media { grid-column: 6 / 13; order: 2; }
+    .feature.flip .feature-copy { grid-column: 1 / 6; order: 1; }
+    @media (max-width: 900px) {
+      .feature-media, .feature-copy,
+      .feature.flip .feature-media, .feature.flip .feature-copy {
+        grid-column: 1 / 13; order: 0;
+      }
+    }
+    .feature-num {
+      position: absolute;
+      top: -0.4em;
+      right: 0;
+      font-weight: 900;
+      font-stretch: 115%;
+      font-size: clamp(4rem, 9vw, 8.5rem);
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(242, 239, 233, 0.14);
+      pointer-events: none;
+      user-select: none;
+    }
+    @media (max-width: 900px) { .feature-num { display: none; } }
+
+    .frame {
+      position: relative;
+      overflow: hidden;
+      background: var(--ink-2);
+      border: 1px solid var(--hairline-soft);
+    }
+    .frame img { width: 100%; height: 100%; object-fit: cover; }
+    .frame > img { cursor: zoom-in; }
+    /* parallax drift inside the frame — modern engines only, motion opt-in */
+    @media (prefers-reduced-motion: no-preference) {
+      @supports (animation-timeline: view()) {
+        .frame.parallax { aspect-ratio: 16 / 10.5; }
+        .frame.parallax > img {
+          height: 116%;
+          animation: drift linear both;
+          animation-timeline: view();
+          animation-range: entry 0% exit 100%;
+        }
+      }
+    }
+    @keyframes drift { from { transform: translateY(-7%); } to { transform: translateY(7%); } }
+
+    .frame-caption {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      color: var(--paper-faint);
+      padding-top: 0.6rem;
+    }
+    .frame-caption .blink::after { content: "▮"; color: var(--accent); margin-left: 0.35rem; }
+    @media (prefers-reduced-motion: no-preference) {
+      .frame-caption .blink::after { animation: blink 1.1s steps(2, start) infinite; }
+    }
+    @keyframes blink { to { visibility: hidden; } }
+
+    .thumb-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .thumb-strip img {
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      width: 100%;
+      cursor: zoom-in;
+      border: 1px solid var(--hairline-soft);
+      transition: opacity var(--t-fast);
+    }
+    .thumb-strip img:hover { opacity: 0.75; }
+
+    .status-chip {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: var(--space-xs);
+      background: var(--accent);
+      color: var(--ink);
+      padding: 0.3rem 0.7rem;
+      margin-bottom: 1rem;
+      font-weight: 500;
     }
-
-    .section-title {
-      font-size: clamp(1.75rem, 3.5vw, 2.5rem);
-      line-height: 1.15;
+    .feature-kicker { color: var(--paper-faint); margin-bottom: 0.75rem; }
+    .feature-title {
+      font-weight: 900;
+      font-stretch: 112%;
+      font-size: clamp(1.8rem, 3.4vw, 3rem);
+      line-height: 1.02;
       letter-spacing: -0.02em;
-      font-weight: 700;
-      margin-bottom: var(--space-sm);
-      color: var(--black);
-    }
-
-    .section-intro {
-      font-size: 1rem;
-      line-height: 1.6;
-      color: var(--gray-500);
-    }
-
-    .section-intro strong { color: var(--black); font-weight: 600; }
-
-    /* ---- VIEW TOGGLE ---- */
-    .view-toggle-wrapper { margin-bottom: var(--space-xl); }
-
-    .view-toggle {
-      display: inline-flex;
-      border: 1px solid var(--gray-200);
-      background: var(--off-white);
-    }
-
-    .view-toggle-btn {
-      background: transparent;
-      border: none;
-      padding: 0.5rem 1.25rem;
-      font-family: var(--font-sans);
-      font-size: 0.8125rem;
-      font-weight: 500;
-      color: var(--gray-500);
-      cursor: pointer;
-      transition: all var(--transition);
-      white-space: nowrap;
-      border-right: 1px solid var(--gray-200);
-    }
-
-    .view-toggle-btn:last-child { border-right: none; }
-    .view-toggle-btn:hover { color: var(--black); background: var(--gray-50); }
-
-    .view-toggle-btn.active {
-      background: var(--black);
-      color: var(--white);
-    }
-
-    @media (max-width: 600px) {
-      .view-toggle {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-      }
-      .view-toggle-btn {
-        border-right: none;
-        border-bottom: 1px solid var(--gray-200);
-        text-align: left;
-        padding: 0.625rem 1rem;
-      }
-      .view-toggle-btn:last-child { border-bottom: none; }
-    }
-
-    /* ---- CARD GRID ---- */
-    .card-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1px;
-      background: var(--gray-200);
-      border: 1px solid var(--gray-200);
-    }
-
-    @media (min-width: 640px) {
-      .card-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    .card {
-      background: var(--white);
-      overflow: hidden;
-      transition: background var(--transition);
-      position: relative;
-    }
-
-    .card:hover { background: var(--off-white); }
-
-    .card-link { display: block; color: inherit; }
-
-    .card-media {
-      position: relative;
-      aspect-ratio: 16 / 10;
-      background: var(--gray-50);
-      overflow: hidden;
-    }
-
-    .card-carousel { cursor: pointer; }
-
-    .card-carousel .carousel-images { position: absolute; inset: 0; }
-
-    .card-carousel .carousel-image {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0;
-      transition: opacity 300ms ease-in-out;
-    }
-
-    .card-carousel .carousel-image.active { opacity: 1; }
-
-    .carousel-control {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 30px;
-      height: 30px;
-      border: none;
-      background: rgba(0, 0, 0, 0.6);
-      color: var(--white);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      cursor: pointer;
-      opacity: 0;
-      transition: opacity var(--transition);
-      z-index: 3;
-    }
-
-    .carousel-control.prev { left: 0.5rem; }
-    .carousel-control.next { right: 0.5rem; }
-    .card:hover .carousel-control { opacity: 1; }
-
-    .carousel-dots {
-      position: absolute;
-      left: 50%;
-      bottom: 0.5rem;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 0.35rem;
-      z-index: 3;
-    }
-
-    .carousel-dot {
-      width: 6px;
-      height: 6px;
-      border: none;
-      background: rgba(255, 255, 255, 0.5);
-      cursor: pointer;
-      transition: background var(--transition);
-    }
-
-    .carousel-dot.active { background: var(--white); }
-
-    @media (max-width: 767px) {
-      .carousel-control { opacity: 1; }
-    }
-
-    .card-media img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 400ms ease-out;
-    }
-
-    .card-media video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      background: var(--black);
-    }
-
-    .card:hover .card-media img { transform: scale(1.03); }
-
-    .card-description {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.7);
-      display: flex;
-      align-items: flex-end;
-      padding: var(--space-sm);
-      opacity: 0;
-      transition: opacity var(--transition);
-      z-index: 2;
-    }
-
-    .card:hover .card-description { opacity: 1; }
-
-    @media (max-width: 767px) {
-      .card-description {
-        opacity: 1;
-        background: rgba(0, 0, 0, 0.55);
-      }
-    }
-
-    .card-description-text {
-      font-size: 0.8125rem;
-      line-height: 1.5;
-      color: var(--white);
-    }
-
-    .card-body { padding: var(--space-sm) var(--space-md); }
-
-    .card-title {
-      font-size: 0.9375rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      margin-bottom: 0.25rem;
-      color: var(--black);
-    }
-
-    .card-meta {
-      font-size: 0.8125rem;
-      color: var(--gray-500);
-      margin-bottom: var(--space-xs);
-    }
-
-    .card-tags { display: flex; flex-wrap: wrap; gap: 0.375rem; }
-
-    .tag {
-      font-size: 0.6875rem;
-      font-weight: 500;
-      letter-spacing: 0.04em;
       text-transform: uppercase;
-      padding: 0.175rem 0.5rem;
-      background: var(--gray-50);
-      color: var(--gray-500);
-      border: 1px solid var(--gray-200);
+      margin-bottom: 1.25rem;
+      max-width: 14ch;
     }
-
-    .tag-highlight {
-      background: var(--accent);
-      color: var(--white);
-      border-color: var(--accent);
-    }
-
-    .card-hook {
-      font-size: 0.875rem;
-      line-height: 1.5;
-      color: var(--gray-700);
-      margin-bottom: var(--space-sm);
-    }
-
-    .card-note {
-      font-size: 0.8125rem;
-      line-height: 1.55;
-      color: var(--gray-600);
-      border-left: 2px solid var(--accent);
-      padding-left: 0.75rem;
-      margin-bottom: var(--space-sm);
-    }
-
-    .card-note-label {
-      display: block;
-      font-size: 0.625rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.2rem;
-    }
-
-    /* ---- PHILOSOPHY ---- */
-    .philosophy {
-      border: 1px solid var(--gray-200);
-      padding: var(--space-lg);
-      margin-bottom: var(--space-xl);
-    }
-
-    @media (min-width: 768px) {
-      .philosophy { padding: var(--space-xl); }
-    }
-
-    .philosophy-content {
+    .feature-desc {
+      color: var(--paper-dim);
+      font-size: 1.02rem;
+      line-height: 1.65;
+      margin-bottom: 1.5rem;
       max-width: 38rem;
-      font-size: 1rem;
-      line-height: 1.7;
-      color: var(--gray-600);
     }
-
-    .philosophy-content p { margin-bottom: var(--space-md); }
-    .philosophy-content p:last-child { margin-bottom: 0; }
-    .philosophy-content strong { color: var(--black); font-weight: 600; }
-
-    /* ---- CONTACT ---- */
-    .contact-card {
-      background: var(--black);
-      color: var(--white);
-      padding: var(--space-xl);
-      text-align: center;
-      margin-top: var(--space-xl);
+    .feature-desc strong { color: var(--paper); font-weight: 600; }
+    .field-note {
+      border-left: 2px solid var(--accent);
+      padding-left: 1rem;
+      margin-bottom: 1.5rem;
+      max-width: 36rem;
     }
+    .field-note-label { display: block; color: var(--accent); margin-bottom: 0.35rem; }
+    .field-note p { font-size: 0.92rem; line-height: 1.6; color: var(--paper-dim); }
+    .stack-line { color: var(--paper-faint); line-height: 2; }
+    .stack-line i { color: var(--accent); font-style: normal; }
 
-    .contact-card h3 {
-      font-size: 1.25rem;
-      margin-bottom: var(--space-xs);
+    /* ---- index of work ---- */
+    .index-list { list-style: none; border-top: 1px solid var(--hairline); }
+    .index-row { border-bottom: 1px solid var(--hairline); }
+    .row-head {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 3.5rem 1fr auto 1.5rem;
+      align-items: baseline;
+      gap: 1.25rem;
+      padding: 1.4rem 0;
+      text-align: left;
+      transition: padding-left var(--t-fast) var(--ease-out);
+    }
+    .row-head:hover { padding-left: 0.75rem; }
+    .row-head:hover .row-title { color: var(--accent); }
+    .row-num { color: var(--paper-faint); }
+    .row-title {
+      font-weight: 800;
+      font-stretch: 110%;
+      font-size: clamp(1.2rem, 2.6vw, 2rem);
+      line-height: 1.05;
+      letter-spacing: -0.015em;
+      text-transform: uppercase;
+      transition: color var(--t-fast);
+    }
+    .row-title small {
+      display: block;
+      font-family: var(--font-mono);
+      font-weight: 400;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      color: var(--paper-faint);
+      margin-top: 0.4rem;
+    }
+    .row-stack { color: var(--paper-faint); text-align: right; max-width: 28ch; }
+    @media (max-width: 760px) {
+      .row-head { grid-template-columns: 2.4rem 1fr 1.2rem; }
+      .row-stack { display: none; }
+    }
+    .row-x {
+      position: relative;
+      width: 1rem; height: 1rem;
+      justify-self: end;
+      align-self: center;
+    }
+    .row-x::before, .row-x::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      background: var(--paper-dim);
+      transition: transform 320ms var(--ease-out), background var(--t-fast);
+    }
+    .row-x::before { width: 100%; height: 1px; }
+    .row-x::after { width: 1px; height: 100%; }
+    .index-row.open .row-x::after { transform: rotate(90deg); }
+    .index-row.open .row-x::before, .index-row.open .row-x::after { background: var(--accent); }
+
+    .row-panel {
+      display: grid;
+      grid-template-rows: 0fr;
+      overflow: clip;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .row-panel { transition: grid-template-rows 480ms var(--ease-out); }
+    }
+    .index-row.open .row-panel { grid-template-rows: 1fr; }
+    .row-panel-in { min-height: 0; overflow: hidden; }
+    .row-panel-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 34rem) 1fr;
+      gap: 2rem;
+      padding: 0.5rem 0 2.25rem 4.75rem;
+    }
+    @media (max-width: 760px) {
+      .row-panel-grid { grid-template-columns: 1fr; padding-left: 0; }
+    }
+    .row-note { font-size: 0.95rem; line-height: 1.65; color: var(--paper-dim); }
+    .row-note .field-note-label { margin-bottom: 0.4rem; }
+    .media-strip {
+      display: flex;
+      gap: 0.6rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent) transparent;
+    }
+    .media-strip img, .media-strip video {
+      height: 200px;
+      width: auto;
+      flex: 0 0 auto;
+      cursor: zoom-in;
+      border: 1px solid var(--hairline-soft);
+      background: var(--ink-2);
+      transition: opacity var(--t-fast);
+    }
+    .media-strip img:hover, .media-strip video:hover { opacity: 0.8; }
+
+    /* floating ghost thumbnail that trails the cursor over index rows */
+    .ghost {
+      position: fixed;
+      top: 0; left: 0;
+      width: 270px;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 150;
+      opacity: 0;
+      border: 1px solid var(--hairline);
+      background: var(--ink-2);
+      transition: opacity 250ms ease;
+    }
+    .ghost img { width: 100%; height: 100%; object-fit: cover; }
+    .ghost.on { opacity: 1; }
+
+    /* ---- about ---- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: clamp(1.5rem, 3vw, 3rem);
+      align-items: start;
+    }
+    .about-media { grid-column: 1 / 6; }
+    .about-copy { grid-column: 6 / 13; }
+    @media (max-width: 900px) {
+      .about-media, .about-copy { grid-column: 1 / 13; }
+      .about-media { max-width: 30rem; }
+    }
+    .portrait {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--hairline-soft);
+    }
+    .portrait img { width: 100%; }
+    @media (prefers-reduced-motion: no-preference) {
+      .portrait img {
+        filter: grayscale(1) contrast(1.05);
+        transition: filter 1.4s var(--ease-out);
+      }
+      .portrait.is-in img { filter: grayscale(0) contrast(1); }
+    }
+    .about-lede {
+      font-size: clamp(1.25rem, 2.4vw, 1.9rem);
       font-weight: 600;
+      font-stretch: 108%;
+      line-height: 1.3;
+      letter-spacing: -0.015em;
+      margin-bottom: 1.5rem;
+      max-width: 26ch;
     }
-
-    .contact-card p {
-      font-size: 1rem;
-      margin-bottom: var(--space-lg);
-      color: var(--gray-400);
+    .about-lede em { color: var(--accent); font-style: normal; }
+    .about-body { color: var(--paper-dim); max-width: 40rem; margin-bottom: 1.25rem; }
+    .about-body strong { color: var(--paper); font-weight: 600; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, auto);
+      gap: 2.5rem;
+      justify-content: start;
+      margin-top: 2.5rem;
+      border-top: 1px solid var(--hairline);
+      padding-top: 1.75rem;
     }
+    @media (max-width: 600px) { .stats { grid-template-columns: 1fr; gap: 1.25rem; } }
+    .stat-num {
+      font-weight: 900;
+      font-stretch: 115%;
+      font-size: clamp(2rem, 4.5vw, 3.4rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .stat-num sup { font-size: 0.45em; color: var(--accent); }
+    .stat-label { color: var(--paper-faint); margin-top: 0.4rem; }
 
-    .contact-email {
+    /* ---- approach ---- */
+    .principles { list-style: none; counter-reset: principle; border-top: 1px solid var(--hairline); }
+    .principle {
+      display: grid;
+      grid-template-columns: 5rem 1fr;
+      gap: 1.5rem;
+      padding: clamp(1.75rem, 4vh, 3rem) 0;
+      border-bottom: 1px solid var(--hairline);
+    }
+    @media (max-width: 600px) { .principle { grid-template-columns: 3rem 1fr; } }
+    .principle::before {
+      counter-increment: principle;
+      content: "0" counter(principle);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      padding-top: 0.6rem;
+    }
+    .principle h3 {
+      font-weight: 900;
+      font-stretch: 113%;
+      font-size: clamp(1.5rem, 3.6vw, 2.8rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .principle p { color: var(--paper-dim); max-width: 44rem; }
+
+    /* ---- contact ---- */
+    .contact { text-align: left; padding-bottom: clamp(3rem, 8vh, 6rem); }
+    .contact-title {
+      font-weight: 900;
+      font-stretch: 115%;
+      font-size: clamp(2.4rem, 7.5vw, 6.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      max-width: 14ch;
+      margin-bottom: 2.5rem;
+    }
+    .contact-title em { color: var(--accent); font-style: normal; }
+    .email-btn {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--black);
-      padding: 0.75rem 1.5rem;
-      background: var(--accent);
-      color: var(--white);
-      border: none;
-      transition: background var(--transition);
+      gap: 0.9rem;
+      font-family: var(--font-mono);
+      font-size: clamp(0.85rem, 1.6vw, 1.05rem);
+      letter-spacing: 0.05em;
+      border: 1px solid var(--hairline);
+      padding: 1.1rem 1.6rem;
+      transition: border-color var(--t-fast), background var(--t-fast), color var(--t-fast);
+      will-change: transform;
     }
+    .email-btn .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }
+    .email-btn:hover { border-color: var(--accent); background: var(--accent); color: var(--ink); }
+    .email-btn:hover .dot { background: var(--ink); }
+    @media (max-width: 600px) { .email-btn { width: 100%; justify-content: center; overflow-wrap: anywhere; } }
 
-    .contact-email:hover { background: var(--accent-hover); }
-
-    @media (max-width: 600px) {
-      .contact-email {
-        width: 100%;
-        justify-content: center;
-        font-size: 0.875rem;
-        overflow-wrap: anywhere;
-      }
-    }
-
-    /* ---- FOOTER ---- */
+    /* ---- footer ---- */
     footer {
-      border-top: 1px solid var(--gray-200);
-      padding: var(--space-lg) 0;
+      position: relative;
+      z-index: 10;
+      border-top: 1px solid var(--hairline);
+      padding: 2rem 0 2.5rem;
     }
-
     footer .container {
       display: flex;
       flex-wrap: wrap;
+      gap: 1rem 3rem;
       justify-content: space-between;
-      gap: var(--space-md);
-      font-size: 0.8125rem;
-      color: var(--gray-400);
+      color: var(--paper-faint);
     }
+    .footer-note i { color: var(--accent); font-style: normal; }
 
-    .footer-brand {
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--gray-500);
-    }
-
-    /* ---- IMAGE MODAL ---- */
+    /* ---- modal ---- */
     .modal-open { overflow: hidden; }
-
-    .image-modal {
+    .modal {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.92);
+      z-index: 250;
+      background: rgba(10, 10, 11, 0.94);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: var(--space-lg);
+      padding: clamp(1rem, 4vw, 3rem);
       opacity: 0;
       visibility: hidden;
-      transition: opacity var(--transition), visibility var(--transition);
-      z-index: 200;
+      transition: opacity var(--t-fast), visibility var(--t-fast);
     }
-
-    .image-modal.active { opacity: 1; visibility: visible; }
-
-    .image-modal-content {
+    .modal.active { opacity: 1; visibility: visible; }
+    .modal-stage {
       position: relative;
-      max-width: min(1100px, 92vw);
-      max-height: 82vh;
-      width: 100%;
+      max-width: min(1200px, 94vw);
+      max-height: 84vh;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-
-    .image-modal-nav {
+    .modal-stage img, .modal-stage video {
+      max-width: 100%;
+      max-height: 84vh;
+      width: auto; height: auto;
+      object-fit: contain;
+      border: 1px solid var(--hairline-soft);
+    }
+    .modal-counter {
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 40px;
-      height: 40px;
-      border: none;
-      background: rgba(255, 255, 255, 0.9);
-      color: var(--black);
+      left: 0;
+      bottom: -2rem;
+      color: var(--paper-faint);
+    }
+    .modal-btn {
+      position: absolute;
+      width: 44px; height: 44px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
-      cursor: pointer;
-      z-index: 3;
+      font-size: 1.3rem;
+      background: var(--ink-3);
+      border: 1px solid var(--hairline);
+      color: var(--paper);
+      transition: border-color var(--t-fast), color var(--t-fast);
+      z-index: 2;
     }
-
-    .image-modal-prev { left: 1rem; }
-    .image-modal-next { right: 1rem; }
-
-    .image-modal img,
-    .image-modal video {
-      max-width: 100%;
-      max-height: 82vh;
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      background: var(--gray-50);
+    .modal-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .modal-prev { left: -22px; top: 50%; transform: translateY(-50%); }
+    .modal-next { right: -22px; top: 50%; transform: translateY(-50%); }
+    .modal-close { top: -22px; right: -22px; }
+    @media (max-width: 760px) {
+      .modal-prev { left: 4px; }
+      .modal-next { right: 4px; }
+      .modal-close { top: 4px; right: 4px; }
     }
-
-    .image-modal video { background: var(--black); }
-
     .is-hidden { display: none !important; }
-
-    .image-modal-close {
-      position: absolute;
-      top: -14px;
-      right: -8px;
-      width: 34px;
-      height: 34px;
-      border: none;
-      background: var(--white);
-      color: var(--black);
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    @media (max-width: 600px) {
-      .image-modal { padding: var(--space-sm); }
-      .image-modal-content { max-height: 78vh; }
-      .image-modal img, .image-modal video { max-height: 78vh; }
-      .image-modal-close { top: -10px; right: 0; }
-      .image-modal-nav { width: 36px; height: 36px; }
-      .image-modal-prev { left: 0.25rem; }
-      .image-modal-next { right: 0.25rem; }
-    }
-
-    .card-media-placeholder {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.8125rem;
-      color: var(--gray-400);
-      text-align: center;
-      padding: var(--space-md);
-    }
   </style>
 </head>
 <body>
 
-  <header class="site-header" id="siteHeader">
+  <a class="skip-link" href="#work">Skip to work</a>
+
+  <!-- generative flow field — hand-coded canvas, see script at the bottom -->
+  <canvas id="field" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
+  <header class="site-header">
     <div class="container">
-      <div class="brand">
-        <span class="brand-name">Christian Lozano</span>
-        <span class="brand-role">Creative Technologist · Experiential Design</span>
+      <a class="brand-mark" href="#top" aria-label="Christian Lozano — home">CL<em>.</em></a>
+      <div class="header-meta">
+        <span class="clock mono" id="clock" aria-hidden="true">LA —:—</span>
+        <nav class="nav" aria-label="Main">
+          <a href="#work">Work</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </nav>
       </div>
-      <nav class="nav">
-        <a class="nav-link" href="#work">Work</a>
-        <a class="nav-link" href="#approach">Approach</a>
-        <a class="nav-link nav-link-primary" href="#contact">Contact</a>
-      </nav>
     </div>
   </header>
 
-  <section class="hero" id="hero">
-    <div class="hero-bg" id="heroBg">
-      <div class="hero-image active">
-        <img src="images/how-we-know-the-weather-1.jpeg" alt="Project showcase" loading="eager" fetchpriority="high" />
-      </div>
-      <div class="hero-image">
-        <img src="images/toyota-north-america.jpeg" alt="Project showcase" loading="lazy" />
-      </div>
-      <div class="hero-image">
-        <img src="images/how-we-know-the-weather-2.JPG" alt="Project showcase" loading="lazy" />
-      </div>
-      <div class="hero-image">
-        <img src="images/picture4.jpg" alt="Project showcase" loading="lazy" />
-      </div>
-      <div class="hero-image">
-        <img src="images/toyota-stx-projection-table.JPG" alt="Project showcase" loading="lazy" />
-      </div>
-      <div class="hero-overlay"></div>
-    </div>
+  <main id="top">
 
-    <div class="hero-content">
-      <h1 class="hero-headline">
-        <span class="hero-highlight">Interactive experiences</span> that hold up in the real world.
-      </h1>
-      <p class="hero-subhead">
-        Brand homes, museums, and immersive spaces — sold, designed, built, and shipped to run every day, unattended, for years.
+    <!-- ================= HERO ================= -->
+    <section class="hero container" aria-label="Introduction">
+      <p class="hero-eyebrow mono">
+        <span>Creative developer — physical places</span>
+        <span class="tick">/</span>
+        <span>Los Angeles → working globally</span>
       </p>
-      <div class="hero-proof">
-        <div class="hero-proof-item">Toyota Experience Centers</div>
-        <div class="hero-proof-item">U.S. Space & Rocket Center</div>
-        <div class="hero-proof-item">50+ live installations</div>
-      </div>
-    </div>
-
-    <div class="hero-scroll-hint">Scroll</div>
-  </section>
-
-  <section id="work" class="section">
-    <div class="container">
-      <header class="section-header">
-        <div class="section-label">Selected Work</div>
-        <h2 class="section-title">Built, shipped, still running.</h2>
-        <p class="section-intro">
-          Installations across museums and brand homes. Each one had a real technical problem worth solving — so here's the work, and what it actually took to ship it.
+      <h1 class="hero-name">
+        <span class="line"><span class="line-in">Christian</span></span>
+        <span class="line"><span class="line-in">Lozano<span class="accent">.</span></span></span>
+      </h1>
+      <div class="hero-foot">
+        <p class="hero-sub">
+          I build the interactive layer of <strong>museums and brand homes</strong> —
+          and engineer it to run every day, unattended, for years.
         </p>
-      </header>
-
-      <div class="card-grid">
-        <!-- Card 1: Weather -->
-        <article class="card"
-          data-project-title="How We Know the Weather"
-          data-project-meta="U.S. Space & Rocket Center · Huntsville, AL"
-          data-tools-title="Real-time, multi-screen weather exhibit"
-          data-tools-meta="Web tech · AV integration · live data"
-          data-topics-title="Climate literacy for families"
-          data-topics-meta="Weather systems · STEM learning · live data">
-          <a href="#" class="card-link">
-            <div class="card-media card-carousel" data-carousel>
-              <div class="carousel-images">
-                <img class="carousel-image active" src="images/how-we-know-the-weather-1.jpeg" alt="How We Know the Weather exhibit image 1" loading="lazy" />
-                <img class="carousel-image" src="images/how-we-know-the-weather-2.JPG" alt="How We Know the Weather exhibit image 2" loading="lazy" />
-                <img class="carousel-image" src="images/how-we-know-the-weather-3.JPG" alt="How We Know the Weather exhibit image 3" loading="lazy" />
-                <img class="carousel-image" src="images/how-we-know-the-weather-5.JPG" alt="How We Know the Weather exhibit image 4" loading="lazy" />
-              </div>
-              <button class="carousel-control prev" type="button" aria-label="Previous slide">&#8249;</button>
-              <button class="carousel-control next" type="button" aria-label="Next slide">&#8250;</button>
-              <div class="carousel-dots">
-                <button class="carousel-dot active" type="button" aria-label="Slide 1"></button>
-                <button class="carousel-dot" type="button" aria-label="Slide 2"></button>
-                <button class="carousel-dot" type="button" aria-label="Slide 3"></button>
-                <button class="carousel-dot" type="button" aria-label="Slide 4"></button>
-              </div>
-            </div>
-            <div class="card-body">
-              <h3 class="card-title">How We Know the Weather</h3>
-              <p class="card-meta">U.S. Space &amp; Rocket Center · Huntsville, AL · 800K visitors/yr</p>
-              <p class="card-hook">A 24-ft LED wall and live NOAA radar, driven across 50+ screens with hands-on games.</p>
-              <p class="card-note"><span class="card-note-label">What it took</span>The wall renders an HTML layout off a video processor that crashes if you feed it the wrong resolution. Every layout block got pinned to its exact pixel region, with fallbacks that let a dropped feed fail quietly instead of taking the whole wall down.</p>
-              <div class="card-tags">
-                <span class="tag tag-highlight">Museum</span>
-                <span class="tag">Multi-screen</span>
-                <span class="tag">Live Data</span>
-              </div>
-            </div>
-          </a>
-        </article>
-
-        <!-- Card 2: Toyota North America -->
-        <article class="card"
-          data-project-title="Toyota North America Exhibit"
-          data-project-meta="Toyota Experience Center · Plano, TX"
-          data-tools-title="Synchronized multi-app WebSocket system"
-          data-tools-meta="Custom JS · WebSockets · motion design"
-          data-topics-title="Mapping a continent-scale brand story"
-          data-topics-meta="Brand narrative · people & place">
-          <a href="#" class="card-link">
-            <div class="card-media">
-              <img src="images/toyota-north-america.jpeg" alt="Toyota North America exhibit" loading="lazy" />
-            </div>
-            <div class="card-body">
-              <h3 class="card-title">Toyota North America</h3>
-              <p class="card-meta">Toyota Experience Center · Plano, TX</p>
-              <p class="card-hook">Six synchronized apps and six video channels mapping a continent-scale brand story.</p>
-              <p class="card-note"><span class="card-note-label">What it took</span>Everything stays in lockstep over WebSockets, built end to end inside Toyota's design system. The most complex build in the Center, engineered to read as one simple story about people, places, and cars.</p>
-              <div class="card-tags">
-                <span class="tag tag-highlight">Brand Home</span>
-                <span class="tag">WebSockets</span>
-                <span class="tag">Interactive Map</span>
-              </div>
-            </div>
-          </a>
-        </article>
-
-        <!-- Card 3: Patents -->
-        <article class="card"
-          data-project-title="Patents Interactive"
-          data-project-meta="Toyota HQ · Multi-screen installation"
-          data-tools-title="Touchscreen controlling four patent walls"
-          data-tools-meta="HTML · JS · WebSockets"
-          data-topics-title="Making innovation feel human"
-          data-topics-meta="R&D · people behind patents">
-          <a href="#" class="card-link">
-            <div class="card-media">
-              <img src="images/toyota-patents.jpg" alt="Toyota patents interactive" loading="lazy" />
-            </div>
-            <div class="card-body">
-              <h3 class="card-title">Patents Interactive</h3>
-              <p class="card-meta">Toyota HQ · Multi-screen installation</p>
-              <p class="card-hook">One touchscreen driving a four-display wall of innovation.</p>
-              <p class="card-note"><span class="card-note-label">What it took</span>WebSockets sync the four displays to the touch interface; a second script fires UDP to the lighting controller so the room reacts as you swipe. Content pulled and cleared from Toyota's archives.</p>
-              <div class="card-tags">
-                <span class="tag tag-highlight">Innovation</span>
-                <span class="tag">Multi-screen</span>
-                <span class="tag">WebSockets</span>
-              </div>
-            </div>
-          </a>
-        </article>
-
-        <!-- Card 4: Projection Table -->
-        <article class="card"
-          data-project-title="San Antonio Projection Table"
-          data-project-meta="Toyota Texas · San Antonio, TX"
-          data-tools-title="Projection-mapped satellite table"
-          data-tools-meta="Projection mapping · satellite imagery"
-          data-topics-title="Showing a plant inside its community"
-          data-topics-meta="Place · community · infrastructure">
-          <a href="#" class="card-link">
-            <div class="card-media card-carousel" data-carousel>
-              <div class="carousel-images">
-                <img class="carousel-image active" src="images/satx-projection-table.jpg" alt="San Antonio projection table" loading="lazy" />
-                <img class="carousel-image" src="images/toyota-stx-projection-table.JPG" alt="San Antonio projection table" loading="lazy" />
-              </div>
-              <button class="carousel-control prev" type="button" aria-label="Previous slide">&#8249;</button>
-              <button class="carousel-control next" type="button" aria-label="Next slide">&#8250;</button>
-              <div class="carousel-dots">
-                <button class="carousel-dot active" type="button" aria-label="Slide 1"></button>
-                <button class="carousel-dot" type="button" aria-label="Slide 2"></button>
-              </div>
-            </div>
-            <div class="card-body">
-              <h3 class="card-title">San Antonio Projection Table</h3>
-              <p class="card-meta">Toyota Texas · San Antonio, TX</p>
-              <p class="card-hook">A projection-mapped table where the plant, roads, and neighborhoods light up.</p>
-              <p class="card-note"><span class="card-note-label">What it took</span>Hand-crafted animation aligned to real satellite imagery and the plant's actual footprint, calibrated to the physical table so the map lands exactly where the geography does.</p>
-              <div class="card-tags">
-                <span class="tag">Brand Home</span>
-                <span class="tag">Projection</span>
-                <span class="tag">Mapping</span>
-              </div>
-            </div>
-          </a>
-        </article>
-
-        <!-- Card 5: LEED Kiosk -->
-        <article class="card"
-          data-project-title="LEED Platinum Kiosk"
-          data-project-meta="Toyota Mississippi · Sustainability exhibit"
-          data-tools-title="Interactive LEED story kiosk"
-          data-tools-meta="UX design · web dev"
-          data-topics-title="Sustainability in human language"
-          data-topics-meta="Energy · building performance">
-          <a href="#" class="card-link">
-            <div class="card-media card-carousel" data-carousel>
-              <div class="carousel-images">
-                <img class="carousel-image active" src="images/leed-kiosk.png" alt="LEED sustainability kiosk" loading="lazy" />
-                <video class="carousel-image" muted loop playsinline preload="none" aria-label="LEED kiosk video">
-                  <source src="images/LEEDweb.mp4" type="video/mp4" />
-                </video>
-              </div>
-              <button class="carousel-control prev" type="button" aria-label="Previous slide">&#8249;</button>
-              <button class="carousel-control next" type="button" aria-label="Next slide">&#8250;</button>
-              <div class="carousel-dots">
-                <button class="carousel-dot active" type="button" aria-label="Slide 1"></button>
-                <button class="carousel-dot" type="button" aria-label="Slide 2"></button>
-              </div>
-            </div>
-            <div class="card-body">
-              <h3 class="card-title">LEED Platinum Kiosk</h3>
-              <p class="card-meta">Toyota Mississippi · Sustainability exhibit</p>
-              <p class="card-hook">A LEED Platinum certification told as a touchscreen story instead of a plaque.</p>
-              <p class="card-note"><span class="card-note-label">What it took</span>Plain-language sustainability built to ADA touch-reach ranges, with an attract loop that resets after inactivity to pull the next guest in.</p>
-              <div class="card-tags">
-                <span class="tag">Sustainability</span>
-                <span class="tag">Interactive</span>
-                <span class="tag">Brand Home</span>
-              </div>
-            </div>
-          </a>
-        </article>
-
-        <!-- Card 6: Solar Game -->
-        <article class="card"
-          data-project-title="Solar Game"
-          data-project-meta="Outdoor Adventure Center · Detroit, MI"
-          data-tools-title="Hands-on solar game for kids"
-          data-tools-meta="Game design · illustration · web"
-          data-topics-title="Playing with solar energy"
-          data-topics-meta="Climate · energy · play">
-          <a href="#" class="card-link">
-            <div class="card-media card-carousel" data-carousel>
-              <div class="carousel-images">
-                <img class="carousel-image active" src="images/oac-solar-game.jpg" alt="Solar game" loading="lazy" />
-                <video class="carousel-image" muted loop playsinline preload="none" aria-label="Solar game video">
-                  <source src="images/Solarweb.mp4" type="video/mp4" />
-                </video>
-              </div>
-              <button class="carousel-control prev" type="button" aria-label="Previous slide">&#8249;</button>
-              <button class="carousel-control next" type="button" aria-label="Next slide">&#8250;</button>
-              <div class="carousel-dots">
-                <button class="carousel-dot active" type="button" aria-label="Slide 1"></button>
-                <button class="carousel-dot" type="button" aria-label="Slide 2"></button>
-              </div>
-            </div>
-            <div class="card-body">
-              <h3 class="card-title">Solar Game</h3>
-              <p class="card-meta">Outdoor Adventure Center · Detroit, MI</p>
-              <p class="card-hook">Drag solar panels across a cartoon Detroit skyline, chase the sun, dodge clouds.</p>
-              <p class="card-note"><span class="card-note-label">What it took</span>Real solar concepts, wrapped in a fast, kid-height game with short cycles so the station never bottlenecks during a school group.</p>
-              <div class="card-tags">
-                <span class="tag">Game</span>
-                <span class="tag">STEM</span>
-                <span class="tag">Illustration</span>
-              </div>
-            </div>
-          </a>
-        </article>
-
-        <!-- Card 7: Recycling Game -->
-        <article class="card"
-          data-project-title="Recycling Game"
-          data-project-meta="Outdoor Adventure Center · Detroit, MI"
-          data-tools-title="Local rules recycling game"
-          data-tools-meta="Game design · policy mapping"
-          data-topics-title="Teaching real Detroit recycling rules"
-          data-topics-meta="Behavior change · civic systems">
-          <a href="#" class="card-link">
-            <div class="card-media card-carousel" data-carousel>
-              <div class="carousel-images">
-                <img class="carousel-image active" src="images/oac-recycling-game.png" alt="Recycling game" loading="lazy" />
-                <video class="carousel-image" muted loop playsinline preload="none" aria-label="Recycling game video">
-                  <source src="images/recyclingweb.mp4" type="video/mp4" />
-                </video>
-              </div>
-              <button class="carousel-control prev" type="button" aria-label="Previous slide">&#8249;</button>
-              <button class="carousel-control next" type="button" aria-label="Next slide">&#8250;</button>
-              <div class="carousel-dots">
-                <button class="carousel-dot active" type="button" aria-label="Slide 1"></button>
-                <button class="carousel-dot" type="button" aria-label="Slide 2"></button>
-              </div>
-            </div>
-            <div class="card-body">
-              <h3 class="card-title">Recycling Game</h3>
-              <p class="card-meta">Outdoor Adventure Center · Detroit, MI</p>
-              <p class="card-hook">Banana peel, pizza box, bottle — where does it go?</p>
-              <p class="card-note"><span class="card-note-label">What it took</span>Localized to Detroit's actual bin rules, so what a kid learns on the floor is still true when they get home.</p>
-              <div class="card-tags">
-                <span class="tag">Game</span>
-                <span class="tag">Civic</span>
-                <span class="tag">Behavior</span>
-              </div>
-            </div>
-          </a>
-        </article>
-
-        <!-- Card 8: OAC Registry -->
-        <article class="card"
-          data-project-title="Outdoor Adventure Center Registry"
-          data-project-meta="Outdoor Adventure Center · Detroit, MI"
-          data-tools-title="Guest registry and submission workflow"
-          data-tools-meta="Interactive map · drawing tools · PM integration"
-          data-topics-title="Turning visitor input into museum insight"
-          data-topics-meta="Participation · storytelling · operations">
-          <a href="#" class="card-link">
-            <div class="card-media card-carousel" data-carousel>
-              <div class="carousel-images">
-                <img class="carousel-image active" src="images/OAC-Registry-1.jpg" alt="OAC registry experience" loading="lazy" />
-                <img class="carousel-image" src="images/OAC-Registry-2.jpg" alt="OAC registry submissions" loading="lazy" />
-              </div>
-              <button class="carousel-control prev" type="button" aria-label="Previous slide">&#8249;</button>
-              <button class="carousel-control next" type="button" aria-label="Next slide">&#8250;</button>
-              <div class="carousel-dots">
-                <button class="carousel-dot active" type="button" aria-label="Slide 1"></button>
-                <button class="carousel-dot" type="button" aria-label="Slide 2"></button>
-              </div>
-            </div>
-            <div class="card-body">
-              <h3 class="card-title">Visitor Registry</h3>
-              <p class="card-meta">Outdoor Adventure Center · Detroit, MI</p>
-              <p class="card-hook">Guests drop a pin for where they're from; kids draw and submit their stories.</p>
-              <p class="card-note"><span class="card-note-label">What it took</span>Offline-first so it never stalls without a network, with a drawing canvas and an admin panel that routes every submission straight into the museum team's project-management flow.</p>
-              <div class="card-tags">
-                <span class="tag">Community</span>
-                <span class="tag">Interactive</span>
-                <span class="tag">Workflow</span>
-              </div>
-            </div>
-          </a>
-        </article>
-
-        <!-- Card 9: Night Sky -->
-        <article class="card"
-          data-project-title="Night Sky Exhibit"
-          data-project-meta="Outdoor Adventure Center · Detroit, MI"
-          data-tools-title="Large-format constellation wall"
-          data-tools-meta="Illustration · animation · print"
-          data-topics-title="Looking up together, across cultures"
-          data-topics-meta="Astronomy · multiple sky stories">
-          <a href="#" class="card-link">
-            <div class="card-media">
-              <img src="images/night-sky-exhibit.jpg" alt="Night sky exhibit" loading="lazy" />
-            </div>
-            <div class="card-body">
-              <h3 class="card-title">Night Sky</h3>
-              <p class="card-meta">Outdoor Adventure Center · Detroit, MI</p>
-              <p class="card-hook">Constellations trace themselves in, layered with stories from different traditions.</p>
-              <p class="card-note"><span class="card-note-label">What it took</span>Fact-checked across multiple cultural sky traditions and the astronomy, large-format print paired with quiet animation to encourage people to go outside and look at the sky. The narration was written to feel grounded and human, creating a quiet sense of wonder.</p>
-              <div class="card-tags">
-                <span class="tag">Print</span>
-                <span class="tag">Illustration</span>
-                <span class="tag">Story</span>
-              </div>
-            </div>
-          </a>
-        </article>
-
-        <!-- Card 10: Commercials Tower -->
-        <article class="card"
-          data-project-title="Commercials Tower"
-          data-project-meta="Toyota Experience Center · 65&quot; touchscreen"
-          data-tools-title="Archive-to-experience media browser"
-          data-tools-meta="Content curation · UX · video"
-          data-topics-title="Decades of brand storytelling"
-          data-topics-meta="Archive · messaging · culture">
-          <a href="#" class="card-link">
-            <div class="card-media">
-              <img src="images/commercials-tower.jpg" alt="Commercials tower" loading="lazy" />
-            </div>
-            <div class="card-body">
-              <h3 class="card-title">Commercials Tower</h3>
-              <p class="card-meta">Toyota Experience Center · 65&quot; touchscreen</p>
-              <p class="card-hook">Decades of Toyota commercials, browsable on a 65-inch portrait touchscreen.</p>
-              <p class="card-note"><span class="card-note-label">What it took</span>  Curated with Toyota’s brand and archival teams to clear and sequence each era into one timeline a visitor could scroll through. Written and shaped to make each era feel close, human, and emotionally true to Toyota, funny, nostalgic, heartfelt.</p>
-              <div class="card-tags">
-                <span class="tag">Brand History</span>
-                <span class="tag">Interactive</span>
-                <span class="tag">Video</span>
-              </div>
-            </div>
-          </a>
-        </article>
-
-        <!-- Card 11: Interactive Map -->
-        <article class="card"
-          data-project-title="Interactive Map"
-          data-project-meta="Outdoor Adventure Center · ArcGIS"
-          data-tools-title="Tap-to-explore ArcGIS map"
-          data-tools-meta="ArcGIS · content curation"
-          data-topics-title="Connecting visitors to real places"
-          data-topics-meta="Place · recreation · wayfinding">
-          <a href="#" class="card-link">
-            <div class="card-media">
-              <img src="images/oac-map.jpg" alt="Interactive map" loading="lazy" />
-            </div>
-            <div class="card-body">
-              <h3 class="card-title">Interactive Map</h3>
-              <p class="card-meta">Outdoor Adventure Center · Detroit, MI</p>
-              <p class="card-hook">Families tap into Michigan's outdoor destinations and see what they can do there.</p>
-              <p class="card-note"><span class="card-note-label">What it took</span>Built in ArcGIS Experience Builder so the museum can add places and update content over time.</p>
-              <div class="card-tags">
-                <span class="tag">Map</span>
-                <span class="tag">ArcGIS</span>
-                <span class="tag">ESRI</span>
-              </div>
-            </div>
-          </a>
-        </article>
-
-        <!-- Card 12: Environmental Dashboards -->
-        <article class="card"
-          data-project-title="Environmental Dashboards"
-          data-project-meta="Toyota HQ · Ambient data displays"
-          data-tools-title="Ambient environmental data displays"
-          data-tools-meta="API integration · ambient UX"
-          data-topics-title="Live data as architecture"
-          data-topics-meta="Environment · calm technology">
-          <a href="#" class="card-link">
-            <div class="card-media">
-              <img src="images/vestaboard-environmental.jpg" alt="Environmental dashboards" loading="lazy" />
-            </div>
-            <div class="card-body">
-              <h3 class="card-title">Environmental Dashboards</h3>
-              <p class="card-meta">Toyota HQ · Ambient data displays</p>
-              <p class="card-hook">Environmental data rendered as ambient information, using Vestaboards</p>
-              <p class="card-note"><span class="card-note-label">What it took</span>API-fed Vestaboards and displays designed as soothing technology, turning environmental initiatives into calm, visible moments people could easily take in.</p>
-              <div class="card-tags">
-                <span class="tag">Data</span>
-                <span class="tag">Ambient</span>
-                <span class="tag">Architecture</span>
-              </div>
-            </div>
-          </a>
-        </article>
-
-        <!-- Card 13: CALTY eReader -->
-        <article class="card"
-          data-project-title="CALTY eReader"
-          data-project-meta="Toyota CALTY Design Research"
-          data-tools-title="On-site digital reader"
-          data-tools-meta="Software dev · implementation"
-          data-topics-title="Giving design stories a quiet home"
-          data-topics-meta="Knowledge · internal storytelling">
-          <a href="#" class="card-link">
-            <div class="card-media">
-              <img src="images/calty-ereader.jpg" alt="CALTY eReader" loading="lazy" />
-            </div>
-            <div class="card-body">
-              <h3 class="card-title">CALTY eReader</h3>
-              <p class="card-meta">Toyota CALTY Design Research · Newport Beach, CA</p>
-              <p class="card-hook">A digital reader to showcase the story of Toyota's California design studio.</p>
-              <p class="card-note"><span class="card-note-label">What it took</span>Locally hosted so the exhibit could run without internet, with a display chosen to echo the size and feel of the CALTY book when opened.</p>
-              <div class="card-tags">
-                <span class="tag">Design</span>
-                <span class="tag">Software</span>
-                <span class="tag">Story</span>
-              </div>
-            </div>
-          </a>
-        </article>
-
-        <!-- Card 14: Editorial Work -->
-        <article class="card"
-          data-project-title="Editorial & Print Design"
-          data-project-meta="Printed publications · illustrated maps"
-          data-tools-title="Publication design and production"
-          data-tools-meta="Print layout · illustration · prepress"
-          data-topics-title="Print storytelling across formats"
-          data-topics-meta="Books · maps · business cards">
-          <a href="#" class="card-link">
-            <div class="card-media card-carousel" data-carousel>
-              <div class="carousel-images">
-                <img class="carousel-image active" src="images/EDITORIAL-1.JPG" alt="Editorial design sample 1" loading="lazy" />
-                <img class="carousel-image" src="images/EDITORIAL-2.JPG" alt="Editorial design sample 2" loading="lazy" />
-                <img class="carousel-image" src="images/EDITORIAL-3.JPG" alt="Editorial design sample 3" loading="lazy" />
-                <img class="carousel-image" src="images/EDITORIAL-4.JPG" alt="Editorial design sample 4" loading="lazy" />
-                <img class="carousel-image" src="images/EDITORIAL-5.JPG" alt="Editorial design sample 5" loading="lazy" />
-                <img class="carousel-image" src="images/EDITORIAL-6.JPG" alt="Editorial design sample 6" loading="lazy" />
-              </div>
-              <button class="carousel-control prev" type="button" aria-label="Previous image">&#8249;</button>
-              <button class="carousel-control next" type="button" aria-label="Next image">&#8250;</button>
-              <div class="carousel-dots">
-                <button class="carousel-dot active" type="button" aria-label="Image 1"></button>
-                <button class="carousel-dot" type="button" aria-label="Image 2"></button>
-                <button class="carousel-dot" type="button" aria-label="Image 3"></button>
-                <button class="carousel-dot" type="button" aria-label="Image 4"></button>
-                <button class="carousel-dot" type="button" aria-label="Image 5"></button>
-                <button class="carousel-dot" type="button" aria-label="Image 6"></button>
-              </div>
-            </div>
-            <div class="card-body">
-              <h3 class="card-title">Editorial &amp; Print</h3>
-              <p class="card-meta">Publications · illustrated maps · big-format</p>
-              <p class="card-hook">Publications, illustrated maps, large-format printing, and identity.</p>
-              <p class="card-note"><span class="card-note-label">What it took</span>Print-ready prepress and original illustration for when the experience lives on paper, not a screen.</p>
-              <div class="card-tags">
-                <span class="tag tag-highlight">Print</span>
-                <span class="tag">Editorial</span>
-                <span class="tag">Illustration</span>
-              </div>
-            </div>
-          </a>
-        </article>
-
-        <!-- Card 15: Interactive Kiosks -->
-        <article class="card"
-          data-project-title="And much more"
-          data-project-meta="Interactive kiosks across exhibits"
-          data-tools-title="Touchscreen kiosks and wayfinding"
-          data-tools-meta="UX design · prototyping · content"
-          data-topics-title="Interactive kiosks that invite play"
-          data-topics-meta="Touch · wayfinding · learning">
-          <a href="#" class="card-link">
-            <div class="card-media card-carousel" data-carousel>
-              <div class="carousel-images">
-                <img class="carousel-image active" src="images/interactive-kiosk-1.JPG" alt="Interactive kiosk sample 1" loading="lazy" />
-                <img class="carousel-image" src="images/interactive-kiosk-2.jpg" alt="Interactive kiosk sample 2" loading="lazy" />
-                <img class="carousel-image" src="images/interactive-kiosk-3.JPG" alt="Interactive kiosk sample 3" loading="lazy" />
-                <img class="carousel-image" src="images/satx-toyota-community-wall.jpg" alt="Toyota Community Wall installation" loading="lazy" />
-              </div>
-              <button class="carousel-control prev" type="button" aria-label="Previous image">&#8249;</button>
-              <button class="carousel-control next" type="button" aria-label="Next image">&#8250;</button>
-              <div class="carousel-dots">
-                <button class="carousel-dot active" type="button" aria-label="Image 1"></button>
-                <button class="carousel-dot" type="button" aria-label="Image 2"></button>
-                <button class="carousel-dot" type="button" aria-label="Image 3"></button>
-                <button class="carousel-dot" type="button" aria-label="Image 4"></button>
-              </div>
-            </div>
-            <div class="card-body">
-              <h3 class="card-title">Kiosks &amp; Wayfinding</h3>
-              <p class="card-meta">Across brand homes &amp; museums</p>
-              <p class="card-hook">Touchscreen kiosks, wayfinding, and community walls across brand homes and museums.</p>
-              <p class="card-note"><span class="card-note-label">What it took</span>Built to run unattended for years and designed for every age and comfort level.</p>
-              <div class="card-tags">
-                <span class="tag tag-highlight">Interactive</span>
-                <span class="tag">Kiosk</span>
-                <span class="tag">Touch</span>
-              </div>
-            </div>
-          </a>
-        </article>
+        <div class="hero-proof mono">
+          <span>Toyota Experience Centers</span>
+          <span>U.S. Space &amp; Rocket Center</span>
+          <span>50+ live installations</span>
+        </div>
       </div>
-    </div>
-  </section>
+      <span class="scroll-cue mono" aria-hidden="true">Scroll</span>
+    </section>
 
-  <section id="approach" class="section">
-    <div class="container">
-      <header class="section-header">
-        <div class="section-label">Approach</div>
-        <h2 class="section-title">Make technology worth its place</h2>
-      </header>
-
-      <div class="philosophy">
-        <div class="philosophy-content">
-          <p>
-            Technology isn’t the question anymore, value is. I design public experiences that pull people in, reward curiosity, and survive contact with thousands of visitors a year.
-          </p>
-          <p>
-            Story and place first, then the systems: ADA-compliant, multilingual, offline-first, remotely monitored, built to run unattended. I sell it, design it, build it, and I’m there on opening day.
-          </p>
+    <!-- ================= MARQUEE ================= -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <div class="marquee-chunk mono">
+          <span>Unreal Engine</span><i>/</i>
+          <span>WebSockets</span><i>/</i>
+          <span>Projection mapping</span><i>/</i>
+          <span>LED processors</span><i>/</i>
+          <span>UDP lighting control</span><i>/</i>
+          <span>Custom sensors</span><i>/</i>
+          <span>ArcGIS</span><i>/</i>
+          <span>Offline-first</span><i>/</i>
+          <span>ADA by default</span><i>/</i>
+          <span>Live NOAA data</span><i>/</i>
+        </div>
+        <div class="marquee-chunk mono">
+          <span>Unreal Engine</span><i>/</i>
+          <span>WebSockets</span><i>/</i>
+          <span>Projection mapping</span><i>/</i>
+          <span>LED processors</span><i>/</i>
+          <span>UDP lighting control</span><i>/</i>
+          <span>Custom sensors</span><i>/</i>
+          <span>ArcGIS</span><i>/</i>
+          <span>Offline-first</span><i>/</i>
+          <span>ADA by default</span><i>/</i>
+          <span>Live NOAA data</span><i>/</i>
         </div>
       </div>
     </div>
-  </section>
 
-  <section id="contact" class="section">
-    <div class="container">
-      <header class="section-header">
-        <div class="section-label">Let's Work Together</div>
-        <h2 class="section-title">Design your next experience</h2>
-        <p class="section-intro">
-          Shaping a brand home, rethinking a gallery, or scoping a new interactive? I connect <strong>story, space, and systems</strong> — and make sure it still works a year after launch.
-        </p>
-      </header>
+    <!-- ================= FEATURED WORK ================= -->
+    <section id="work" class="section">
+      <div class="container">
+        <header class="section-head reveal">
+          <h2 class="section-title">Flagship<br />builds</h2>
+          <p class="section-label mono">01 / Selected work</p>
+        </header>
 
-      <div class="contact-card">
-        <h3>Ready to start?</h3>
-        <p>Send a short note about your project, timeline, and what success looks like.</p>
-        <a class="contact-email" href="mailto:christian@chexperiences.com">
+        <!-- F1 — Ship's Bridge Simulator -->
+        <article class="feature" data-gallery>
+          <div class="feature-media reveal-clip reveal">
+            <div class="frame">
+              <img class="zoomable" src="images/web/ships.png" alt="Fabrication draft of the Ship's Bridge Simulator: three wrapped screens as bridge windows above a console with wheel and throttle" width="974" height="524" fetchpriority="high" decoding="async" />
+            </div>
+            <p class="frame-caption mono">
+              <span class="blink">Fig. 00 — Fabrication draft</span>
+              <span>OAC · Detroit, MI</span>
+            </p>
+          </div>
+          <div class="feature-copy reveal">
+            <span class="feature-num" aria-hidden="true">01</span>
+            <span class="status-chip">Opening 2026</span>
+            <p class="feature-kicker mono">Outdoor Adventure Center · Detroit, MI</p>
+            <h3 class="feature-title">Ship's Bridge Simulator</h3>
+            <p class="feature-desc">
+              Take the helm. Three screens wrap the bridge as its windows; a physical
+              wheel and throttle run through <strong>custom sensors</strong> into the latest
+              distribution of <strong>Unreal Engine</strong>. Visitors pilot a real vessel
+              through open water — wind, wake, and momentum included — on a museum floor.
+            </p>
+            <div class="field-note">
+              <span class="field-note-label mono">Field note</span>
+              <p>The hard part isn't the water shader — it's hardware that survives ten
+              thousand hands. Sensor input is filtered and remapped in-engine, so a kid
+              slamming the throttle reads as intent, not noise.</p>
+            </div>
+            <p class="stack-line mono">Unreal Engine <i>·</i> 3-screen bridge <i>·</i> sensor wheel + throttle <i>·</i> real-time water sim</p>
+          </div>
+        </article>
+
+        <!-- F2 — How We Know the Weather -->
+        <article class="feature flip" data-gallery>
+          <div class="feature-media reveal-clip reveal">
+            <div class="frame parallax">
+              <img class="zoomable" src="images/web/how-we-know-the-weather-1.jpeg" alt="How We Know the Weather exhibit — 24-foot LED wall with live radar at the U.S. Space &amp; Rocket Center" width="1800" height="1200" loading="lazy" decoding="async" />
+            </div>
+            <div class="thumb-strip">
+              <img class="zoomable" src="images/web/how-we-know-the-weather-2.JPG" alt="Weather exhibit interactive stations" width="1800" height="1350" loading="lazy" decoding="async" />
+              <img class="zoomable" src="images/web/how-we-know-the-weather-3.JPG" alt="Weather exhibit hands-on games" width="1800" height="1350" loading="lazy" decoding="async" />
+              <img class="zoomable" src="images/web/how-we-know-the-weather-5.JPG" alt="Weather exhibit display detail" width="1800" height="1200" loading="lazy" decoding="async" />
+              <img class="zoomable" src="images/web/picture4.jpg" alt="Opening night crowd on the exhibit floor" width="1800" height="1200" loading="lazy" decoding="async" />
+            </div>
+            <p class="frame-caption mono">
+              <span>Fig. 01 — Live since 2024</span>
+              <span>800K visitors / yr</span>
+            </p>
+          </div>
+          <div class="feature-copy reveal">
+            <span class="feature-num" aria-hidden="true">02</span>
+            <p class="feature-kicker mono">U.S. Space &amp; Rocket Center · Huntsville, AL</p>
+            <h3 class="feature-title">How We Know the Weather</h3>
+            <p class="feature-desc">
+              A <strong>24-foot LED wall</strong> streaming live NOAA radar, driven across
+              <strong>50+ screens</strong> with hands-on games — climate literacy for
+              families at one of the country's busiest science centers.
+            </p>
+            <div class="field-note">
+              <span class="field-note-label mono">Field note</span>
+              <p>The wall renders an HTML layout off a video processor that crashes if you
+              feed it the wrong resolution. Every block is pinned to its exact pixel region,
+              with fallbacks that let a dropped feed fail quietly instead of taking the
+              whole wall down.</p>
+            </div>
+            <p class="stack-line mono">24-ft LED wall <i>·</i> 50+ screens <i>·</i> live NOAA radar <i>·</i> pixel-mapped HTML</p>
+          </div>
+        </article>
+
+        <!-- F3 — Toyota North America -->
+        <article class="feature" data-gallery>
+          <div class="feature-media reveal-clip reveal">
+            <div class="frame parallax">
+              <img class="zoomable" src="images/web/toyota-north-america.jpeg" alt="Toyota North America exhibit — synchronized interactive map installation in Plano, Texas" width="1800" height="1308" loading="lazy" decoding="async" />
+            </div>
+            <p class="frame-caption mono">
+              <span>Fig. 02 — Continent-scale story</span>
+              <span>Plano, TX</span>
+            </p>
+          </div>
+          <div class="feature-copy reveal">
+            <span class="feature-num" aria-hidden="true">03</span>
+            <p class="feature-kicker mono">Toyota Experience Center · Plano, TX</p>
+            <h3 class="feature-title">Toyota North America</h3>
+            <p class="feature-desc">
+              <strong>Six synchronized apps</strong> and six video channels mapping a
+              continent-scale brand story — the most complex build in the Center,
+              engineered to read as one simple story about people, places, and cars.
+            </p>
+            <div class="field-note">
+              <span class="field-note-label mono">Field note</span>
+              <p>Everything stays in lockstep over WebSockets, built end to end inside
+              Toyota's design system. Complexity is the budget; simplicity is the product.</p>
+            </div>
+            <p class="stack-line mono">6 synced apps <i>·</i> WebSockets <i>·</i> 6 video channels <i>·</i> Toyota design system</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================= INDEX OF WORK ================= -->
+    <section class="section" aria-label="Index of work">
+      <div class="container">
+        <header class="section-head reveal">
+          <h2 class="section-title">Index<br />of work</h2>
+          <p class="section-label mono">02 / 2019 → now</p>
+        </header>
+
+        <ul class="index-list">
+
+          <li class="index-row" data-gallery>
+            <button class="row-head" aria-expanded="false">
+              <span class="row-num mono">04</span>
+              <span class="row-title">Patents Interactive<small>Toyota HQ · Plano, TX</small></span>
+              <span class="row-stack mono">WebSockets · UDP lighting · 4-screen</span>
+              <span class="row-x" aria-hidden="true"></span>
+            </button>
+            <div class="row-panel">
+              <div class="row-panel-in">
+                <div class="row-panel-grid">
+                  <div class="row-note">
+                    <span class="field-note-label mono">Field note</span>
+                    One touchscreen drives a four-display wall of innovation; a side script
+                    fires UDP at the lighting controller so the room itself reacts as you
+                    swipe. Content pulled and cleared from Toyota's archives.
+                  </div>
+                  <div class="media-strip">
+                    <img class="zoomable" src="images/web/toyota-patents.jpg" alt="Patents Interactive touchscreen and display wall" width="1800" height="1350" loading="lazy" decoding="async" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li class="index-row" data-gallery>
+            <button class="row-head" aria-expanded="false">
+              <span class="row-num mono">05</span>
+              <span class="row-title">San Antonio Projection Table<small>Toyota Texas · San Antonio, TX</small></span>
+              <span class="row-stack mono">Projection mapping · satellite imagery</span>
+              <span class="row-x" aria-hidden="true"></span>
+            </button>
+            <div class="row-panel">
+              <div class="row-panel-in">
+                <div class="row-panel-grid">
+                  <div class="row-note">
+                    <span class="field-note-label mono">Field note</span>
+                    Hand-crafted animation aligned to real satellite imagery and the plant's
+                    actual footprint, calibrated to the physical table so the map lands
+                    exactly where the geography does.
+                  </div>
+                  <div class="media-strip">
+                    <img class="zoomable" src="images/web/satx-projection-table.JPG" alt="San Antonio projection-mapped table" width="1800" height="1350" loading="lazy" decoding="async" />
+                    <img class="zoomable" src="images/web/toyota-stx-projection-table.JPG" alt="Projection table detail with plant footprint" width="1800" height="1350" loading="lazy" decoding="async" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li class="index-row" data-gallery>
+            <button class="row-head" aria-expanded="false">
+              <span class="row-num mono">06</span>
+              <span class="row-title">LEED Platinum Kiosk<small>Toyota Mississippi</small></span>
+              <span class="row-stack mono">UX · ADA reach ranges · attract loop</span>
+              <span class="row-x" aria-hidden="true"></span>
+            </button>
+            <div class="row-panel">
+              <div class="row-panel-in">
+                <div class="row-panel-grid">
+                  <div class="row-note">
+                    <span class="field-note-label mono">Field note</span>
+                    A LEED Platinum certification told as a touchscreen story instead of a
+                    plaque — plain language, ADA touch-reach ranges, and an attract loop
+                    that resets after inactivity to pull the next guest in.
+                  </div>
+                  <div class="media-strip">
+                    <img class="zoomable" src="images/web/leed-kiosk.png" alt="LEED Platinum sustainability kiosk interface" width="1350" height="1800" loading="lazy" decoding="async" />
+                    <video class="zoomable" muted loop playsinline preload="none" poster="images/web/LEEDweb-poster.jpg" src="images/LEEDweb.mp4" aria-label="LEED kiosk screen recording" width="1280" height="718"></video>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li class="index-row" data-gallery>
+            <button class="row-head" aria-expanded="false">
+              <span class="row-num mono">07</span>
+              <span class="row-title">Solar Game<small>Outdoor Adventure Center · Detroit, MI</small></span>
+              <span class="row-stack mono">Game design · illustration · touch</span>
+              <span class="row-x" aria-hidden="true"></span>
+            </button>
+            <div class="row-panel">
+              <div class="row-panel-in">
+                <div class="row-panel-grid">
+                  <div class="row-note">
+                    <span class="field-note-label mono">Field note</span>
+                    Drag solar panels across a cartoon Detroit skyline, chase the sun, dodge
+                    clouds. Real solar concepts in a kid-height game with short cycles, so
+                    the station never bottlenecks during a school group.
+                  </div>
+                  <div class="media-strip">
+                    <img class="zoomable" src="images/web/oac-solar-game.jpg" alt="Solar game installation" width="1800" height="1350" loading="lazy" decoding="async" />
+                    <video class="zoomable" muted loop playsinline preload="none" poster="images/web/Solarweb-poster.jpg" src="images/Solarweb.mp4" aria-label="Solar game screen recording" width="1280" height="718"></video>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li class="index-row" data-gallery>
+            <button class="row-head" aria-expanded="false">
+              <span class="row-num mono">08</span>
+              <span class="row-title">Recycling Game<small>Outdoor Adventure Center · Detroit, MI</small></span>
+              <span class="row-stack mono">Game design · civic data</span>
+              <span class="row-x" aria-hidden="true"></span>
+            </button>
+            <div class="row-panel">
+              <div class="row-panel-in">
+                <div class="row-panel-grid">
+                  <div class="row-note">
+                    <span class="field-note-label mono">Field note</span>
+                    Banana peel, pizza box, bottle — where does it go? Localized to
+                    Detroit's actual bin rules, so what a kid learns on the floor is still
+                    true when they get home.
+                  </div>
+                  <div class="media-strip">
+                    <img class="zoomable" src="images/web/oac-recycling-game.jpg" alt="Recycling game interface" width="1800" height="1350" loading="lazy" decoding="async" />
+                    <img class="zoomable" src="images/web/oac-recycling-game-3.jpg" alt="Recycling game installation on the museum floor" width="1800" height="1349" loading="lazy" decoding="async" />
+                    <video class="zoomable" muted loop playsinline preload="none" poster="images/web/recyclingweb-poster.jpg" src="images/recyclingweb.mp4" aria-label="Recycling game screen recording" width="1280" height="718"></video>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li class="index-row" data-gallery>
+            <button class="row-head" aria-expanded="false">
+              <span class="row-num mono">09</span>
+              <span class="row-title">Visitor Registry<small>Outdoor Adventure Center · Detroit, MI</small></span>
+              <span class="row-stack mono">Offline-first · canvas · admin panel</span>
+              <span class="row-x" aria-hidden="true"></span>
+            </button>
+            <div class="row-panel">
+              <div class="row-panel-in">
+                <div class="row-panel-grid">
+                  <div class="row-note">
+                    <span class="field-note-label mono">Field note</span>
+                    Guests pin where they're from; kids draw and submit their stories.
+                    Offline-first so it never stalls without a network, with an admin panel
+                    that routes every submission into the museum team's project flow.
+                  </div>
+                  <div class="media-strip">
+                    <img class="zoomable" src="images/web/OAC-Registry-1.jpg" alt="Visitor registry pin map" width="1350" height="1800" loading="lazy" decoding="async" />
+                    <img class="zoomable" src="images/web/OAC-Registry-2.jpg" alt="Visitor registry drawing submissions" width="1007" height="1800" loading="lazy" decoding="async" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li class="index-row" data-gallery>
+            <button class="row-head" aria-expanded="false">
+              <span class="row-num mono">10</span>
+              <span class="row-title">Night Sky<small>Outdoor Adventure Center · Detroit, MI</small></span>
+              <span class="row-stack mono">Illustration · animation · large-format print</span>
+              <span class="row-x" aria-hidden="true"></span>
+            </button>
+            <div class="row-panel">
+              <div class="row-panel-in">
+                <div class="row-panel-grid">
+                  <div class="row-note">
+                    <span class="field-note-label mono">Field note</span>
+                    Constellations trace themselves in, layered with sky stories from
+                    multiple cultural traditions — fact-checked against the traditions and
+                    the astronomy, written to send people outside to look up.
+                  </div>
+                  <div class="media-strip">
+                    <img class="zoomable" src="images/web/night-sky-exhibit.jpg" alt="Night Sky constellation wall" width="1350" height="1800" loading="lazy" decoding="async" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li class="index-row" data-gallery>
+            <button class="row-head" aria-expanded="false">
+              <span class="row-num mono">11</span>
+              <span class="row-title">Commercials Tower<small>Toyota Experience Center · Plano, TX</small></span>
+              <span class="row-stack mono">Curation · 65″ portrait touch</span>
+              <span class="row-x" aria-hidden="true"></span>
+            </button>
+            <div class="row-panel">
+              <div class="row-panel-in">
+                <div class="row-panel-grid">
+                  <div class="row-note">
+                    <span class="field-note-label mono">Field note</span>
+                    Decades of Toyota commercials on a 65-inch portrait touchscreen —
+                    cleared and sequenced with brand and archival teams into one scrollable
+                    timeline. Funny, nostalgic, heartfelt, era by era.
+                  </div>
+                  <div class="media-strip">
+                    <img class="zoomable" src="images/web/commercials-tower.jpg" alt="Commercials Tower portrait touchscreen" width="1013" height="1800" loading="lazy" decoding="async" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li class="index-row" data-gallery>
+            <button class="row-head" aria-expanded="false">
+              <span class="row-num mono">12</span>
+              <span class="row-title">Interactive Map<small>Outdoor Adventure Center · Detroit, MI</small></span>
+              <span class="row-stack mono">ArcGIS Experience Builder</span>
+              <span class="row-x" aria-hidden="true"></span>
+            </button>
+            <div class="row-panel">
+              <div class="row-panel-in">
+                <div class="row-panel-grid">
+                  <div class="row-note">
+                    <span class="field-note-label mono">Field note</span>
+                    Families tap into Michigan's outdoor destinations and see what they can
+                    do there. Built in ArcGIS Experience Builder so the museum can add
+                    places and update content without a developer.
+                  </div>
+                  <div class="media-strip">
+                    <img class="zoomable" src="images/web/oac-map.jpg" alt="Interactive ArcGIS map of Michigan destinations" width="1340" height="1800" loading="lazy" decoding="async" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li class="index-row" data-gallery>
+            <button class="row-head" aria-expanded="false">
+              <span class="row-num mono">13</span>
+              <span class="row-title">Environmental Dashboards<small>Toyota HQ · Plano, TX</small></span>
+              <span class="row-stack mono">REST APIs · Vestaboard · ambient UX</span>
+              <span class="row-x" aria-hidden="true"></span>
+            </button>
+            <div class="row-panel">
+              <div class="row-panel-in">
+                <div class="row-panel-grid">
+                  <div class="row-note">
+                    <span class="field-note-label mono">Field note</span>
+                    Environmental data as calm technology — API-fed Vestaboards turning
+                    sustainability initiatives into quiet, visible moments people can take
+                    in without a screen demanding attention.
+                  </div>
+                  <div class="media-strip">
+                    <img class="zoomable" src="images/web/vestaboard-environmental.JPG" alt="Vestaboard displaying environmental data" width="1800" height="1350" loading="lazy" decoding="async" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li class="index-row" data-gallery>
+            <button class="row-head" aria-expanded="false">
+              <span class="row-num mono">14</span>
+              <span class="row-title">CALTY eReader<small>Toyota CALTY Design Research · Newport Beach, CA</small></span>
+              <span class="row-stack mono">Local hosting · hardware spec</span>
+              <span class="row-x" aria-hidden="true"></span>
+            </button>
+            <div class="row-panel">
+              <div class="row-panel-in">
+                <div class="row-panel-grid">
+                  <div class="row-note">
+                    <span class="field-note-label mono">Field note</span>
+                    The story of Toyota's California design studio on a display chosen to
+                    echo the size and feel of the CALTY book when opened — locally hosted,
+                    no internet required.
+                  </div>
+                  <div class="media-strip">
+                    <img class="zoomable" src="images/web/calty-ereader.JPG" alt="CALTY eReader display" width="1800" height="1350" loading="lazy" decoding="async" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li class="index-row" data-gallery>
+            <button class="row-head" aria-expanded="false">
+              <span class="row-num mono">15</span>
+              <span class="row-title">Editorial &amp; Print<small>Publications · illustrated maps · identity</small></span>
+              <span class="row-stack mono">Prepress · illustration · large format</span>
+              <span class="row-x" aria-hidden="true"></span>
+            </button>
+            <div class="row-panel">
+              <div class="row-panel-in">
+                <div class="row-panel-grid">
+                  <div class="row-note">
+                    <span class="field-note-label mono">Field note</span>
+                    Publications, illustrated maps, large-format printing, identity —
+                    print-ready prepress and original illustration for when the experience
+                    lives on paper, not a screen.
+                  </div>
+                  <div class="media-strip">
+                    <img class="zoomable" src="images/web/EDITORIAL-1.JPG" alt="Editorial design — publication spread" width="1800" height="1350" loading="lazy" decoding="async" />
+                    <img class="zoomable" src="images/web/EDITORIAL-2.JPG" alt="Editorial design — illustrated map" width="1800" height="1350" loading="lazy" decoding="async" />
+                    <img class="zoomable" src="images/web/EDITORIAL-3.JPG" alt="Editorial design — print detail" width="1800" height="1182" loading="lazy" decoding="async" />
+                    <img class="zoomable" src="images/web/EDITORIAL-4.jpg" alt="Editorial design — publication cover" width="1350" height="1800" loading="lazy" decoding="async" />
+                    <img class="zoomable" src="images/web/EDITORIAL-5.JPG" alt="Editorial design — layout spread" width="1800" height="1350" loading="lazy" decoding="async" />
+                    <img class="zoomable" src="images/web/EDITORIAL-6.JPG" alt="Editorial design — identity work" width="1800" height="1350" loading="lazy" decoding="async" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li class="index-row" data-gallery>
+            <button class="row-head" aria-expanded="false">
+              <span class="row-num mono">16</span>
+              <span class="row-title">Kiosks &amp; Wayfinding<small>Across brand homes &amp; museums</small></span>
+              <span class="row-stack mono">UX · prototyping · unattended ops</span>
+              <span class="row-x" aria-hidden="true"></span>
+            </button>
+            <div class="row-panel">
+              <div class="row-panel-in">
+                <div class="row-panel-grid">
+                  <div class="row-note">
+                    <span class="field-note-label mono">Field note</span>
+                    Touchscreen kiosks, wayfinding, and community walls — built to run
+                    unattended for years, designed for every age and comfort level.
+                  </div>
+                  <div class="media-strip">
+                    <img class="zoomable" src="images/web/satx-toyota-community-wall.jpg" alt="San Antonio Toyota community wall installation" width="1800" height="1350" loading="lazy" decoding="async" />
+                    <img class="zoomable" src="images/web/interactive-kiosk-1.JPG" alt="Interactive kiosk installation" width="1350" height="1800" loading="lazy" decoding="async" />
+                    <img class="zoomable" src="images/web/interactive-kiosk-2.jpg" alt="Touchscreen kiosk in exhibit space" width="1350" height="1800" loading="lazy" decoding="async" />
+                    <img class="zoomable" src="images/web/interactive-kiosk-3.JPG" alt="Wayfinding kiosk detail" width="1800" height="1350" loading="lazy" decoding="async" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+
+        </ul>
+      </div>
+    </section>
+
+    <!-- ================= ABOUT ================= -->
+    <section id="about" class="section" aria-label="About Christian Lozano">
+      <div class="container">
+        <header class="section-head reveal">
+          <h2 class="section-title">The person on<br />opening day</h2>
+          <p class="section-label mono">03 / About</p>
+        </header>
+        <div class="about-grid">
+          <div class="about-media reveal">
+            <div class="portrait" id="portrait">
+              <img src="images/web/Christian_Lozano.jpg" alt="Christian Lozano leaning on a stone ledge in a temple courtyard, smiling" width="1600" height="1066" loading="lazy" decoding="async" />
+            </div>
+            <p class="frame-caption mono">
+              <span>Christian Lozano</span>
+              <span>CH Experiences LLC</span>
+            </p>
+          </div>
+          <div class="about-copy reveal">
+            <p class="about-lede">I sell it, design it, build it — and <em>stand next to it</em> when the doors open.</p>
+            <p class="about-body">
+              Brand homes and museums hire me when an idea has to leave the pitch deck and
+              survive the floor: <strong>Toyota's experience centers</strong> in Texas and
+              Mississippi, <strong>CALTY Design Research</strong>, the
+              <strong>U.S. Space &amp; Rocket Center</strong>, Detroit's
+              <strong>Outdoor Adventure Center</strong>.
+            </p>
+            <p class="about-body">
+              In between: WebSockets holding six apps in lockstep, UDP firing lighting cues,
+              satellite imagery projected onto furniture — and now a ship's bridge running
+              in Unreal Engine. Story and place first; then the unglamorous systems that
+              keep it alive.
+            </p>
+            <div class="stats">
+              <div class="stat">
+                <div class="stat-num"><span data-count="50">50</span><sup>+</sup></div>
+                <div class="stat-label mono">Live installations</div>
+              </div>
+              <div class="stat">
+                <div class="stat-num"><span data-count="800">800</span><sup>K</sup></div>
+                <div class="stat-label mono">Visitors / yr · USSRC</div>
+              </div>
+              <div class="stat">
+                <div class="stat-num"><span data-count="6">6</span><sup>+</sup></div>
+                <div class="stat-label mono">Venues, coast to coast</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= APPROACH ================= -->
+    <section class="section" aria-label="Approach">
+      <div class="container">
+        <header class="section-head reveal">
+          <h2 class="section-title">Approach</h2>
+          <p class="section-label mono">04 / How it ships</p>
+        </header>
+        <ul class="principles">
+          <li class="principle reveal">
+            <div>
+              <h3>Value over novelty</h3>
+              <p>Technology isn't the question anymore — value is. An interactive earns its
+              square footage or it doesn't ship.</p>
+            </div>
+          </li>
+          <li class="principle reveal">
+            <div>
+              <h3>Story first, systems underneath</h3>
+              <p>Place and narrative lead. Then the part nobody applauds: ADA-compliant,
+              multilingual, offline-first, remotely monitored, built to run unattended.</p>
+            </div>
+          </li>
+          <li class="principle reveal">
+            <div>
+              <h3>There on opening day</h3>
+              <p>One person accountable from the pitch to the punch list. If it breaks at
+              9 a.m. on a school-group Tuesday, that's my phone that rings.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+    <section id="contact" class="section contact" aria-label="Contact">
+      <div class="container">
+        <p class="section-label mono reveal" style="margin-bottom:1.5rem;">05 / Contact</p>
+        <h2 class="contact-title reveal">Let's build something that <em>holds up.</em></h2>
+        <a class="email-btn reveal" id="magnet" href="mailto:christian@chexperiences.com">
+          <span class="dot" aria-hidden="true"></span>
           christian@chexperiences.com
         </a>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <footer>
-    <div class="container">
-      <div class="footer-brand">CH Experiences LLC</div>
-      <div class="footer-meta">
-        <span>Los Angeles · Working globally</span>
-      </div>
+    <div class="container mono">
+      <span>CH Experiences LLC</span>
+      <span>Los Angeles · working globally</span>
+      <span class="footer-note">This site: one HTML file <i>·</i> zero dependencies <i>·</i> view source</span>
     </div>
   </footer>
 
-  <div class="image-modal" id="imageModal" aria-hidden="true">
-    <div class="image-modal-content">
-      <button class="image-modal-nav image-modal-prev is-hidden" type="button" aria-label="Previous">&#8249;</button>
-      <button class="image-modal-nav image-modal-next is-hidden" type="button" aria-label="Next">&#8250;</button>
-      <button class="image-modal-close" type="button" aria-label="Close">&times;</button>
-      <img src="" alt="Project image" />
-      <video class="is-hidden" muted loop playsinline preload="none"></video>
+  <!-- floating thumbnail that trails the cursor over the index -->
+  <div class="ghost" id="ghost" aria-hidden="true"><img src="" alt="" /></div>
+
+  <!-- ================= MODAL ================= -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Media viewer" aria-hidden="true">
+    <div class="modal-stage">
+      <button class="modal-btn modal-prev" type="button" aria-label="Previous">&#8249;</button>
+      <button class="modal-btn modal-next" type="button" aria-label="Next">&#8250;</button>
+      <button class="modal-btn modal-close" type="button" aria-label="Close">&times;</button>
+      <img src="" alt="" />
+      <video class="is-hidden" muted loop playsinline preload="none" controls></video>
+      <span class="modal-counter mono" id="modalCounter"></span>
     </div>
   </div>
 
   <script>
-    // Header: transparent on hero, solid on scroll
-    (function() {
-      const header = document.getElementById('siteHeader');
-      const hero = document.getElementById('hero');
-      if (!header || !hero) return;
+  (function () {
+    'use strict';
+    var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var FINE = window.matchMedia('(pointer: fine)').matches;
 
-      function check() {
-        const heroBottom = hero.getBoundingClientRect().bottom;
-        header.classList.toggle('scrolled', heroBottom <= 56);
-      }
+    /* ---- LA clock ---- */
+    var clock = document.getElementById('clock');
+    function tick() {
+      try {
+        clock.textContent = 'LA ' + new Intl.DateTimeFormat('en-US', {
+          hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'America/Los_Angeles'
+        }).format(new Date());
+      } catch (e) { clock.textContent = ''; }
+    }
+    if (clock) { tick(); setInterval(tick, 30000); }
 
-      window.addEventListener('scroll', check, { passive: true });
-      check();
-    })();
+    /* ---- scroll progress fallback (engines without animation-timeline) ---- */
+    if (!RM && !(window.CSS && CSS.supports('animation-timeline: scroll()'))) {
+      var bar = document.getElementById('progress');
+      var onScrollBar = function () {
+        var h = document.documentElement;
+        var max = h.scrollHeight - h.clientHeight;
+        bar.style.transform = 'scaleX(' + (max > 0 ? h.scrollTop / max : 0) + ')';
+      };
+      window.addEventListener('scroll', onScrollBar, { passive: true });
+      onScrollBar();
+    }
 
-    // Hero: scroll-driven blur
-    (function() {
-      const hero = document.getElementById('hero');
-      const heroBg = document.getElementById('heroBg');
-      if (!hero || !heroBg) return;
-      const heroImages = heroBg.querySelectorAll('.hero-image img');
+    /* ---- reveal on scroll (opt-in; base CSS is fully visible) ---- */
+    var revealables = document.querySelectorAll('.reveal');
+    if (!RM && 'IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+      revealables.forEach(function (el) { io.observe(el); });
+    } else {
+      revealables.forEach(function (el) { el.classList.add('is-in'); });
+    }
 
-      let ticking = false;
-
-      function onScroll() {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(() => {
-          const scrollY = window.scrollY;
-          const heroH = hero.offsetHeight;
-          const progress = Math.min(scrollY / (heroH * 0.6), 1);
-          const blurPx = progress * 20;
-          heroImages.forEach(img => {
-            img.style.filter = 'blur(' + blurPx + 'px)';
+    /* ---- portrait: grayscale -> color when it enters ---- */
+    var portrait = document.getElementById('portrait');
+    if (portrait) {
+      if (!RM && 'IntersectionObserver' in window) {
+        var pio = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            if (en.isIntersecting) { portrait.classList.add('is-in'); pio.disconnect(); }
           });
-          ticking = false;
-        });
+        }, { threshold: 0.45 });
+        pio.observe(portrait);
+      } else {
+        portrait.classList.add('is-in');
       }
+    }
 
-      window.addEventListener('scroll', onScroll, { passive: true });
-    })();
-
-    // Hero image rotation
-    (function() {
-      const images = document.querySelectorAll('.hero-image');
-      if (images.length === 0) return;
-      let currentIndex = 0;
-      setInterval(() => {
-        images[currentIndex].classList.remove('active');
-        currentIndex = (currentIndex + 1) % images.length;
-        images[currentIndex].classList.add('active');
-      }, 4500);
-    })();
-
-    // Card carousels (manual + hover preview)
-    (function() {
-      const carousels = document.querySelectorAll('[data-carousel]');
-
-      carousels.forEach(carousel => {
-        const slides = Array.from(carousel.querySelectorAll('.carousel-image'));
-        const dots = Array.from(carousel.querySelectorAll('.carousel-dot'));
-        const nextBtn = carousel.querySelector('.carousel-control.next');
-        const prevBtn = carousel.querySelector('.carousel-control.prev');
-        if (slides.length === 0) return;
-
-        let index = 0;
-        let hoverReturnIndex = null;
-        const videoSlideIndex = slides.findIndex(s => s.tagName === 'VIDEO');
-        const hoverPreviewIndex = videoSlideIndex >= 0 ? videoSlideIndex : (slides.length > 1 ? 1 : -1);
-
-        function setSlidePlayback(slide, isActive) {
-          if (!slide || slide.tagName !== 'VIDEO') return;
-          if (isActive) {
-            const p = slide.play();
-            if (p && typeof p.catch === 'function') p.catch(() => {});
-          } else {
-            slide.pause();
-            slide.currentTime = 0;
+    /* ---- count-up stats ---- */
+    var counters = document.querySelectorAll('[data-count]');
+    if (!RM && 'IntersectionObserver' in window && counters.length) {
+      var cio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting) return;
+          cio.unobserve(en.target);
+          var el = en.target, target = parseInt(el.getAttribute('data-count'), 10);
+          var t0 = null, DUR = 1400;
+          function step(t) {
+            if (!t0) t0 = t;
+            var p = Math.min((t - t0) / DUR, 1);
+            el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+            if (p < 1) requestAnimationFrame(step);
           }
-        }
-
-        function show(nextIndex) {
-          const total = slides.length;
-          const normalized = (nextIndex + total) % total;
-          slides[index].classList.remove('active');
-          setSlidePlayback(slides[index], false);
-          dots[index]?.classList.remove('active');
-          slides[normalized].classList.add('active');
-          setSlidePlayback(slides[normalized], true);
-          dots[normalized]?.classList.add('active');
-          index = normalized;
-        }
-
-        function handleAdvance(step, event) {
-          if (event) { event.preventDefault(); event.stopPropagation(); }
-          show(index + step);
-        }
-
-        nextBtn?.addEventListener('click', event => handleAdvance(1, event));
-        prevBtn?.addEventListener('click', event => handleAdvance(-1, event));
-
-        dots.forEach((dot, dotIndex) => {
-          dot.addEventListener('click', event => {
-            event.preventDefault();
-            event.stopPropagation();
-            show(dotIndex);
-          });
+          requestAnimationFrame(step);
         });
+      }, { threshold: 0.6 });
+      counters.forEach(function (el) { el.textContent = '0'; cio.observe(el); });
+    }
 
-        setSlidePlayback(slides[index], false);
+    /* ---- index rows: expand / collapse ---- */
+    document.querySelectorAll('.index-row').forEach(function (row) {
+      var head = row.querySelector('.row-head');
+      head.addEventListener('click', function () {
+        var open = row.classList.toggle('open');
+        head.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (!open) {
+          row.querySelectorAll('video').forEach(function (v) { v.pause(); });
+        }
+      });
+    });
 
-        carousel.addEventListener('mouseenter', () => {
-          if (hoverPreviewIndex >= 0 && index !== hoverPreviewIndex) {
-            hoverReturnIndex = index;
-            show(hoverPreviewIndex);
-          }
+    /* hover-play for inline videos */
+    document.querySelectorAll('.media-strip video').forEach(function (v) {
+      v.addEventListener('pointerenter', function () {
+        var p = v.play(); if (p && p.catch) p.catch(function () {});
+      });
+      v.addEventListener('pointerleave', function () { v.pause(); });
+    });
+
+    /* ---- ghost thumbnail trailing the cursor over index rows ---- */
+    var ghost = document.getElementById('ghost');
+    if (ghost && FINE && !RM) {
+      var gimg = ghost.querySelector('img');
+      var gx = 0, gy = 0, tx = 0, ty = 0, raf = null, visible = false;
+      function loop() {
+        gx += (tx - gx) * 0.16;
+        gy += (ty - gy) * 0.16;
+        ghost.style.transform = 'translate(' + (gx + 22) + 'px,' + (gy - 90) + 'px)';
+        raf = (visible || Math.abs(tx - gx) > 0.5) ? requestAnimationFrame(loop) : null;
+      }
+      document.querySelectorAll('.index-row').forEach(function (row) {
+        var head = row.querySelector('.row-head');
+        var first = row.querySelector('.media-strip img, .media-strip video');
+        var src = first ? (first.tagName === 'VIDEO' ? first.poster : first.src) : '';
+        if (!src) return;
+        head.addEventListener('pointerenter', function (e) {
+          if (row.classList.contains('open')) return;
+          gimg.src = src;
+          visible = true;
+          tx = gx = e.clientX; ty = gy = e.clientY;
+          ghost.classList.add('on');
+          if (!raf) raf = requestAnimationFrame(loop);
         });
+        head.addEventListener('pointermove', function (e) { tx = e.clientX; ty = e.clientY; });
+        head.addEventListener('pointerleave', function () { visible = false; ghost.classList.remove('on'); });
+        head.addEventListener('click', function () { visible = false; ghost.classList.remove('on'); });
+      });
+    }
 
-        carousel.addEventListener('mouseleave', () => {
-          if (hoverReturnIndex !== null) {
-            show(hoverReturnIndex);
-            hoverReturnIndex = null;
-          }
+    /* ---- magnetic email button ---- */
+    var magnet = document.getElementById('magnet');
+    if (magnet && FINE && !RM) {
+      magnet.addEventListener('pointermove', function (e) {
+        var r = magnet.getBoundingClientRect();
+        var dx = e.clientX - (r.left + r.width / 2);
+        var dy = e.clientY - (r.top + r.height / 2);
+        magnet.style.transform = 'translate(' + dx * 0.18 + 'px,' + dy * 0.3 + 'px)';
+      });
+      magnet.addEventListener('pointerleave', function () {
+        magnet.style.transition = 'transform 500ms cubic-bezier(0.22,1,0.36,1)';
+        magnet.style.transform = 'translate(0,0)';
+        setTimeout(function () { magnet.style.transition = ''; }, 500);
+      });
+    }
+
+    /* ---- media modal (keyboard: Esc, arrows) ---- */
+    var modal = document.getElementById('modal');
+    var mImg = modal.querySelector('img');
+    var mVid = modal.querySelector('video');
+    var mCounter = document.getElementById('modalCounter');
+    var mPrev = modal.querySelector('.modal-prev');
+    var mNext = modal.querySelector('.modal-next');
+    var mClose = modal.querySelector('.modal-close');
+    var items = [], idx = 0, lastFocus = null;
+
+    function renderModal() {
+      var el = items[idx];
+      if (!el) return;
+      var isVideo = el.tagName === 'VIDEO';
+      if (isVideo) {
+        mImg.classList.add('is-hidden');
+        mVid.classList.remove('is-hidden');
+        mVid.src = el.currentSrc || el.src;
+        var p = mVid.play(); if (p && p.catch) p.catch(function () {});
+      } else {
+        mVid.pause(); mVid.removeAttribute('src');
+        mVid.classList.add('is-hidden');
+        mImg.classList.remove('is-hidden');
+        mImg.src = el.src;
+        mImg.alt = el.alt || 'Project media';
+      }
+      mCounter.textContent = items.length > 1 ? ('0' + (idx + 1)).slice(-2) + ' / ' + ('0' + items.length).slice(-2) : '';
+      var nav = items.length > 1;
+      mPrev.classList.toggle('is-hidden', !nav);
+      mNext.classList.toggle('is-hidden', !nav);
+    }
+    function openModal(group, start) {
+      items = group; idx = start; lastFocus = document.activeElement;
+      renderModal();
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('modal-open');
+      mClose.focus();
+    }
+    function closeModal() {
+      mVid.pause(); mVid.removeAttribute('src');
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('modal-open');
+      if (lastFocus) lastFocus.focus();
+    }
+    function stepModal(d) { idx = (idx + d + items.length) % items.length; renderModal(); }
+
+    document.querySelectorAll('[data-gallery]').forEach(function (scope) {
+      var media = Array.prototype.slice.call(scope.querySelectorAll('.zoomable'));
+      media.forEach(function (el, i) {
+        el.addEventListener('click', function (e) {
+          e.preventDefault();
+          openModal(media, i);
         });
       });
-    })();
+    });
+    modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+    mClose.addEventListener('click', closeModal);
+    mPrev.addEventListener('click', function () { stepModal(-1); });
+    mNext.addEventListener('click', function () { stepModal(1); });
+    document.addEventListener('keydown', function (e) {
+      if (!modal.classList.contains('active')) return;
+      if (e.key === 'Escape') closeModal();
+      else if (e.key === 'ArrowLeft') stepModal(-1);
+      else if (e.key === 'ArrowRight') stepModal(1);
+      else if (e.key === 'Tab') {
+        // keep focus inside the dialog
+        var f = [mPrev, mNext, mClose].filter(function (b) { return !b.classList.contains('is-hidden'); });
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
 
-    // Image viewer modal
-    (function() {
-      const modal = document.getElementById('imageModal');
-      if (!modal) return;
-      const modalImage = modal.querySelector('img');
-      const modalVideo = modal.querySelector('video');
-      const modalClose = modal.querySelector('.image-modal-close');
-      const modalPrev = modal.querySelector('.image-modal-prev');
-      const modalNext = modal.querySelector('.image-modal-next');
-      const cardLinks = document.querySelectorAll('.card-link');
-      let activeSlides = [];
-      let activeIndex = 0;
+    /* ============================================================
+       GENERATIVE FLOW FIELD
+       Particles advected through a time-varying vector field built
+       from summed sines (cheap pseudo-noise — no libraries). Drawn
+       as light trails by fading the canvas a few percent per frame
+       instead of clearing it. The cursor injects a local swirl.
+       ============================================================ */
+    var canvas = document.getElementById('field');
+    var ctx = canvas.getContext('2d');
+    var DPR = Math.min(window.devicePixelRatio || 1, 2);
+    var W = 0, H = 0, particles = [], running = false, rafId = null;
+    var mouse = { x: -9999, y: -9999 };
+    var energy = 0, lastScroll = window.scrollY, t = Math.random() * 100;
 
-      function renderModalSlide() {
-        const mediaEl = activeSlides[activeIndex];
-        if (!mediaEl) return;
-        const isVideo = mediaEl.tagName === 'VIDEO';
-        const mediaSrc = mediaEl.currentSrc || mediaEl.src;
-        if (!mediaSrc) return;
-
-        if (isVideo) {
-          modalImage.classList.add('is-hidden');
-          modalVideo.classList.remove('is-hidden');
-          modalVideo.src = mediaSrc;
-          const p = modalVideo.play();
-          if (p && typeof p.catch === 'function') p.catch(() => {});
-        } else {
-          modalVideo.pause();
-          modalVideo.removeAttribute('src');
-          modalVideo.classList.add('is-hidden');
-          modalImage.classList.remove('is-hidden');
-          modalImage.src = mediaSrc;
-          modalImage.alt = mediaEl.alt || 'Project image';
+    function resize() {
+      W = window.innerWidth; H = window.innerHeight;
+      canvas.width = W * DPR; canvas.height = H * DPR;
+      canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      ctx.fillStyle = '#0a0a0b';
+      ctx.fillRect(0, 0, W, H);
+      var target = Math.min(240, Math.round((W * H) / 8500));
+      while (particles.length < target) particles.push(spawn());
+      particles.length = target;
+    }
+    function spawn() {
+      return {
+        x: Math.random() * W,
+        y: Math.random() * H,
+        px: 0, py: 0,
+        life: 60 + Math.random() * 200,
+        orange: Math.random() < 0.07,
+        speed: 0.5 + Math.random() * 0.9
+      };
+    }
+    function fieldAngle(x, y) {
+      return (
+        Math.sin(x * 0.0016 + t * 0.32) +
+        Math.cos(y * 0.0019 - t * 0.23) +
+        Math.sin((x + y) * 0.0009 + t * 0.14)
+      ) * Math.PI;
+    }
+    function frame() {
+      t += 0.006 + energy * 0.01;
+      energy *= 0.94;
+      ctx.fillStyle = 'rgba(10, 10, 11, 0.075)';
+      ctx.fillRect(0, 0, W, H);
+      ctx.lineWidth = 1;
+      for (var i = 0; i < particles.length; i++) {
+        var p = particles[i];
+        p.px = p.x; p.py = p.y;
+        var a = fieldAngle(p.x, p.y);
+        var sp = p.speed * (1 + energy * 1.6);
+        var vx = Math.cos(a) * sp, vy = Math.sin(a) * sp;
+        var dx = p.x - mouse.x, dy = p.y - mouse.y;
+        var d2 = dx * dx + dy * dy;
+        if (d2 < 36000) {
+          var d = Math.sqrt(d2) || 1, f = (1 - d / 190) * 1.8;
+          vx += (-dy / d) * f;       /* swirl around the cursor */
+          vy += (dx / d) * f;
         }
+        p.x += vx; p.y += vy; p.life--;
+        if (p.life <= 0 || p.x < -20 || p.x > W + 20 || p.y < -20 || p.y > H + 20) {
+          particles[i] = spawn();
+          continue;
+        }
+        ctx.strokeStyle = p.orange
+          ? 'rgba(255, 111, 0, 0.5)'
+          : 'rgba(242, 239, 233, 0.16)';
+        ctx.beginPath();
+        ctx.moveTo(p.px, p.py);
+        ctx.lineTo(p.x, p.y);
+        ctx.stroke();
       }
+      rafId = running ? requestAnimationFrame(frame) : null;
+    }
+    function setRunning(on) {
+      if (on && !running) { running = true; rafId = requestAnimationFrame(frame); }
+      else if (!on && running) { running = false; if (rafId) cancelAnimationFrame(rafId); rafId = null; }
+    }
+    function visibleAmount() {
+      return Math.max(0, 1 - window.scrollY / (window.innerHeight * 1.15));
+    }
+    function syncCanvas() {
+      var v = visibleAmount();
+      canvas.style.opacity = v.toFixed(3);
+      if (!RM) setRunning(v > 0 && !document.hidden);
+      var s = window.scrollY;
+      energy = Math.min(2, energy + Math.abs(s - lastScroll) / 600);
+      lastScroll = s;
+    }
 
-      function updateModalNavVisibility() {
-        const showNav = activeSlides.length > 1;
-        modalPrev?.classList.toggle('is-hidden', !showNav);
-        modalNext?.classList.toggle('is-hidden', !showNav);
-      }
-
-      function openModalFromCard(card) {
-        if (!card) return;
-        const cardSlides = Array.from(card.querySelectorAll('.card-carousel .carousel-image'));
-        const fallbackMedia = card.querySelector('.card-media img, .card-media video');
-        activeSlides = cardSlides.length ? cardSlides : (fallbackMedia ? [fallbackMedia] : []);
-        if (activeSlides.length === 0) return;
-
-        const currentIndex = activeSlides.findIndex(slide => slide.classList.contains('active'));
-        activeIndex = currentIndex >= 0 ? currentIndex : 0;
-        renderModalSlide();
-        updateModalNavVisibility();
-        modal.classList.add('active');
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.classList.add('modal-open');
-      }
-
-      function showModalSlide(nextIndex) {
-        if (!activeSlides.length) return;
-        activeIndex = (nextIndex + activeSlides.length) % activeSlides.length;
-        renderModalSlide();
-      }
-
-      function closeModal() {
-        modalVideo.pause();
-        modalVideo.removeAttribute('src');
-        modalVideo.classList.add('is-hidden');
-        modalImage.classList.remove('is-hidden');
-        modal.classList.remove('active');
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('modal-open');
-        activeSlides = [];
-        activeIndex = 0;
-      }
-
-      cardLinks.forEach(link => {
-        link.addEventListener('click', event => {
-          if (event.target.closest('.carousel-control') || event.target.closest('.carousel-dot')) return;
-          event.preventDefault();
-          const card = link.closest('.card');
-          openModalFromCard(card);
+    resize();
+    window.addEventListener('resize', resize);
+    if (RM) {
+      /* reduced motion: render one settled, static frame of the field */
+      for (var k = 0; k < 110; k++) {
+        t += 0.006;
+        ctx.fillStyle = 'rgba(10, 10, 11, 0.04)';
+        ctx.fillRect(0, 0, W, H);
+        ctx.lineWidth = 1;
+        particles.forEach(function (p) {
+          p.px = p.x; p.py = p.y;
+          var a = fieldAngle(p.x, p.y);
+          p.x += Math.cos(a) * p.speed; p.y += Math.sin(a) * p.speed;
+          ctx.strokeStyle = p.orange ? 'rgba(255,111,0,0.5)' : 'rgba(242,239,233,0.16)';
+          ctx.beginPath(); ctx.moveTo(p.px, p.py); ctx.lineTo(p.x, p.y); ctx.stroke();
         });
-      });
-
-      modal.addEventListener('click', () => closeModal());
-      modalPrev?.addEventListener('click', event => { event.stopPropagation(); showModalSlide(activeIndex - 1); });
-      modalNext?.addEventListener('click', event => { event.stopPropagation(); showModalSlide(activeIndex + 1); });
-      modalClose?.addEventListener('click', event => { event.stopPropagation(); closeModal(); });
-    })();
+      }
+      canvas.style.opacity = '1';
+      window.addEventListener('scroll', function () {
+        canvas.style.opacity = visibleAmount().toFixed(3);
+      }, { passive: true });
+    } else {
+      window.addEventListener('pointermove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+      window.addEventListener('pointerleave', function () { mouse.x = -9999; mouse.y = -9999; });
+      window.addEventListener('scroll', syncCanvas, { passive: true });
+      document.addEventListener('visibilitychange', function () { syncCanvas(); });
+      syncCanvas();
+      setRunning(true);
+    }
+  })();
   </script>
 </body>
 </html>
