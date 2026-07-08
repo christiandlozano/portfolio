@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Christian Lozano — Creative Developer for Physical Places</title>
+  <title>Christian Lozano — Creative Technologist for Physical Places</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Christian Lozano makes web applications, games, and interactive content for museums and brand homes — built to run every day, unattended, for years." />
+  <meta name="description" content="Christian Lozano makes web applications, games, and interactive content for museums and brand homes — built to survive the public, unattended, for years." />
   <meta name="theme-color" content="#0a0a0b" />
 
   <!-- Open Graph / social -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Christian Lozano — Creative Developer for Physical Places" />
-  <meta property="og:description" content="Web applications, games, and interactive content for museums and brand homes — built to run every day, unattended, for years." />
+  <meta property="og:title" content="Christian Lozano — Creative Technologist for Physical Places" />
+  <meta property="og:description" content="Web applications, games, and interactive content for museums and brand homes — built to survive the public, unattended, for years." />
   <meta property="og:url" content="https://chexperiences.com/" />
   <meta property="og:image" content="https://chexperiences.com/images/web/how-we-know-the-weather-1.jpeg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -26,12 +26,12 @@
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Christian Lozano",
-    "jobTitle": "Creative Developer / Creative Technologist",
+    "jobTitle": "Creative Technologist",
     "email": "mailto:christian@chexperiences.com",
     "url": "https://chexperiences.com",
     "worksFor": { "@type": "Organization", "name": "CH Experiences LLC" },
     "address": { "@type": "PostalAddress", "addressLocality": "Los Angeles", "addressRegion": "CA" },
-    "knowsAbout": ["Experiential design", "Unreal Engine", "WebSockets", "Projection mapping", "Interactive installations", "Museum exhibits"]
+    "knowsAbout": ["Experiential design", "Unreal Engine", "React", "Node.js", "BrightSign", "WebSockets", "Projection mapping", "Interactive installations", "Museum exhibits"]
   }
   </script>
 
@@ -646,6 +646,7 @@
     .about-lede em { color: var(--accent); font-style: normal; }
     .about-body { color: var(--paper-dim); max-width: 40rem; margin-bottom: 1.25rem; }
     .about-body strong { color: var(--paper); font-weight: 600; }
+    .about-tools { color: var(--paper-faint); line-height: 2; margin-bottom: 1.25rem; }
     .stats {
       display: grid;
       grid-template-columns: repeat(3, auto);
@@ -833,7 +834,7 @@
       <div class="hero-flicker" id="heroFlicker" aria-hidden="true"><img src="" alt="" /></div>
       <div class="container hero-inner">
         <p class="hero-eyebrow mono">
-          <span>Creative developer and Technologist</span>
+          <span>Creative technologist — physical places</span>
           <span class="tick">/</span>
           <span>Los Angeles</span>
         </p>
@@ -844,11 +845,11 @@
         <div class="hero-foot">
           <p class="hero-sub">
             Web applications, games, and interactive content for
-            <strong>museums and brand homes</strong> — built to run every day,
-            unattended, for years.
+            <strong>museums and brand homes</strong> — built to survive the
+            public, unattended, for years.
           </p>
           <div class="hero-proof mono">
-            <span>Toyota Experience Centers</span>
+            <span>Five Toyota experience centers</span>
             <span>U.S. Space &amp; Rocket Center</span>
             <span>50+ live installations</span>
           </div>
@@ -908,16 +909,20 @@
             <p class="feature-kicker mono">Outdoor Adventure Center · Detroit, MI</p>
             <h3 class="feature-title">Ship's Bridge Simulator</h3>
             <p class="feature-desc">
-              Take the helm. Three screens wrap the bridge as its windows; a physical
-              wheel and throttle run through <strong>custom sensors</strong> into the latest
-              distribution of <strong>Unreal Engine</strong>. Visitors pilot a vessel
-              through open water — wind, wake, and momentum included — on a museum floor.
+              The Outdoor Adventure Center wanted visitors to feel what it takes to
+              steer a real ship. So we're building them a bridge: three screens for
+              windows, a physical <strong>wheel and throttle</strong> wired through
+              custom sensors, and open water simulated in <strong>Unreal Engine</strong> —
+              wind, wake, and momentum included. I scoped it, and I'm directing the build.
             </p>
             <div class="field-note">
               <span class="field-note-label mono">Field note</span>
-              <p>The hard part isn't the water system, it's hardware that survives school groups. Sensor input is filtered and remapped in-engine, custom graphics, real time water particle system</p>
+              <p>The hard part isn't the water — it's hardware that survives school
+              groups. Sensor input gets filtered and remapped in-engine, so a kid
+              slamming the throttle reads as intent, not noise. The sea itself is custom
+              graphics: a real-time water particle system.</p>
             </div>
-            <p class="stack-line mono">Unreal Engine <i>·</i> 3-screen bridge <i>·</i> sensor wheel + throttle <i>·</i> real-time water sim</p>
+            <p class="stack-line mono">Unreal Engine (real-time 3D) <i>·</i> three-screen bridge <i>·</i> custom wheel + throttle sensors</p>
           </div>
         </article>
 
@@ -925,7 +930,7 @@
         <article class="feature flip" data-gallery>
           <div class="feature-media reveal-clip reveal">
             <div class="frame parallax">
-              <img class="zoomable" src="images/web/how-we-know-the-weather-1.jpeg" alt="How We Know the Weather exhibit — 24-foot LED wall with live radar at the U.S. Space &amp; Rocket Center" width="1800" height="1200" loading="lazy" decoding="async" />
+              <img class="zoomable" src="images/web/how-we-know-the-weather-1.jpeg" alt="How We Know the Weather exhibit — 24'×14' LED wall with live radar at the U.S. Space &amp; Rocket Center" width="1800" height="1200" loading="lazy" decoding="async" />
             </div>
             <div class="thumb-strip">
               <img class="zoomable" src="images/web/how-we-know-the-weather-2.JPG" alt="Weather exhibit interactive stations" width="1800" height="1350" loading="lazy" decoding="async" />
@@ -934,7 +939,7 @@
               <img class="zoomable" src="images/web/picture4.jpg" alt="Opening night crowd on the exhibit floor" width="1800" height="1200" loading="lazy" decoding="async" />
             </div>
             <p class="frame-caption mono">
-              <span>Fig. 01 — Live since 2024</span>
+              <span>Fig. 01 — 3,500 sq ft · live since 2024</span>
               <span>800K visitors / yr</span>
             </p>
           </div>
@@ -943,18 +948,21 @@
             <p class="feature-kicker mono">U.S. Space &amp; Rocket Center · Huntsville, AL</p>
             <h3 class="feature-title">How We Know the Weather</h3>
             <p class="feature-desc">
-              A <strong>24-foot LED wall</strong> with live weather radar, and
-              <strong>50+ screens</strong> of hands-on games — climate literacy for
-              families at one of the country's busiest science centers.
+              The U.S. Space &amp; Rocket Center asked for an exhibit about how weather
+              is actually predicted. It became 3,500 square feet of live science: a
+              <strong>24'×14' LED wall</strong> streaming real NASA, NOAA, and Baron
+              weather feeds, and <strong>54 screens</strong> of hands-on games — in
+              front of 800,000 visitors a year.
             </p>
             <div class="field-note">
               <span class="field-note-label mono">Field note</span>
-              <p>I build the content, project managed some of the content teams, and took games and presentations from initial concept through install. My LED layout feeds a broadcast video
-              processor that crashes on the wrong resolution, so every block is pinned to
-              its exact pixel region, and a dropped feed fails quietly instead of taking
-              the wall down with it.</p>
+              <p>I carried this from concept through install — building the content and
+              project-managing the content teams. The wall runs my HTML layout through a
+              broadcast video processor that crashes on the wrong resolution, so every
+              block is pinned to its exact pixel region — and a dropped feed fails
+              quietly instead of taking the wall down.</p>
             </div>
-            <p class="stack-line mono">Live weather data <i>·</i> 24-ft LED wall <i>·</i> 50+ screens <i>·</i> interactive games</p>
+            <p class="stack-line mono">Live NASA / NOAA / Baron data <i>·</i> 24'×14' LED wall <i>·</i> 54 screens <i>·</i> web-based interactives</p>
           </div>
         </article>
 
@@ -965,7 +973,7 @@
               <img class="zoomable" src="images/web/toyota-north-america.jpeg" alt="Toyota North America exhibit — synchronized interactive map installation in Plano, Texas" width="1800" height="1308" loading="lazy" decoding="async" />
             </div>
             <p class="frame-caption mono">
-              <span>Fig. 02 — Continent-scale story</span>
+              <span>Fig. 02 — One of five Toyota centers</span>
               <span>Plano, TX</span>
             </p>
           </div>
@@ -974,17 +982,19 @@
             <p class="feature-kicker mono">Toyota Experience Center · Plano, TX</p>
             <h3 class="feature-title">Toyota North America</h3>
             <p class="feature-desc">
-              <strong>Six synchronized applications</strong> and six video channels mapping
-              a continent-scale brand story — the most complex build in the Center,
-              designed to read as one simple story about people, places, and cars.
+              Toyota's flagship experience center needed one wall to tell the story of
+              a continent — the people, the plants, the cars. <strong>Six
+              applications</strong> and six video channels act as a single synchronized
+              piece, built end to end inside Toyota's design system.
             </p>
             <div class="field-note">
               <span class="field-note-label mono">Field note</span>
-              <p>Six screens acting as one: every app stays in sync in real time, built end
-              to end inside Toyota's design system. Complexity is the budget; simplicity is
-              the product.</p>
+              <p>The apps stay in lockstep over WebSockets — a live connection that lets
+              every screen react in the same instant. It's the most complex build in the
+              Center, and it reads as one simple story. Complexity is the budget;
+              simplicity is the product.</p>
             </div>
-            <p class="stack-line mono">Six synced applications <i>·</i> real-time sync <i>·</i> interactive map <i>·</i> Toyota design system</p>
+            <p class="stack-line mono">Six synced apps <i>·</i> WebSockets (real-time sync) <i>·</i> six video channels</p>
           </div>
         </article>
       </div>
@@ -1012,8 +1022,10 @@
                 <div class="row-panel-grid">
                   <div class="row-note">
                     <span class="field-note-label mono">Field note</span>
-                    One touchscreen drives a four-display wall of innovation, and the room
-                    lighting responds as you browse. Every patent story showcased in an interactive presentation with a randomly generated network background particle system.
+                    Toyota holds thousands of patents almost nobody outside R&amp;D ever
+                    sees. This turns them into a browsable wall — one touchscreen driving
+                    four displays, room lighting shifting as you swipe, and every story
+                    set against a generated particle-network background.
                   </div>
                   <div class="media-strip">
                     <img class="zoomable" src="images/web/toyota-patents.jpg" alt="Patents Interactive touchscreen and display wall" width="1800" height="1350" loading="lazy" decoding="async" />
@@ -1035,9 +1047,10 @@
                 <div class="row-panel-grid">
                   <div class="row-note">
                     <span class="field-note-label mono">Field note</span>
-                    Hand-crafted animation aligned to real satellite imagery and the plant's
-                    actual footprint, calibrated to the physical table so the map lands
-                    exactly where the geography does.
+                    San Antonio wanted to show the plant as part of the city, not apart
+                    from it. The animation is hand-keyed over real satellite imagery and
+                    projected onto a physical table, calibrated so the map lands exactly
+                    where the geography does.
                   </div>
                   <div class="media-strip">
                     <img class="zoomable" src="images/web/satx-projection-table.JPG" alt="San Antonio projection-mapped table" width="1800" height="1350" loading="lazy" decoding="async" />
@@ -1060,9 +1073,10 @@
                 <div class="row-panel-grid">
                   <div class="row-note">
                     <span class="field-note-label mono">Field note</span>
-                    A LEED Platinum certification told as a touchscreen story instead of a
-                    plaque — plain language, ADA touch-reach ranges, and an attract loop
-                    that resets after inactivity to pull the next guest in.
+                    Toyota Mississippi earned LEED Platinum — the highest green-building
+                    rating there is — and it deserved better than a plaque. It became a
+                    touchscreen story in plain language, built to ADA reach ranges, with
+                    an attract loop that resets for the next guest.
                   </div>
                   <div class="media-strip">
                     <img class="zoomable" src="images/web/leed-kiosk.png" alt="LEED Platinum sustainability kiosk interface" width="1350" height="1800" loading="lazy" decoding="async" />
@@ -1118,9 +1132,10 @@
                 <div class="row-panel-grid">
                   <div class="row-note">
                     <span class="field-note-label mono">Field note</span>
-                    Drag solar panels across a cartoon Detroit skyline, chase the sun, dodge
-                    clouds. Real solar concepts in a kid-height game with short cycles, so
-                    the station never bottlenecks during a school group.
+                    A game about solar power for kids who won't stand still: drag panels
+                    across a cartoon Detroit skyline, chase the sun, dodge the clouds.
+                    Rounds are short on purpose — a station that takes three minutes per
+                    kid bottlenecks an entire school group.
                   </div>
                   <div class="media-strip">
                     <img class="zoomable" src="images/web/oac-solar-game.jpg" alt="Solar game installation" width="1800" height="1350" loading="lazy" decoding="async" />
@@ -1193,9 +1208,9 @@
                 <div class="row-panel-grid">
                   <div class="row-note">
                     <span class="field-note-label mono">Field note</span>
-                    Banana peel, pizza box, bottle — where does it go? Localized to
-                    Detroit's actual bin rules, so what a kid learns on the floor is still
-                    true when they get home.
+                    Banana peel, pizza box, bottle — which bin? The game runs on Detroit's
+                    actual recycling rules, so what a kid learns on the museum floor is
+                    still true in their own kitchen.
                   </div>
                   <div class="media-strip">
                     <img class="zoomable" src="images/web/oac-recycling-game-1.jpg" alt="Recycling game with campaign" width="1536" height="2048" loading="lazy" decoding="async" />
@@ -1221,8 +1236,9 @@
                   <div class="row-note">
                     <span class="field-note-label mono">Field note</span>
                     Guests pin where they're from; kids draw and submit their stories.
-                    Offline-first so it never stalls without a network, with an admin panel
-                    that routes every submission into the museum team's project flow.
+                    It's offline-first — the app keeps working when the venue network
+                    doesn't — and an admin panel routes every submission straight into
+                    the museum team's workflow.
                   </div>
                   <div class="media-strip">
                     <img class="zoomable" src="images/web/OAC-Registry-1.jpg" alt="Visitor registry pin map" width="876" height="1044" loading="lazy" decoding="async" />
@@ -1246,9 +1262,10 @@
                 <div class="row-panel-grid">
                   <div class="row-note">
                     <span class="field-note-label mono">Field note</span>
-                    Constellations trace themselves in, layered with sky stories from
-                    multiple cultural traditions — fact-checked against the traditions and
-                    the astronomy, written to send people outside to look up.
+                    Different cultures saw different stories in the same stars.
+                    Constellations trace themselves in, layered with those stories —
+                    fact-checked against both the traditions and the astronomy — and the
+                    writing is meant to send you outside to look up.
                   </div>
                   <div class="media-strip">
                     <img class="zoomable" src="images/web/night-sky-exhibit.jpg" alt="Night Sky constellation wall" width="1350" height="1800" loading="lazy" decoding="async" />
@@ -1270,9 +1287,9 @@
                 <div class="row-panel-grid">
                   <div class="row-note">
                     <span class="field-note-label mono">Field note</span>
-                    Decades of Toyota commercials on a 65-inch portrait touchscreen —
-                    cleared and sequenced with brand and archival teams into one scrollable
-                    timeline. Funny, nostalgic, heartfelt, era by era.
+                    Decades of Toyota commercials, cleared and sequenced with the brand
+                    and archive teams into one timeline on a 65-inch touchscreen. The
+                    curation is the work: funny, nostalgic, heartfelt, era by era.
                   </div>
                   <div class="media-strip">
                     <img class="zoomable" src="images/web/commercials-tower.jpg" alt="Commercials Tower portrait touchscreen" width="1013" height="1800" loading="lazy" decoding="async" />
@@ -1294,9 +1311,9 @@
                 <div class="row-panel-grid">
                   <div class="row-note">
                     <span class="field-note-label mono">Field note</span>
-                    Families tap into Michigan's outdoor destinations and see what they can
-                    do there. Built in ArcGIS Experience Builder so the museum can add
-                    places and update content without a developer.
+                    Families tap into Michigan's outdoor destinations and see what they
+                    can do there. Built in ArcGIS — mapping software the museum's own
+                    staff can update — so it stays current without calling a developer.
                   </div>
                   <div class="media-strip">
                     <img class="zoomable" src="images/web/oac-map.jpg" alt="Interactive ArcGIS map of Michigan destinations" width="1340" height="1800" loading="lazy" decoding="async" />
@@ -1318,7 +1335,9 @@
                 <div class="row-panel-grid">
                   <div class="row-note">
                     <span class="field-note-label mono">Field note</span>
-                    Live environmental data on split-flap Vestaboard displays.
+                    Live environmental data on split-flap Vestaboard displays — the kind
+                    that click and flip like an old train-station board. Calm, ambient
+                    information instead of one more screen asking for attention.
                   </div>
                   <div class="media-strip">
                     <img class="zoomable" src="images/web/vestaboard-environmental.JPG" alt="Vestaboard displaying environmental data" width="1800" height="1350" loading="lazy" decoding="async" />
@@ -1340,9 +1359,9 @@
                 <div class="row-panel-grid">
                   <div class="row-note">
                     <span class="field-note-label mono">Field note</span>
-                    The story of Toyota's California design studio on a display chosen to
-                    echo the size and feel of the CALTY book when opened — locally hosted,
-                    no internet required.
+                    Toyota's California design studio has a story worth sitting with. It
+                    lives on a display chosen to echo the CALTY book when opened, hosted
+                    locally so it runs with no internet at all.
                   </div>
                   <div class="media-strip">
                     <img class="zoomable" src="images/web/calty-ereader.JPG" alt="CALTY eReader display" width="1800" height="1350" loading="lazy" decoding="async" />
@@ -1364,9 +1383,9 @@
                 <div class="row-panel-grid">
                   <div class="row-note">
                     <span class="field-note-label mono">Field note</span>
-                    Publications, illustrated maps, large-format printing, identity —
-                    print-ready prepress and original illustration for when the experience
-                    lives on paper, not a screen.
+                    Publications, illustrated maps, large-format prints, identity. Print
+                    is where taste shows with nothing interactive to hide behind —
+                    original illustration, and files genuinely ready for press.
                   </div>
                   <div class="media-strip">
                     <img class="zoomable" src="images/web/EDITORIAL-1.JPG" alt="Editorial design — publication spread" width="1800" height="1350" loading="lazy" decoding="async" />
@@ -1393,8 +1412,10 @@
                 <div class="row-panel-grid">
                   <div class="row-note">
                     <span class="field-note-label mono">Field note</span>
-                    Touchscreen kiosks, wayfinding, and community walls — built to run
-                    unattended for years, designed for every age and comfort level.
+                    Touchscreens, wayfinding, and community walls across brand homes and
+                    museums. Each one passes the same bar: run twelve hours a day
+                    unattended, recover from a power pull without a keyboard, and make
+                    sense to a six-year-old and her grandmother.
                   </div>
                   <div class="media-strip">
                     <img class="zoomable" src="images/web/satx-toyota-community-wall.jpg" alt="San Antonio Toyota community wall installation" width="1800" height="1350" loading="lazy" decoding="async" />
@@ -1431,17 +1452,19 @@
           <div class="about-copy reveal">
             <p class="about-lede">A studio of one. I design it, build it, and <em>stand next to it</em> when the doors open.</p>
             <p class="about-body">
-              I make the software side of exhibits — web applications, games, interactive
-              maps, video — for <strong>Toyota's experience centers</strong>, the
-              <strong>U.S. Space &amp; Rocket Center</strong>, and Detroit's
+              The software side of exhibits is my whole job — web applications, games,
+              interactive maps, video. The work is live at <strong>five Toyota
+              experience centers</strong> across four states (60,000+ sq ft combined),
+              the <strong>U.S. Space &amp; Rocket Center</strong>, and Detroit's
               <strong>Outdoor Adventure Center</strong>.
             </p>
             <p class="about-body">
-              Most of this work is judgment: what belongs on a screen, what belongs in the
+              Most of it is judgment: what belongs on a screen, what belongs in the
               room, and what a visitor should feel in the few seconds they give you. I
-              bring the design experience to make those calls and the engineering to make them
-              dependable long after opening night.
+              prototype in days, not weeks — AI-assisted where it earns its place —
+              then harden the work for years of public use.
             </p>
+            <p class="about-tools mono">Tools I reach for — React · Node.js · Unreal Engine · BrightSign · ArcGIS · AWS · After Effects · Premiere</p>
             <div class="stats">
               <div class="stat">
                 <div class="stat-num"><span data-count="50">50</span><sup>+</sup></div>
@@ -1452,8 +1475,8 @@
                 <div class="stat-label mono">Visitors / yr · USSRC</div>
               </div>
               <div class="stat">
-                <div class="stat-num"><span data-count="6">6</span><sup>+</sup></div>
-                <div class="stat-label mono">Venues</div>
+                <div class="stat-num"><span data-count="5">5</span></div>
+                <div class="stat-label mono">Toyota experience centers</div>
               </div>
             </div>
           </div>
