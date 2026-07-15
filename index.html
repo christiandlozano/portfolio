@@ -31,7 +31,8 @@
     "url": "https://chexperiences.com",
     "worksFor": { "@type": "Organization", "name": "CH Experiences LLC" },
     "address": { "@type": "PostalAddress", "addressLocality": "Los Angeles", "addressRegion": "CA" },
-    "knowsAbout": ["Experiential design", "Unreal Engine", "React", "Node.js", "BrightSign", "WebSockets", "Projection mapping", "Interactive installations", "Museum exhibits"]
+    "knowsAbout": ["Experiential design", "Unreal Engine", "nDisplay", "React", "Node.js", "BrightSign", "WebSockets", "ArcGIS", "Projection mapping", "Interactive installations", "Offline-first kiosk software", "Live data exhibits", "Museum exhibits"],
+    "knowsLanguage": ["English", "Spanish"]
   }
   </script>
 
@@ -696,6 +697,69 @@
     }
     .principle p { color: var(--paper-dim); max-width: 44rem; }
 
+    /* ---- how I build (process graphic) ---- */
+    .build-flow { margin-top: clamp(3rem, 8vh, 5.5rem); }
+    .build-flow-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 1.75rem;
+    }
+    .build-flow-title {
+      font-weight: 900;
+      font-stretch: 113%;
+      font-size: clamp(1.5rem, 3.6vw, 2.8rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+    }
+    .build-steps {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      border: 1px solid var(--hairline);
+    }
+    .build-step {
+      position: relative;
+      padding: 1.5rem 1.25rem 1.75rem;
+      border-right: 1px solid var(--hairline-soft);
+      transition: background var(--t-fast);
+    }
+    .build-step:last-child { border-right: none; }
+    .build-step:hover { background: var(--ink-2); }
+    .build-num { display: block; color: var(--accent); margin-bottom: 1.25rem; }
+    .build-glyph { width: 76px; height: 76px; display: block; margin-bottom: 1.25rem; }
+    .build-glyph .ln { stroke: rgba(242, 239, 233, 0.55); stroke-width: 1.5; fill: none; }
+    .build-glyph .lnf { stroke: rgba(242, 239, 233, 0.25); stroke-width: 1; fill: none; }
+    .build-glyph .dot { fill: rgba(242, 239, 233, 0.55); }
+    .build-glyph .acc { fill: var(--accent); }
+    .build-glyph .accln { stroke: var(--accent); stroke-width: 2; fill: none; }
+    .build-step h4 {
+      font-weight: 800;
+      font-stretch: 110%;
+      font-size: 1rem;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .build-step p { font-size: 0.85rem; line-height: 1.55; color: var(--paper-dim); }
+    @media (max-width: 1000px) {
+      .build-steps { grid-template-columns: 1fr; }
+      .build-step {
+        display: grid;
+        grid-template-columns: 84px 1fr;
+        column-gap: 1.25rem;
+        padding: 1.25rem 1rem;
+        border-right: none;
+        border-bottom: 1px solid var(--hairline-soft);
+      }
+      .build-step:last-child { border-bottom: none; }
+      .build-glyph { grid-column: 1; grid-row: 1 / span 3; width: 64px; height: 64px; margin: 0; }
+      .build-num { grid-column: 2; margin-bottom: 0.4rem; }
+      .build-step h4, .build-step p { grid-column: 2; }
+    }
+
     /* ---- contact ---- */
     .contact { text-align: left; padding-bottom: clamp(3rem, 8vh, 6rem); }
     .contact-title {
@@ -917,12 +981,13 @@
             </p>
             <div class="field-note">
               <span class="field-note-label mono">Field note</span>
-              <p>The hard part isn't the water — it's hardware that survives school
-              groups. Sensor input gets filtered and remapped in-engine, so a kid
-              slamming the throttle reads as intent, not noise. The sea itself is custom
-              graphics: a real-time water particle system.</p>
+              <p>Sensor input gets filtered and remapped in-engine, so a kid
+              slamming the throttle reads as intent. The sea itself is a real-time water particle system. And because the side screens
+              angle in like a real bridge, it renders through nDisplay — Unreal's way of
+              drawing a correctly-angled view for each screen instead of one stretched
+              image.</p>
             </div>
-            <p class="stack-line mono">Unreal Engine (real-time 3D) <i>·</i> three-screen bridge <i>·</i> custom wheel + throttle sensors</p>
+            <p class="stack-line mono">Unreal Engine + nDisplay (real-time 3D) <i>·</i> three-screen bridge <i>·</i> custom wheel + throttle sensors</p>
           </div>
         </article>
 
@@ -939,7 +1004,7 @@
               <img class="zoomable" src="images/web/picture4.jpg" alt="Opening night crowd on the exhibit floor" width="1800" height="1200" loading="lazy" decoding="async" />
             </div>
             <p class="frame-caption mono">
-              <span>Fig. 01 — 3,500 sq ft · live since 2024</span>
+              <span>Fig. 01 — 3,500 sq ft · live since 2025</span>
               <span>800K visitors / yr</span>
             </p>
           </div>
@@ -948,18 +1013,17 @@
             <p class="feature-kicker mono">U.S. Space &amp; Rocket Center · Huntsville, AL</p>
             <h3 class="feature-title">How We Know the Weather</h3>
             <p class="feature-desc">
-              The U.S. Space &amp; Rocket Center asked for an exhibit about how weather
-              is actually predicted. It became 3,500 square feet of live science: a
-              <strong>24'×14' LED wall</strong> streaming real NASA, NOAA, and Baron
-              weather feeds, and <strong>54 screens</strong> of hands-on games — in
+              A 3,500 square feet of live science at the U.S. Space &amp; Rocket Center: a
+              <strong>24'×14' LED wall</strong> streaming real Baron
+              weather feeds (the same ones you might see on TV behind wather broadcasters), and <strong>54 screens</strong> of hands-on games — in
               front of 800,000 visitors a year.
             </p>
             <div class="field-note">
               <span class="field-note-label mono">Field note</span>
               <p>I carried this from concept through install — building the content and
               project-managing the content teams. The wall runs my HTML layout through a
-              broadcast video processor that crashes on the wrong resolution, so every
-              block is pinned to its exact pixel region — and a dropped feed fails
+              a video processor that crashes on the wrong resolution, so every
+              block is pinned to its exact pixel region, and a dropped feed fails
               quietly instead of taking the wall down.</p>
             </div>
             <p class="stack-line mono">Live NASA / NOAA / Baron data <i>·</i> 24'×14' LED wall <i>·</i> 54 screens <i>·</i> web-based interactives</p>
@@ -979,20 +1043,18 @@
           </div>
           <div class="feature-copy reveal">
             <span class="feature-num" aria-hidden="true">03</span>
-            <p class="feature-kicker mono">Toyota Experience Center · Plano, TX</p>
+            <p class="feature-kicker mono">Toyota Experience Center · San Antonio, TX</p>
             <h3 class="feature-title">Toyota North America</h3>
             <p class="feature-desc">
-              Toyota's flagship experience center needed one wall to tell the story of
-              a continent — the people, the plants, the cars. <strong>Six
+              <strong>Six
               applications</strong> and six video channels act as a single synchronized
-              piece, built end to end inside Toyota's design system.
+              piece, built end to end inside Toyota's design system. One simple story about people, places, and cars.
             </p>
             <div class="field-note">
               <span class="field-note-label mono">Field note</span>
-              <p>The apps stay in lockstep over WebSockets — a live connection that lets
+              <p>The apps stay communicate with each other over WebSockets — a live connection that lets
               every screen react in the same instant. It's the most complex build in the
-              Center, and it reads as one simple story. Complexity is the budget;
-              simplicity is the product.</p>
+              Center, and it reads as one simple story.</p>
             </div>
             <p class="stack-line mono">Six synced apps <i>·</i> WebSockets (real-time sync) <i>·</i> six video channels</p>
           </div>
@@ -1014,7 +1076,7 @@
             <button class="row-head" aria-expanded="false">
               <span class="row-num mono">04</span>
               <span class="row-title">Patents Interactive<small>Toyota HQ · Plano, TX</small></span>
-              <span class="row-stack mono">One touchscreen, four displays · lighting cues</span>
+              <span class="row-stack mono">One touchscreen, four displays · WebSockets · lighting cues · XC2055</span>
               <span class="row-x" aria-hidden="true"></span>
             </button>
             <div class="row-panel">
@@ -1025,7 +1087,9 @@
                     Toyota holds thousands of patents almost nobody outside R&amp;D ever
                     sees. This turns them into a browsable wall — one touchscreen driving
                     four displays, room lighting shifting as you swipe, and every story
-                    set against a generated particle-network background.
+                    set against a generated particle-network background, so that color changes were calm and graceful. A XC2055 BrightSign runs a web
+                    app on a Node.js WebSocket backbone — one live line every display and
+                    lighting cue listens to — installed in 2025.
                   </div>
                   <div class="media-strip">
                     <img class="zoomable" src="images/web/toyota-patents.jpg" alt="Patents Interactive touchscreen and display wall" width="1800" height="1350" loading="lazy" decoding="async" />
@@ -1047,9 +1111,8 @@
                 <div class="row-panel-grid">
                   <div class="row-note">
                     <span class="field-note-label mono">Field note</span>
-                    San Antonio wanted to show the plant as part of the city, not apart
-                    from it. The animation is hand-keyed over real satellite imagery and
-                    projected onto a physical table, calibrated so the map lands exactly
+                    Hand-crafted animation aligned to real satellite imagery and the plant's actual footprint,
+                     calibrated so the map lands exactly
                     where the geography does.
                   </div>
                   <div class="media-strip">
@@ -1099,11 +1162,11 @@
       <div class="row-panel-grid">
         <div class="row-note">
           <span class="field-note-label mono">Field note</span>
-          Produced and edited the welcome media experience for the six-screen marquee at the
-  Toyota Kentucky Experience Center. Using Adobe After Effects, I recreated the
-  display's mullion layout to accurately preview the final installation, then
-  assembled, timed, and refined a sequence of photos and videos with transitions
-  designed for the large-format canvas before deployment on-site.
+          The welcome sequence for the six-screen marquee at Toyota Kentucky. Marquee
+  screens have real gaps between them — mullions — so I rebuilt the exact panel
+  layout inside After Effects and edited to it: content that ignores the gaps
+  looks broken the moment it goes up. Assembled, timed, and delivered ready for
+  the wall, with no surprises on site.
         </div>
 
         <div class="media-strip">
@@ -1132,7 +1195,7 @@
                 <div class="row-panel-grid">
                   <div class="row-note">
                     <span class="field-note-label mono">Field note</span>
-                    A game about solar power for kids who won't stand still: drag panels
+                    A game about solar power for kids: drag panels
                     across a cartoon Detroit skyline, chase the sun, dodge the clouds.
                     Rounds are short on purpose — a station that takes three minutes per
                     kid bottlenecks an entire school group.
@@ -1158,9 +1221,11 @@
                 <div class="row-panel-grid">
                   <div class="row-note">
                     <span class="field-note-label mono">Field note</span>
-                    A single 80" touchscreen running a bespoke web application built from
-                    a designer's Photoshop creative — adapted to live, animated web content
-                    achieving ~95% fidelity to the original vision.
+                    An 80-inch touchscreen telling Toyota's hydrogen story. It started as
+                    a designer's Photoshop file; the job was making it live — animated,
+                    touchable, video running behind it — without drifting from the design.
+                    It landed around 95% true to the original, built in 1080 and 4K
+                    versions so it holds up on whatever screen the space calls for.
                   </div>
                   <div class="media-strip">
                     <img class="zoomable" src="images/web/hydrogen-society-kiosk-1.jpg" alt="Hydrogen Society interactive touchscreen kiosk" width="1800" height="1350" loading="lazy" decoding="async" />
@@ -1183,9 +1248,12 @@
                 <div class="row-panel-grid">
                   <div class="row-note">
                     <span class="field-note-label mono">Field note</span>
-                    Concept and flow ideated from raw client content, translated into a
-                    Photoshop presentation package for BrightSign programming. A kiosk
-                    centered on light and the gift of mobility.
+                    Toyota wanted to honor the Sienna's role in accessible mobility. The
+                    client sent raw content; the concept, the flow, and the screen design
+                    came from here — worked out in Photoshop, then programmed on
+                    BrightSign, the solid-state players exhibits use because they boot
+                    straight to content and keep running. Reachable and readable from a
+                    wheelchair, by design.
                   </div>
                   <div class="media-strip">
                     <img class="zoomable" src="images/web/kiosk-ada-sienna-1.jpg" alt="Toyota Sienna Mobility Kiosk" width="1800" height="1350" loading="lazy" decoding="async" />
@@ -1450,7 +1518,7 @@
             </p>
           </div>
           <div class="about-copy reveal">
-            <p class="about-lede">A studio of one. I design it, build it, and <em>stand next to it</em> when the doors open.</p>
+            <p class="about-lede">I design it, build it, and <em>stand next to it</em> when the doors open.</p>
             <p class="about-body">
               The software side of exhibits is my whole job — web applications, games,
               interactive maps, video. The work is live at <strong>five Toyota
@@ -1514,6 +1582,68 @@
             </div>
           </li>
         </ul>
+
+        <div class="build-flow reveal" aria-label="How I build experiences">
+          <div class="build-flow-head">
+            <h3 class="build-flow-title">How I build<br />experiences</h3>
+            <p class="section-label mono">The order matters</p>
+          </div>
+          <ol class="build-steps">
+            <li class="build-step">
+              <span class="build-num mono">01</span>
+              <svg class="build-glyph" viewBox="0 0 80 80" aria-hidden="true">
+                <path class="lnf" d="M14 12 40 60 M32 8 40 60 M52 14 40 60 M68 10 40 60 M22 26 40 60 M60 30 40 60" />
+                <circle class="dot" cx="14" cy="12" r="2" />
+                <circle class="dot" cx="32" cy="8" r="2" />
+                <circle class="dot" cx="52" cy="14" r="2" />
+                <circle class="dot" cx="68" cy="10" r="2" />
+                <circle class="dot" cx="22" cy="26" r="2" />
+                <circle class="dot" cx="60" cy="30" r="2" />
+                <circle class="acc" cx="40" cy="60" r="5" />
+              </svg>
+              <h4>One true thing</h4>
+              <p>Strip the topic to one idea worth telling.</p>
+            </li>
+            <li class="build-step">
+              <span class="build-num mono">02</span>
+              <svg class="build-glyph" viewBox="0 0 80 80" aria-hidden="true">
+                <rect class="ln" x="16" y="18" width="48" height="44" />
+                <path class="accln" d="M8 44h12l6-16 8 28 8-36 8 30 6-12h16" />
+              </svg>
+              <h4>Make it a feeling</h4>
+              <p>A temperature, a weight, a sound.</p>
+            </li>
+            <li class="build-step">
+              <span class="build-num mono">03</span>
+              <svg class="build-glyph" viewBox="0 0 80 80" aria-hidden="true">
+                <rect class="ln" x="12" y="16" width="34" height="34" />
+                <rect class="ln" x="34" y="30" width="34" height="34" />
+                <rect class="acc" x="34" y="30" width="12" height="20" />
+              </svg>
+              <h4>Make it about you</h4>
+              <p>It lands on something you already know.</p>
+            </li>
+            <li class="build-step">
+              <span class="build-num mono">04</span>
+              <svg class="build-glyph" viewBox="0 0 80 80" aria-hidden="true">
+                <path class="lnf" d="M66 30 66 74 22 74" />
+                <polygon class="ln" points="14,22 58,22 14,66" />
+                <path class="accln" d="M64 16 8 72" />
+              </svg>
+              <h4>Cut until it's sharp</h4>
+              <p>One hero moment. One ending you keep.</p>
+            </li>
+            <li class="build-step">
+              <span class="build-num mono">05</span>
+              <svg class="build-glyph" viewBox="0 0 80 80" aria-hidden="true">
+                <circle class="acc" cx="40" cy="26" r="7" />
+                <path class="ln" d="M30 42h20 M26 52h28 M22 62h36" />
+              </svg>
+              <h4>Then, technology</h4>
+              <p>Chosen last. It serves without showing off.</p>
+            </li>
+          </ol>
+        </div>
       </div>
     </section>
 
