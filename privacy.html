@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Privacy Policy — Christian Lozano</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="The privacy policy for chexperiences.com: no cookies, no analytics, no tracking. An honest, plain-English account of the two third parties that technically see you here." />
+  <meta name="theme-color" content="#0a0a0b" />
+  <link rel="canonical" href="https://chexperiences.com/privacy.html" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Christian Lozano — CH Experiences" />
+  <meta property="og:title" content="Privacy Policy — Christian Lozano" />
+  <meta property="og:description" content="No cookies, no analytics, no tracking. Here's the honest version, in plain English." />
+  <meta property="og:url" content="https://chexperiences.com/privacy.html" />
+  <meta property="og:image" content="https://chexperiences.com/images/web/og-card.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0a0b'/%3E%3Ctext x='32' y='44' font-family='Arial Black,sans-serif' font-size='34' font-weight='900' fill='%23ff6f00' text-anchor='middle'%3ECL%3C/text%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --ink: #0a0a0b;
+      --ink-2: #111113;
+      --paper: #f2efe9;
+      --paper-dim: rgba(242, 239, 233, 0.62);
+      --paper-faint: rgba(242, 239, 233, 0.38);
+      --hairline: rgba(242, 239, 233, 0.12);
+      --hairline-soft: rgba(242, 239, 233, 0.07);
+      --accent: #ff6f00;
+      --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+      --font-mono: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+      --pad: clamp(1.25rem, 4vw, 4rem);
+      --t-fast: 220ms;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-display);
+      background: var(--ink);
+      color: var(--paper);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: clip;
+    }
+
+    ::selection { background: var(--accent); color: var(--ink); }
+    a { color: inherit; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+    .grain {
+      position: fixed;
+      inset: -50%;
+      z-index: 90;
+      pointer-events: none;
+      opacity: 0.055;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .container {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding-left: var(--pad);
+      padding-right: var(--pad);
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* header */
+    .site-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      border-bottom: 1px solid var(--hairline-soft);
+      background: rgba(10, 10, 11, 0.72);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+    .site-header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+    .brand-mark {
+      font-weight: 900;
+      font-stretch: 120%;
+      font-size: 1.05rem;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+    }
+    .brand-mark em { color: var(--accent); font-style: normal; }
+    .back-link {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--paper-dim);
+      text-decoration: none;
+      transition: color var(--t-fast);
+    }
+    .back-link:hover { color: var(--accent); }
+
+    /* page */
+    .page {
+      padding-top: clamp(7rem, 18vh, 11rem);
+      padding-bottom: clamp(3rem, 8vh, 6rem);
+    }
+    .eyebrow { color: var(--accent); margin-bottom: 1rem; }
+    h1 {
+      font-weight: 900;
+      font-stretch: 115%;
+      font-size: clamp(2.4rem, 8vw, 6rem);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+      max-width: 16ch;
+    }
+
+    .tldr {
+      border-left: 2px solid var(--accent);
+      padding-left: 1.25rem;
+      margin-bottom: clamp(2.5rem, 6vh, 4rem);
+      max-width: 44rem;
+    }
+    .tldr-label { display: block; color: var(--accent); margin-bottom: 0.6rem; }
+    .tldr p {
+      font-size: clamp(1.15rem, 2.2vw, 1.65rem);
+      line-height: 1.4;
+      font-weight: 600;
+      font-stretch: 106%;
+      letter-spacing: -0.012em;
+    }
+    .tldr p + p {
+      margin-top: 0.9rem;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--paper-dim);
+      letter-spacing: 0;
+    }
+
+    .policy { border-top: 1px solid var(--hairline); max-width: 62rem; }
+    .block {
+      display: grid;
+      grid-template-columns: 12rem 1fr;
+      gap: 2rem;
+      padding: clamp(1.5rem, 4vh, 2.5rem) 0;
+      border-bottom: 1px solid var(--hairline);
+    }
+    @media (max-width: 760px) {
+      .block { grid-template-columns: 1fr; gap: 0.75rem; }
+    }
+    .block-label { color: var(--paper-faint); padding-top: 0.35rem; }
+    .block-body { max-width: 44rem; }
+    .block-body h2 {
+      font-weight: 800;
+      font-stretch: 110%;
+      font-size: 1.15rem;
+      letter-spacing: 0.005em;
+      text-transform: uppercase;
+      margin-bottom: 0.7rem;
+    }
+    .block-body p { color: var(--paper-dim); margin-bottom: 0.9rem; }
+    .block-body p:last-child { margin-bottom: 0; }
+    .block-body strong { color: var(--paper); font-weight: 600; }
+    .block-body a { color: var(--accent); text-decoration: none; }
+    .block-body a:hover { text-decoration: underline; }
+
+    .updated {
+      margin-top: 2.5rem;
+      color: var(--paper-faint);
+    }
+
+    footer {
+      border-top: 1px solid var(--hairline);
+      padding: 2rem 0 2.5rem;
+    }
+    footer .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 3rem;
+      justify-content: space-between;
+      color: var(--paper-faint);
+    }
+    footer i { color: var(--accent); font-style: normal; }
+    footer a { color: var(--paper-dim); text-decoration: none; transition: color var(--t-fast); }
+    footer a:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand-mark" href="/" aria-label="Christian Lozano — home">CL<em>.</em></a>
+      <a class="back-link" href="/">← Back to the work</a>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="container">
+      <p class="eyebrow mono">Privacy</p>
+      <h1>Nothing to see here. Literally.</h1>
+
+      <div class="tldr">
+        <span class="tldr-label mono">The short version</span>
+        <p>I don't collect anything about you. No cookies, no analytics, no tracking, no accounts, no newsletter.</p>
+        <p>You looked at some pictures of museum exhibits and then you left. That's the whole transaction. The rest of this page is me being specific about it, because a privacy policy that says "we value your privacy" and then runs eleven trackers is not a privacy policy.</p>
+      </div>
+
+      <div class="policy">
+
+        <section class="block">
+          <p class="block-label mono">01 / Collection</p>
+          <div class="block-body">
+            <h2>What I collect</h2>
+            <p>Nothing. There's no form on this site, no sign-up, no comment box, no cart. I don't know who you are and I'm not trying to find out.</p>
+          </div>
+        </section>
+
+        <section class="block">
+          <p class="block-label mono">02 / Cookies</p>
+          <div class="block-body">
+            <h2>Cookies</h2>
+            <p>Zero. Not the necessary kind, not the analytics kind, and not the "we value your privacy" kind that makes you dismiss a banner before you can read anything. That's why you didn't have to click anything to get here.</p>
+          </div>
+        </section>
+
+        <section class="block">
+          <p class="block-label mono">03 / Third parties</p>
+          <div class="block-body">
+            <h2>Two things I should be honest about</h2>
+            <p>Even a site this simple isn't running in a vacuum. Two other companies technically see you here, and pretending otherwise would be the kind of thing this page exists to avoid.</p>
+            <p><strong>Google Fonts.</strong> The type you're reading loads from Google's servers. When the page opens, your browser asks Google for the font files, and Google can see your IP address when it answers. I use them because they're good and they load fast. I may self-host them later so this section gets shorter.</p>
+            <p><strong>My web host.</strong> This site sits on Netlify. Like every web server on earth, theirs keeps standard logs — IP address, browser, which page was requested — to serve the site and keep it secure. I don't build reports from them and I don't read them for fun. What Netlify does with those logs is covered by their own privacy policy.</p>
+          </div>
+        </section>
+
+        <section class="block">
+          <p class="block-label mono">04 / Email</p>
+          <div class="block-body">
+            <h2>If you email me</h2>
+            <p>The contact link opens your own email app — nothing is submitted through this site. If you write to me, I'll have your email address and whatever you chose to tell me, same as any email. I use it to write back. You won't get added to a list, because there is no list.</p>
+          </div>
+        </section>
+
+        <section class="block">
+          <p class="block-label mono">05 / Use</p>
+          <div class="block-body">
+            <h2>What I do with your data</h2>
+            <p>Nothing, because I don't have any. There's nothing here to sell, share, hand over, or lose in a breach. That's deliberate. I build software that runs unattended in public buildings for years, and the same instinct applies here: the fewer moving parts, the fewer things that can break.</p>
+          </div>
+        </section>
+
+        <section class="block">
+          <p class="block-label mono">06 / Your rights</p>
+          <div class="block-body">
+            <h2>Your rights</h2>
+            <p>Depending on where you live, you may have the right to ask what data I hold about you, request a copy, or demand I delete it. You're welcome to. It will be the fastest request I ever fulfill.</p>
+            <p>Children's privacy works the same way as everyone else's here: nothing is collected from anyone, at any age.</p>
+          </div>
+        </section>
+
+        <section class="block">
+          <p class="block-label mono">07 / Changes</p>
+          <div class="block-body">
+            <h2>If this ever changes</h2>
+            <p>If I add something that does collect data — analytics, a real contact form — I'll rewrite this page and change the date below before it goes live. If you're reading this, it's current.</p>
+          </div>
+        </section>
+
+        <section class="block">
+          <p class="block-label mono">08 / Contact</p>
+          <div class="block-body">
+            <h2>Questions</h2>
+            <p>Ask me directly: <a href="mailto:christian@chexperiences.com">christian@chexperiences.com</a></p>
+          </div>
+        </section>
+
+      </div>
+
+      <p class="updated mono">Last updated: August 13, 2026 · CH Experiences LLC, Los Angeles</p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container mono">
+      <span>CH Experiences LLC</span>
+      <span>Los Angeles</span>
+      <span>© 2026 <i>·</i> <a href="/">Back to the work</a></span>
+    </div>
+  </footer>
+
+</body>
+</html>

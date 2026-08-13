@@ -1,0 +1,5 @@
+# chexperiences.com
+User-agent: *
+Allow: /
+
+Sitemap: https://chexperiences.com/sitemap.xml

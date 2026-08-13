@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>404 — This one doesn't exist · Christian Lozano</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="That page isn't here. Head back to the work." />
+  <meta name="theme-color" content="#0a0a0b" />
+  <meta name="robots" content="noindex, follow" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0a0b'/%3E%3Ctext x='32' y='44' font-family='Arial Black,sans-serif' font-size='34' font-weight='900' fill='%23ff6f00' text-anchor='middle'%3ECL%3C/text%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --ink: #0a0a0b;
+      --paper: #f2efe9;
+      --paper-dim: rgba(242, 239, 233, 0.62);
+      --paper-faint: rgba(242, 239, 233, 0.38);
+      --hairline: rgba(242, 239, 233, 0.12);
+      --accent: #ff6f00;
+      --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+      --font-mono: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+      --pad: clamp(1.25rem, 4vw, 4rem);
+      --t-fast: 220ms;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-display);
+      background: var(--ink);
+      color: var(--paper);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: clip;
+    }
+
+    ::selection { background: var(--accent); color: var(--ink); }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+    .grain {
+      position: fixed;
+      inset: -50%;
+      z-index: 90;
+      pointer-events: none;
+      opacity: 0.055;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .container {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding-left: var(--pad);
+      padding-right: var(--pad);
+      width: 100%;
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .site-header {
+      border-bottom: 1px solid rgba(242, 239, 233, 0.07);
+    }
+    .site-header .container {
+      display: flex;
+      align-items: center;
+      height: 60px;
+    }
+    .brand-mark {
+      font-weight: 900;
+      font-stretch: 120%;
+      font-size: 1.05rem;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand-mark em { color: var(--accent); font-style: normal; }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: clamp(3rem, 12vh, 8rem) 0;
+    }
+
+    .code {
+      font-weight: 900;
+      font-stretch: 115%;
+      font-size: clamp(6rem, 26vw, 20rem);
+      line-height: 0.82;
+      letter-spacing: -0.045em;
+      color: transparent;
+      -webkit-text-stroke: 1.5px rgba(242, 239, 233, 0.2);
+      user-select: none;
+      margin-bottom: clamp(1.5rem, 4vh, 2.5rem);
+    }
+    .code span { color: var(--accent); -webkit-text-stroke: 0; }
+
+    h1 {
+      font-weight: 900;
+      font-stretch: 113%;
+      font-size: clamp(1.6rem, 4.5vw, 3.2rem);
+      line-height: 1.03;
+      letter-spacing: -0.025em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+      max-width: 20ch;
+    }
+
+    .lede {
+      color: var(--paper-dim);
+      max-width: 34rem;
+      font-size: 1.02rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.9rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid var(--hairline);
+      padding: 1rem 1.5rem;
+      transition: border-color var(--t-fast), background var(--t-fast), color var(--t-fast);
+    }
+    .home-btn .dot { width: 8px; height: 8px; background: var(--accent); }
+    .home-btn:hover { border-color: var(--accent); background: var(--accent); color: var(--ink); }
+    .home-btn:hover .dot { background: var(--ink); }
+
+    footer {
+      border-top: 1px solid var(--hairline);
+      padding: 1.75rem 0 2rem;
+    }
+    footer .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 3rem;
+      justify-content: space-between;
+      color: var(--paper-faint);
+    }
+    footer a { color: var(--paper-dim); text-decoration: none; transition: color var(--t-fast); }
+    footer a:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand-mark" href="/" aria-label="Christian Lozano — home">CL<em>.</em></a>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <p class="code" aria-hidden="true">4<span>0</span>4</p>
+      <h1>Every building has a door that goes nowhere.</h1>
+      <p class="lede">
+        You found mine. This page doesn't exist — but the work does, and it's
+        one click away.
+      </p>
+      <a class="home-btn" href="/">
+        <span class="dot" aria-hidden="true"></span>
+        Back to the work
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container mono">
+      <span>CH Experiences LLC</span>
+      <span>Los Angeles</span>
+      <span><a href="/privacy.html">Privacy</a></span>
+    </div>
+  </footer>
+
+</body>
+</html>

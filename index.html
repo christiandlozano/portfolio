@@ -7,13 +7,25 @@
   <meta name="description" content="Christian Lozano makes web applications, games, and interactive content for museums and brand homes — built to survive the public, unattended, for years." />
   <meta name="theme-color" content="#0a0a0b" />
 
+  <link rel="canonical" href="https://chexperiences.com/" />
+  <meta name="author" content="Christian Lozano" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+
   <!-- Open Graph / social -->
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Christian Lozano — CH Experiences" />
+  <meta property="og:locale" content="en_US" />
   <meta property="og:title" content="Christian Lozano — Creative Technologist for Physical Places" />
   <meta property="og:description" content="Web applications, games, and interactive content for museums and brand homes — built to survive the public, unattended, for years." />
   <meta property="og:url" content="https://chexperiences.com/" />
-  <meta property="og:image" content="https://chexperiences.com/images/web/how-we-know-the-weather-1.jpeg" />
+  <meta property="og:image" content="https://chexperiences.com/images/web/og-card.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Christian Lozano, Creative Technologist — a live weather exhibit with LED wall and interactive stations" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Christian Lozano — Creative Technologist for Physical Places" />
+  <meta name="twitter:description" content="Web applications, games, and interactive content for museums and brand homes — built to survive the public, unattended, for years." />
+  <meta name="twitter:image" content="https://chexperiences.com/images/web/og-card.jpg" />
 
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0a0b'/%3E%3Ctext x='32' y='44' font-family='Arial Black,sans-serif' font-size='34' font-weight='900' fill='%23ff6f00' text-anchor='middle'%3ECL%3C/text%3E%3C/svg%3E" />
 
@@ -24,15 +36,52 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Christian Lozano",
-    "jobTitle": "Creative Technologist",
-    "email": "mailto:christian@chexperiences.com",
-    "url": "https://chexperiences.com",
-    "worksFor": { "@type": "Organization", "name": "CH Experiences LLC" },
-    "address": { "@type": "PostalAddress", "addressLocality": "Los Angeles", "addressRegion": "CA" },
-    "knowsAbout": ["Experiential design", "Unreal Engine", "nDisplay", "React", "Node.js", "BrightSign", "WebSockets", "ArcGIS", "Projection mapping", "Interactive installations", "Offline-first kiosk software", "Live data exhibits", "Museum exhibits"],
-    "knowsLanguage": ["English", "Spanish"]
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://chexperiences.com/#christian",
+        "name": "Christian Lozano",
+        "jobTitle": "Creative Technologist",
+        "description": "Creative technologist building web applications, games, and interactive content for museums and brand homes.",
+        "email": "mailto:christian@chexperiences.com",
+        "url": "https://chexperiences.com",
+        "image": "https://chexperiences.com/images/web/Christian_Lozano.jpg",
+        "sameAs": ["https://www.linkedin.com/in/christianlozano24"],
+        "worksFor": { "@id": "https://chexperiences.com/#studio" },
+        "address": { "@type": "PostalAddress", "addressLocality": "Los Angeles", "addressRegion": "CA", "addressCountry": "US" },
+        "knowsAbout": ["Experiential design", "Unreal Engine", "nDisplay", "React", "Node.js", "BrightSign", "WebSockets", "ArcGIS", "Projection mapping", "Interactive installations", "Offline-first kiosk software", "Live data exhibits", "Museum exhibits"],
+        "knowsLanguage": ["English", "Spanish"]
+      },
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://chexperiences.com/#studio",
+        "name": "CH Experiences LLC",
+        "alternateName": "CH Experiences",
+        "description": "A one-person studio making the software side of exhibits: interactive web applications, games, real-time simulation, interactive maps, and video for museums and brand experience centers.",
+        "url": "https://chexperiences.com",
+        "email": "mailto:christian@chexperiences.com",
+        "image": "https://chexperiences.com/images/web/og-card.jpg",
+        "founder": { "@id": "https://chexperiences.com/#christian" },
+        "address": { "@type": "PostalAddress", "addressLocality": "Los Angeles", "addressRegion": "CA", "addressCountry": "US" },
+        "areaServed": { "@type": "Country", "name": "United States" },
+        "knowsLanguage": ["English", "Spanish"],
+        "serviceType": [
+          "Interactive exhibit development",
+          "Museum touchscreen and kiosk software",
+          "Real-time simulation for exhibits",
+          "Interactive map development",
+          "Motion design and video production for video walls"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://chexperiences.com/#website",
+        "url": "https://chexperiences.com",
+        "name": "Christian Lozano — Creative Technologist",
+        "publisher": { "@id": "https://chexperiences.com/#studio" },
+        "inLanguage": "en-US"
+      }
+    ]
   }
   </script>
 
@@ -805,6 +854,8 @@
       color: var(--paper-faint);
     }
     .footer-note i { color: var(--accent); font-style: normal; }
+    .footer-link { color: var(--paper-dim); text-decoration: none; transition: color var(--t-fast); }
+    .footer-link:hover { color: var(--accent); }
 
     /* ---- modal ---- */
     .modal-open { overflow: hidden; }
@@ -952,7 +1003,7 @@
     <section id="work" class="section">
       <div class="container">
         <header class="section-head reveal">
-          <h2 class="section-title">Flagship<br />builds</h2>
+          <h2 class="section-title">THINGS<br />I'VE BUILT</h2>
           <p class="section-label mono">01 / Selected work</p>
         </header>
 
@@ -1020,8 +1071,8 @@
             </p>
             <div class="field-note">
               <span class="field-note-label mono">Field note</span>
-              <p>I carried this from concept through install — building the content and
-              project-managing the content teams. The wall runs my HTML layout through a
+              <p>I carried this from concept through install — programming the content and
+              project-managing the content team. The wall runs my HTML layout through a
               a video processor that crashes on the wrong resolution, so every
               block is pinned to its exact pixel region, and a dropped feed fails
               quietly instead of taking the wall down.</p>
@@ -1175,6 +1226,20 @@
                alt="Toyota Kentucky Experience Center marquee video installation"
                width="2520"
                height="1554"
+               loading="lazy"
+               decoding="async" />
+          <img class="zoomable"
+               src="images/web/kentucky-marquee-2.png"
+               alt="Six-screen marquee layout with panel guides showing where the mullions fall across the scene"
+               width="1700"
+               height="379"
+               loading="lazy"
+               decoding="async" />
+          <img class="zoomable"
+               src="images/web/kentucky-marquee-3.png"
+               alt="After Effects composition of the marquee wall, with the physical screen gaps blocked out so no action is lost behind a mullion"
+               width="1240"
+               height="805"
                loading="lazy"
                decoding="async" />
         </div>
@@ -1601,8 +1666,8 @@
                 <circle class="dot" cx="60" cy="30" r="2" />
                 <circle class="acc" cx="40" cy="60" r="5" />
               </svg>
-              <h4>One true thing</h4>
-              <p>Strip the topic to one idea worth telling.</p>
+              <h4>Find the one true thing</h4>
+              <p>What should someone understand, remember, or care about?</p>
             </li>
             <li class="build-step">
               <span class="build-num mono">02</span>
@@ -1611,7 +1676,7 @@
                 <path class="accln" d="M8 44h12l6-16 8 28 8-36 8 30 6-12h16" />
               </svg>
               <h4>Make it a feeling</h4>
-              <p>A temperature, a weight, a sound.</p>
+              <p>Give people something to see, hear, touch, change, or discover.</p>
             </li>
             <li class="build-step">
               <span class="build-num mono">03</span>
@@ -1620,8 +1685,8 @@
                 <rect class="ln" x="34" y="30" width="34" height="34" />
                 <rect class="acc" x="34" y="30" width="12" height="20" />
               </svg>
-              <h4>Make it about you</h4>
-              <p>It lands on something you already know.</p>
+              <h4>Make it personal</h4>
+              <p>Connect it to something people already understand, feel, or recognize.</p>
             </li>
             <li class="build-step">
               <span class="build-num mono">04</span>
@@ -1640,7 +1705,7 @@
                 <path class="ln" d="M30 42h20 M26 52h28 M22 62h36" />
               </svg>
               <h4>Then, technology</h4>
-              <p>Chosen last. It serves without showing off.</p>
+              <p>Choose the tools that make the idea work.</p>
             </li>
           </ol>
         </div>
@@ -1664,7 +1729,7 @@
     <div class="container mono">
       <span>CH Experiences LLC</span>
       <span>Los Angeles</span>
-      <span class="footer-note">© 2026 <i>·</i> designed &amp; built by me</span>
+      <span class="footer-note">© 2026 <i>·</i> designed &amp; built by me <i>·</i> <a class="footer-link" href="/privacy.html">Privacy</a></span>
     </div>
   </footer>
 
