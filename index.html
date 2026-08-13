@@ -854,6 +854,17 @@
       will-change: transform, opacity;
     }
     .bubble-dock.is-visible { opacity: 1; pointer-events: auto; }
+
+    /* over the work index: sit low, and tuck into the gap between the row
+       titles and the tech-stack column (24px row-x + 20px gap + 28ch stack,
+       measured in from the container edge, then 20px of clearance) */
+    .bubble-dock.in-index { --bubble-y: 0%; top: auto; bottom: 9%; }
+    @media (min-width: 901px) {
+      .bubble-dock.in-index {
+        right: calc(max((100vw - 1480px) / 2, 0px) + var(--pad) + 273px);
+      }
+    }
+
     .bubble-float { width: 100%; height: 100%; }
     .bubble {
       display: flex;
@@ -893,7 +904,7 @@
     .bubble-cta { color: var(--accent); font-size: 0.62rem; }
 
     @media (max-width: 700px) {
-      .bubble-dock {
+      .bubble-dock, .bubble-dock.in-index {
         --bubble-y: 0%;
         top: auto;
         bottom: 1.25rem;
@@ -2033,7 +2044,17 @@
     /* ---- contact bubble: visible only over the work index and the contact section ---- */
     var bubble = document.getElementById('contactBubble');
     if (bubble && 'IntersectionObserver' in window) {
+      var indexZone = document.querySelector('[aria-label="Index of work"]');
+      var contactZone = document.getElementById('contact');
       var activeZones = new Set();
+      function updateBubble() {
+        var onContact = activeZones.has(contactZone);
+        var onIndex = activeZones.has(indexZone);
+        var show = onIndex || onContact;
+        /* only restyle while showing — repositioning mid-fade-out would jump */
+        if (show) bubble.classList.toggle('in-index', onIndex && !onContact);
+        bubble.classList.toggle('is-visible', show);
+      }
       function watchZone(el, opts) {
         if (!el) return;
         new IntersectionObserver(function (entries) {
@@ -2041,16 +2062,14 @@
             if (en.isIntersecting) activeZones.add(en.target);
             else activeZones.delete(en.target);
           });
-          bubble.classList.toggle('is-visible', activeZones.size > 0);
+          updateBubble();
         }, opts).observe(el);
       }
       /* while browsing the project index */
-      watchZone(document.querySelector('[aria-label="Index of work"]'),
-        { rootMargin: '-20% 0px -20% 0px', threshold: 0 });
+      watchZone(indexZone, { rootMargin: '-20% 0px -20% 0px', threshold: 0 });
       /* and again once contact is genuinely reached — tuned so it still fires
          on tall windows, where the page bottoms out before contact hits mid-screen */
-      watchZone(document.getElementById('contact'),
-        { rootMargin: '0px 0px -35% 0px', threshold: 0 });
+      watchZone(contactZone, { rootMargin: '0px 0px -35% 0px', threshold: 0 });
     }
 
     /* ---- magnetic email button ---- */
