@@ -12,7 +12,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,300..900&family=Familjen+Grotesk:ital,wght@0,400..700;1,400&family=Martian+Mono:wdth,wght@75..112.5,300..600&display=swap" rel="stylesheet" />
 
   <style>
     :root {
@@ -22,8 +22,9 @@
       --paper-faint: rgba(242, 239, 233, 0.38);
       --hairline: rgba(242, 239, 233, 0.12);
       --accent: #ff6f00;
-      --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
-      --font-mono: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+      --font-display: "Anybody", "Helvetica Neue", Arial, sans-serif;
+      --font-body: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
+      --font-mono: "Martian Mono", "SF Mono", Menlo, monospace;
       --pad: clamp(1.25rem, 4vw, 4rem);
       --t-fast: 220ms;
     }
@@ -31,7 +32,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: var(--font-display);
+      font-family: var(--font-body);
       background: var(--ink);
       color: var(--paper);
       line-height: 1.6;
@@ -42,17 +43,10 @@
       overflow-x: clip;
     }
 
+    .brand-mark, h1, h2, .code { font-family: var(--font-display); }
     ::selection { background: var(--accent); color: var(--ink); }
     :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-    .grain {
-      position: fixed;
-      inset: -50%;
-      z-index: 90;
-      pointer-events: none;
-      opacity: 0.055;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    }
 
     .container {
       max-width: 1480px;
@@ -65,7 +59,7 @@
     .mono {
       font-family: var(--font-mono);
       font-size: 0.72rem;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.03em;
       text-transform: uppercase;
     }
 
@@ -160,11 +154,10 @@
 </head>
 <body>
 
-  <div class="grain" aria-hidden="true"></div>
 
   <header class="site-header">
     <div class="container">
-      <a class="brand-mark" href="/" aria-label="Christian Lozano — home">CL<em>.</em></a>
+      <a class="brand-mark" href="/" aria-label="Christian Lozano — home">CL</a>
     </div>
   </header>
 
