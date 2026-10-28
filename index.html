@@ -403,8 +403,14 @@
     }
     .project.open .p-qa { position: relative; z-index: 1; padding: 0 var(--card-pad) var(--card-pad); cursor: pointer; }
     .project.open .qa:last-child { border-bottom: none; }
-    .project.open:has(.p-card:hover, .p-qa:hover, .p-toggle:hover) .p-card { background: #ffcf1c; }
-    .project.open:has(.p-card:hover, .p-qa:hover, .p-toggle:hover) .p-x { transform: scale(1.35); }
+    /* anywhere in an open project except the photos closes it */
+    .project.open { cursor: pointer; }
+    .project.open .p-media { cursor: auto; }
+    .project.open:hover:not(:has(.p-media:hover)) .p-card { background: #ffcf1c; }
+    .project.open:hover:not(:has(.p-media:hover)) .p-x { transform: scale(1.35); }
+    /* the yellow that travels between a row and its card */
+    .morph { position: absolute; z-index: 120; background: var(--yellow); pointer-events: none; }
+    .project.morphing .p-card { opacity: 0; }
     .project.open .p-toggle {
       width: 100%; margin: 0; padding: 0 0 1.1rem;
       grid-template-columns: var(--q) 1fr 1.25rem;
@@ -426,7 +432,8 @@
     .project.open .p-x::after { transform: rotate(90deg); }
 
     @media (prefers-reduced-motion: no-preference) {
-      .project.open .p-media, .project.open .p-qa, .project.open .p-card { animation: rise 420ms var(--ease) both; }
+      .project.open .p-media { animation: rise 460ms var(--ease) 120ms both; }
+      .project.open .p-head, .project.open .p-qa { animation: rise 460ms var(--ease) 300ms both; }
       .project.open .p-qa { animation-delay: 60ms; }
     }
     @keyframes rise {
@@ -1501,24 +1508,17 @@
       ['how-we-know-the-weather-2.jpg', 'How We Know the Weather', 'Huntsville, AL', 'weather'],
       ['vestaboard-environmental.jpg', 'Environmental Dashboards', 'Plano, TX', 'vestaboard']
     ];
-    /* where sheets land, as fractions of the stage from its center, plus a resting angle.
-       They ring the middle so the title has room once it settles there. */
-    var SPOTS = [
-      [-0.38, -0.30, -14], [-0.10, -0.35, 8], [0.17, -0.31, -6], [0.40, -0.27, 17],
-      [-0.45, 0.03, -24], [0.46, 0.02, 11], [-0.37, 0.32, 9], [-0.09, 0.36, -12],
-      [0.19, 0.35, 21], [0.41, 0.31, -8], [-0.56, -0.20, 30], [0.57, 0.22, -27]
-    ];
     /* on tall, narrow screens there's no room beside the title, so sheets land above and below it */
     var SPOTS_TALL = [
       [-0.36, -0.36, -12], [0.03, -0.40, 7], [0.37, -0.34, 15], [-0.20, -0.25, 10],
       [0.22, -0.26, -9], [-0.52, -0.22, 24], [-0.34, 0.30, 8], [0.04, 0.38, -10],
       [0.38, 0.31, -16], [-0.17, 0.42, 14], [0.21, 0.25, 6], [0.53, 0.21, -25]
     ];
-    var MAX = SPOTS.length;
+    var MAX = SPOTS_TALL.length;
     var DESK = !RM;
     var prints = [], made = 0, nextStill = 0;
     var progress = 0, titleS = 0, subS = 0;
-    var G = { w: 1, h: 1, pw: 1, ph: 1, pcx: 0, pcy: 0, dy: 0, base: 200, start: 0, len: 1, spots: SPOTS, grow: 0 };
+    var G = { w: 1, h: 1, pw: 1, ph: 1, pcx: 0, pcy: 0, dy: 0, base: 200, start: 0, len: 1, tall: false, grow: 0, rx: 300, ry: 200 };
     var deskRaf = null, deskLast = 0, hovered = null, tagTimer = null;
 
     function rnd(a, b) { return a + Math.random() * (b - a); }
@@ -1551,6 +1551,7 @@
         el: el, shade: el.firstChild, still: still,
         x0: rnd(-0.015, 0.015), y0: rnd(-0.015, 0.015), r0: rnd(-4, 4),
         spot: made % MAX, jx: rnd(-0.025, 0.025), jy: rnd(-0.025, 0.025), jr: rnd(-5, 5),
+        jrad: rnd(0.96, 1.07), ringRot: rnd(-18, 18),
         size: rnd(0.85, 1.12), spin: rnd(-12, 12), curve: rnd(-45, 45), jit: rnd(0, 0.04),
         k: rnd(0.07, 0.13), s: 0, hover: 0, hoverT: 0,
         drop: tossed ? 1 : 0, tossX: rnd(-70, 70), tossY: rnd(-60, -15)
@@ -1581,9 +1582,17 @@
       G.pcy = pileWrap.offsetTop + pile.offsetTop + G.ph / 2;
       var copy = heroTitle.parentNode;
       G.dy = G.h / 2 - (copy.offsetTop + copy.offsetHeight / 2);
-      G.base = Math.max(130, Math.min(G.w * 0.2, 320));
-      G.spots = G.h > G.w * 1.25 ? SPOTS_TALL : SPOTS;
+      G.base = Math.max(120, Math.min(G.w * 0.2, G.h * 0.3, 300));
+      G.tall = G.h > G.w * 1.25;
       G.grow = G.w > 700 ? 0.06 : 0;
+      /* a ring that hugs the settled title: just outside its text, with the sheets half overlapping the gap */
+      var range = document.createRange();
+      range.selectNodeContents(heroTitle);
+      var textW = range.getBoundingClientRect().width / (1 + G.grow * titleS);
+      var halfW = textW * (1 + G.grow) / 2;
+      var halfH = copy.offsetHeight / 2;
+      G.rx = Math.min(halfW + G.base * 0.5 + 34, G.w / 2 - G.base * 0.3);
+      G.ry = Math.min(halfH + G.base * 0.375 + 34, G.h / 2 - G.base * 0.3);
       G.start = hero.getBoundingClientRect().top + window.scrollY - 56;
       G.len = Math.max(1, hero.offsetHeight - stage.offsetHeight);
     }
@@ -1607,12 +1616,23 @@
         if (Math.abs(t - p.s) > 0.0004 || Math.abs(p.hoverT - p.hover) > 0.002 || p.drop > 0.002) busy = true;
 
         var s = p.s;
-        var spot = G.spots[p.spot];
-        var sxF = spot[0] + p.jx, syF = spot[1] + p.jy, tr = spot[2] + p.jr;
+        var ax, ay, tr;
+        if (G.tall) {
+          var spot = SPOTS_TALL[p.spot];
+          ax = G.w * (0.5 + spot[0] + p.jx); ay = G.h * (0.5 + spot[1] + p.jy); tr = spot[2] + p.jr;
+        } else {
+          /* evenly round a squarish ellipse, so corners get sheets too */
+          var ang = p.spot / MAX * Math.PI * 2 - Math.PI / 2;
+          var c = Math.cos(ang), sn = Math.sin(ang);
+          ax = G.w / 2 + G.rx * p.jrad * (c < 0 ? -1 : 1) * Math.pow(Math.abs(c), 0.5);
+          ay = G.h / 2 + G.ry * p.jrad * (sn < 0 ? -1 : 1) * Math.pow(Math.abs(sn), 0.5);
+          ax += p.jx * 900; ay += p.jy * 700;        /* a few px of mess, not a gap */
+          tr = p.ringRot;
+        }
         var air = Math.sin(Math.PI * s);                 /* off the desk mid-slide */
         var lift = Math.max(air, p.hover, p.drop);
-        var tx = G.w * (0.5 + sxF) - G.pcx;
-        var ty = G.h * (0.5 + syF) - G.pcy;
+        var tx = ax - G.pcx;
+        var ty = ay - G.pcy;
         var x = p.x0 * G.pw * (1 - s) + tx * s + p.curve * air + p.tossX * p.drop;
         var y = p.y0 * G.ph * (1 - s) + ty * s - p.curve * 0.4 * air + p.tossY * p.drop;
         var scale = (1 + (G.base * p.size / G.pw - 1) * s) * (1 + 0.05 * lift);
@@ -1754,22 +1774,81 @@
       card.className = 'p-card';
       card.setAttribute('aria-hidden', 'true');
       p.insertBefore(card, p.firstChild);
-      function closeFromCard() {
-        if (!p.classList.contains('open')) return;
-        var sel = window.getSelection && window.getSelection();
-        if (sel && sel.toString()) return;          /* someone selecting text, not closing */
-        toggle.click();
-        /* keep the row in view once the panel above it collapses */
-        var top = p.getBoundingClientRect().top;
-        if (top < 60) window.scrollBy({ top: top - 72, behavior: 'instant' });
-      }
-      card.addEventListener('click', closeFromCard);
-      p.querySelector('.p-qa').addEventListener('click', closeFromCard);
+      var parts = [media, p.querySelector('.p-head'), p.querySelector('.p-qa')];
+      var animating = false;
 
-      toggle.addEventListener('click', function () {
-        var open = p.classList.toggle('open');
+      /* a yellow block that travels from one rect to another (page coordinates) */
+      function travel(from, to, r0, r1, ms, fadeOut) {
+        var g = document.createElement('div');
+        g.className = 'morph';
+        document.body.appendChild(g);
+        var sx = window.scrollX, sy = window.scrollY;
+        var k = function (r, rad) {
+          return { left: (r.left + sx) + 'px', top: (r.top + sy) + 'px', width: r.width + 'px', height: r.height + 'px', borderRadius: rad + 'px' };
+        };
+        var a = g.animate([k(from, r0), k(to, r1)], { duration: ms, easing: 'cubic-bezier(0.65, 0, 0.25, 1)', fill: 'forwards' });
+        if (fadeOut) a = g.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 260, delay: ms - 60, fill: 'forwards' });
+        return a.finished.then(function () { g.remove(); }, function () { g.remove(); });
+      }
+      function grow(h0, h1, ms) {
+        p.style.overflow = 'clip';
+        var a = p.animate([{ height: h0 + 'px' }, { height: h1 + 'px' }], { duration: ms, easing: 'cubic-bezier(0.65, 0, 0.25, 1)' });
+        return a.finished.then(function () { p.style.overflow = ''; }, function () { p.style.overflow = ''; });
+      }
+      function radius() { return parseFloat(getComputedStyle(card).borderTopLeftRadius) || 0; }
+
+      function setOpen(open) {
+        p.classList.toggle('open', open);
         toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
         show(i);
+      }
+      function openUp() {
+        if (RM) { setOpen(true); return; }
+        animating = true;
+        var from = toggle.getBoundingClientRect();
+        var h0 = p.offsetHeight;
+        p.classList.add('morphing');
+        setOpen(true);
+        var h1 = p.offsetHeight;
+        var to = card.getBoundingClientRect();
+        grow(h0, h1, 560);
+        travel(from, to, 0, radius(), 560).then(function () {
+          p.classList.remove('morphing');
+          animating = false;
+        });
+      }
+      function closeDown() {
+        if (RM) { setOpen(false); return; }
+        animating = true;
+        var fades = parts.map(function (el) {
+          return el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 170, easing: 'ease-out', fill: 'forwards' });
+        });
+        fades[0].finished.then(function () {
+          /* if the row's top is off screen, bring it back first so the yellow has somewhere to land */
+          var top = p.getBoundingClientRect().top;
+          if (top < 60) window.scrollBy({ top: top - 72, behavior: 'instant' });
+          var from = card.getBoundingClientRect();
+          var h0 = p.offsetHeight;
+          setOpen(false);
+          fades.forEach(function (f) { f.cancel(); });
+          var h1 = p.offsetHeight;
+          var to = toggle.getBoundingClientRect();
+          grow(h0, h1, 480);
+          return travel(from, to, radius(), 0, 480, true);
+        }).then(function () { animating = false; });
+      }
+
+      toggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (animating) return;
+        if (p.classList.contains('open')) closeDown(); else openUp();
+      });
+      p.addEventListener('click', function (e) {
+        if (animating || !p.classList.contains('open')) return;
+        if (e.target.closest('.p-media')) return;
+        var sel = window.getSelection && window.getSelection();
+        if (sel && sel.toString()) return;          /* someone selecting text, not closing */
+        closeDown();
       });
       var prev = p.querySelector('.p-prev'), next = p.querySelector('.p-next');
       if (prev) prev.addEventListener('click', function () { show(i - 1); });
