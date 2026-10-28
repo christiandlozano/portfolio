@@ -31,7 +31,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
 
   <script type="application/ld+json">
   {
@@ -635,16 +635,53 @@
       .build-num { margin-bottom: 0.3rem; }
     }
 
-    /* ---- contact ---- */
-    .contact { text-align: center; padding: clamp(4.5rem, 12vh, 8rem) 0; }
-    .contact-title {
+    /* ---- contact: the word gets squeezed on the way down, then bursts ---- */
+    .contact {
+      --blue: #2a3fd0;
+      position: relative; isolation: isolate; overflow: hidden;
+      min-height: calc(100svh - 56px);
+      display: flex; align-items: center;
+      text-align: center;
+      padding: clamp(4rem, 10vh, 7rem) 0;
+      transition: color 300ms 120ms;
+    }
+    .contact > .container { width: 100%; }
+    .burst { position: absolute; inset: 0; z-index: -1; display: flex; flex-direction: column; pointer-events: none; }
+    .burst i {
+      flex: 1; margin-bottom: -1px;
+      background: var(--blue);
+      clip-path: inset(0 50% 0 50%);
+      transition: clip-path 380ms cubic-bezier(0.5, 0, 0.75, 0) calc(var(--d) * 0.4);
+    }
+    .contact.burst-on .burst i {
+      clip-path: inset(0 0 0 0);
+      transition: clip-path var(--t) cubic-bezier(0.16, 1, 0.3, 1) var(--d);
+    }
+    .contact-title { font-weight: 400; margin: 0 auto 2.25rem; }
+    .contact-lead {
+      display: block;
       font-family: var(--serif);
-      font-weight: 400;
-      font-size: clamp(2.8rem, 8vw, 7rem);
-      line-height: 0.9;
+      font-size: clamp(1.9rem, 4.6vw, 3.8rem);
+      line-height: 1;
+      letter-spacing: -0.01em;
+    }
+    .holds {
+      display: block;
+      font-family: var(--sans);
+      font-weight: 900;
+      font-stretch: 125%;
+      text-transform: uppercase;
+      font-size: 11vw;
+      line-height: 0.84;
       letter-spacing: -0.015em;
-      max-width: 13ch;
-      margin: 0 auto 2.25rem;
+      white-space: nowrap;
+      margin-top: 0.12em;
+      transition: font-stretch 240ms var(--ease), color 260ms;
+    }
+    .contact.burst-on { color: var(--print); }
+    .contact.burst-on .holds {
+      color: var(--yellow);
+      transition: font-stretch 520ms cubic-bezier(0.2, 1.4, 0.4, 1), color 200ms;
     }
     .email-btn {
       display: inline-block;
@@ -659,6 +696,41 @@
       overflow-wrap: anywhere;
     }
     .email-btn:hover { background: var(--ink); color: var(--yellow); }
+    .contact.burst-on .email-btn { color: var(--ink); }
+    .contact.burst-on .email-btn:hover { background: var(--print); }
+
+    .save { margin-top: 2rem; display: flex; flex-direction: column; align-items: center; gap: 0.6rem; }
+    .save p { font-size: 0.98rem; font-weight: 500; }
+    .save-btn {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      border: 1px solid currentColor; border-radius: 999px;
+      padding: 0.4rem 1.1rem 0.4rem 0.4rem;
+      font-weight: 600; font-size: 0.92rem;
+      text-decoration: none;
+      transition: background 160ms, color 160ms, border-color 160ms;
+    }
+    .save-btn img { width: 30px; height: 30px; border-radius: 50%; }
+    .save-btn b { font-weight: 800; font-size: 1.1em; line-height: 1; margin-left: 0.1rem; }
+    .save-btn:hover { background: var(--ink); border-color: var(--ink); color: var(--yellow); }
+    .contact.burst-on .save-btn:hover { background: var(--yellow); border-color: var(--yellow); color: var(--ink); }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .contact.burst-on .holds { animation: spring 640ms cubic-bezier(0.2, 0.9, 0.3, 1); }
+      .contact.burst-on .contact-lead,
+      .contact.burst-on .email-btn,
+      .contact.burst-on .save { animation: thud 520ms 60ms cubic-bezier(0.2, 0.9, 0.3, 1); }
+    }
+    @keyframes spring {
+      0% { transform: scale(0.94, 1.06); }
+      35% { transform: scale(1.07, 0.93); }
+      65% { transform: scale(0.98, 1.02); }
+      100% { transform: none; }
+    }
+    @keyframes thud {
+      0% { transform: none; }
+      30% { transform: translateY(7px); }
+      100% { transform: none; }
+    }
 
     /* ---- footer ---- */
     footer { border-top: 1px solid var(--ink); padding: 1.25rem 0 1.5rem; font-size: 0.85rem; }
@@ -1438,9 +1510,14 @@
     </section>
 
     <section id="contact" class="contact" aria-label="Contact">
+      <div class="burst" aria-hidden="true"><i style="--d:150ms;--t:560ms"></i><i style="--d:90ms;--t:640ms"></i><i style="--d:40ms;--t:520ms"></i><i style="--d:15ms;--t:600ms"></i><i style="--d:0ms;--t:500ms"></i><i style="--d:25ms;--t:580ms"></i><i style="--d:60ms;--t:620ms"></i><i style="--d:110ms;--t:540ms"></i><i style="--d:170ms;--t:660ms"></i></div>
       <div class="container">
-        <h2 class="contact-title">Let's build something that <em>holds up.</em></h2>
+        <h2 class="contact-title"><span class="contact-lead">Let's build something that</span> <span class="holds" id="holds">holds up.</span></h2>
         <a class="email-btn" href="mailto:christian@chexperiences.com">christian@chexperiences.com</a>
+        <div class="save">
+          <p>Don't have time for this right now? I gotcha.</p>
+          <a class="save-btn" href="/christian-lozano.vcf" type="text/vcard"><img src="images/web/thumbs/christian-face.jpg" alt="" width="30" height="30" loading="lazy" />Save my contact <b aria-hidden="true">+</b></a>
+        </div>
       </div>
     </section>
   </main>
@@ -1979,6 +2056,53 @@
         else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
       }
     });
+  })();
+
+  /* ---- contact: squeeze "holds up" while scrolling down, burst at the bottom ---- */
+  (function () {
+    var contact = document.getElementById('contact');
+    var holds = document.getElementById('holds');
+    var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var burst = false, queued = false, wide = 125, narrow = 62;
+
+    function fit() {
+      var keep = holds.style.fontStretch;
+      holds.style.fontStretch = wide + '%';
+      holds.style.fontSize = '100px';
+      var range = document.createRange(); range.selectNodeContents(holds);
+      var w = range.getBoundingClientRect().width;
+      var room = holds.parentNode.clientWidth;
+      holds.style.fontSize = Math.min(100 * room * 0.97 / w, 300) + 'px';
+      holds.style.fontStretch = keep;
+    }
+    function setBurst(on) {
+      burst = on;
+      contact.classList.toggle('burst-on', on);
+      if (on) { holds.style.fontStretch = wide + '%'; holds.style.transform = ''; }
+    }
+    function frame() {
+      queued = false;
+      var max = document.documentElement.scrollHeight - innerHeight;
+      var r = holds.getBoundingClientRect();
+      var start = scrollY + r.top - innerHeight;
+      var span = max - start;
+      var p = span > 40 ? Math.min(1, Math.max(0, (scrollY - start) / span)) : 1;
+      if (!burst && (scrollY >= max - 3 || p > 0.995)) setBurst(true);
+      else if (burst && p < 0.7) setBurst(false);
+      if (burst || RM) return;
+      var c = Math.pow(p, 1.35);
+      holds.style.fontStretch = (wide - (wide - narrow) * c).toFixed(1) + '%';
+      // under the most pressure the letters start to shiver
+      var shake = Math.max(0, (c - 0.75) / 0.25) * 1.6;
+      holds.style.transform = shake ? 'translate(' + ((Math.random() - 0.5) * shake).toFixed(2) + 'px,' + ((Math.random() - 0.5) * shake * 0.5).toFixed(2) + 'px)' : '';
+      if (shake) queue();
+    }
+    function queue() { if (!queued) { queued = true; requestAnimationFrame(frame); } }
+
+    window.addEventListener('scroll', queue, { passive: true });
+    window.addEventListener('resize', function () { fit(); queue(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { fit(); queue(); });
+    fit(); queue();
   })();
   </script>
 </body>
