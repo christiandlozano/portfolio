@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Experience Design Study · Christian Lozano</title>
+  <meta name="description" content="How Christian Lozano turns complex subjects into experiences people can use: four projects, the thinking behind them, and a working concept for an AI executive experience." />
+  <meta name="theme-color" content="#ffd731" />
+  <link rel="canonical" href="https://chexperiences.com/experience-design-study" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Complex ideas, tangible experiences · Christian Lozano" />
+  <meta property="og:description" content="Four projects, how they were decided, and a working concept for an AI executive experience with a host console." />
+  <meta property="og:url" content="https://chexperiences.com/experience-design-study" />
+  <meta property="og:image" content="https://chexperiences.com/images/web/og-card.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23ffd731'/%3E%3Ctext x='32' y='44' font-family='Arial,sans-serif' font-weight='900' font-size='30' fill='%231f1c1d' text-anchor='middle'%3ECL%3C/text%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --paper: #f4f1ea;
+      --ink: #1f1c1d;
+      --grey: #5d5955;
+      --stone: #dedad0;
+      --blue: #2a3fd0;
+      --yellow: #ffd731;
+      --screen: #0c0d10;
+      --screen-2: #1c1e24;
+      --screen-grey: #a3a7b0;
+
+      --sans: "Archivo", "Helvetica Neue", Arial, sans-serif;
+      --pad: clamp(1rem, 4vw, 3.5rem);
+      --maxw: 1440px;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    body {
+      font-family: var(--sans);
+      font-size: 1.0625rem;
+      line-height: 1.5;
+      background: var(--paper);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: clip;
+    }
+    img, video, svg { display: block; max-width: 100%; }
+    img, video { height: auto; }
+    a { color: inherit; }
+    button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+    ::selection { background: var(--yellow); color: var(--ink); }
+    :focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+    .on-blue :focus-visible, .on-ink :focus-visible { outline-color: var(--yellow); }
+
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--pad); }
+    .skip {
+      position: fixed; left: var(--pad); top: -100px; z-index: 400;
+      background: var(--ink); color: var(--yellow); padding: 0.7rem 1rem; font-weight: 700;
+    }
+    .skip:focus { top: 0.75rem; }
+    .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+    /* ---------- type ---------- */
+    h1, h2, h3, h4 { font-weight: 800; line-height: 0.95; text-wrap: balance; }
+    .h-section {
+      font-size: clamp(3rem, 9vw, 8.5rem);
+      font-weight: 900;
+      font-stretch: 118%;
+      line-height: 0.88;
+    }
+    .h-case { font-size: clamp(2.2rem, 5vw, 4.6rem); font-stretch: 105%; }
+    .h-mid { font-size: clamp(1.7rem, 3.2vw, 2.8rem); font-stretch: 110%; }
+    .lede { font-size: clamp(1.2rem, 1.9vw, 1.55rem); line-height: 1.32; max-width: 38ch; }
+    .note { font-size: 0.92rem; color: var(--grey); }
+    .on-blue .note, .on-ink .note { color: var(--stone); }
+    .link {
+      font-weight: 700;
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 0.22em;
+    }
+    .link:hover { color: var(--blue); }
+    .on-blue .link:hover, .on-ink .link:hover { color: var(--yellow); }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: var(--ink); color: var(--paper);
+      padding: 0.95rem 1.4rem;
+      font-weight: 700; font-stretch: 105%;
+      text-decoration: none;
+      transition: background 160ms;
+    }
+    .btn:hover { background: var(--blue); }
+
+    /* small segmented switches used by the diagrams and the host console */
+    .seg { display: flex; flex-wrap: wrap; gap: 4px; }
+    .seg button {
+      background: var(--stone); color: var(--ink);
+      padding: 0.55rem 0.85rem;
+      font-weight: 600; font-size: 0.92rem;
+      transition: background 140ms, color 140ms;
+    }
+    .seg button:hover { background: #cbc6b9; }
+    .seg button[aria-pressed="true"], .seg button[aria-selected="true"] { background: var(--ink); color: var(--paper); }
+
+    /* ---------- header ---------- */
+    .top {
+      position: sticky; top: 0; z-index: 300;
+      background: var(--yellow);
+    }
+    .top .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; gap: 1rem; }
+    .brand {
+      font-weight: 850; font-stretch: 112%;
+      font-size: 1.15rem;
+      text-decoration: none; white-space: nowrap;
+    }
+    .nav { display: flex; gap: clamp(0.9rem, 2.4vw, 2.25rem); }
+    .nav a { text-decoration: none; font-weight: 600; font-size: 0.98rem; padding: 0.3rem 0; }
+    .nav a:hover, .nav a.here { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
+    @media (max-width: 560px) {
+      .brand { font-size: 1rem; font-stretch: 100%; }
+      .nav { gap: 0.8rem; }
+      .nav a { font-size: 0.86rem; }
+    }
+
+    /* ---------- hero ---------- */
+    .hero { padding: clamp(2rem, 6vh, 4.5rem) 0 clamp(2.5rem, 6vh, 4rem); }
+    .hero h1 { font-weight: 900; line-height: 0.86; margin-bottom: clamp(1.5rem, 4vh, 2.5rem); }
+    .hero h1 > span { display: block; white-space: nowrap; }
+    .hero .l1 { font-stretch: 62%; font-size: 15vw; }
+    .hero .l2 { font-stretch: 125%; font-size: 6.4vw; color: var(--blue); }
+    .hero .l2 > span { white-space: nowrap; }
+    @media (prefers-reduced-motion: no-preference) {
+      .hero.ready .l2 { transition: font-stretch 1100ms var(--ease) 250ms; }
+      .hero.start .l2 { font-stretch: 62%; }
+    }
+    @media (max-width: 640px) {
+      .hero .l2 > span { display: block; }
+    }
+    .hero-foot {
+      display: grid; grid-template-columns: 1.4fr 1fr; gap: 2rem 4rem; align-items: end;
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.75rem; margin-top: 1.75rem; }
+    .byline { font-size: 1rem; line-height: 1.45; justify-self: end; text-align: right; }
+    .byline b { font-weight: 800; font-stretch: 110%; display: block; font-size: 1.1rem; }
+    @media (max-width: 820px) {
+      .hero-foot { grid-template-columns: 1fr; }
+      .byline { justify-self: start; text-align: left; }
+    }
+
+    /* ---------- subject to space ---------- */
+    .translate { background: var(--stone); padding: clamp(2.5rem, 6vh, 4rem) 0; }
+    .translate-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1rem 2rem; margin-bottom: 1.5rem; }
+    .translate .seg button { background: var(--paper); }
+    .translate .seg button:hover { background: #fff; }
+    .translate .seg button[aria-selected="true"] { background: var(--ink); color: var(--paper); }
+    .thread { width: 100%; height: 70px; overflow: visible; }
+    .thread path { fill: none; stroke: var(--blue); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    .thread rect { fill: var(--blue); }
+    .flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 0.75rem; }
+    .flow h3 { font-size: 1rem; font-weight: 800; font-stretch: 100%; margin-bottom: 0.5rem; }
+    .flow p { font-size: clamp(1.1rem, 1.6vw, 1.35rem); line-height: 1.32; }
+    .flow figure { margin-top: 1rem; }
+    .flow figure img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+    @media (prefers-reduced-motion: no-preference) {
+      .flow.swap > div { animation: rise 520ms var(--ease) both; }
+      .flow.swap > div:nth-child(2) { animation-delay: 80ms; }
+      .flow.swap > div:nth-child(3) { animation-delay: 160ms; }
+    }
+    @keyframes rise { from { opacity: 0; transform: translateY(10px); } }
+    @media (max-width: 820px) {
+      .thread { display: none; }
+      .flow { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+
+    /* ---------- figures band ---------- */
+    .figures { background: var(--yellow); padding: clamp(3rem, 8vh, 5rem) 0; }
+    .figures ul { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2.5rem 2rem; }
+    .figures b {
+      display: block;
+      font-weight: 900; font-stretch: 112%;
+      font-size: clamp(2.3rem, 4.4vw, 4.4rem);
+      line-height: 0.95;
+      margin-bottom: 0.4rem;
+      white-space: nowrap;
+    }
+    .figures b small { font-size: 0.48em; font-weight: 800; font-stretch: 105%; margin-left: 0.12em; }
+    .figures li span { display: block; max-width: 24ch; }
+    .figures .note { color: var(--ink); align-self: end; font-size: 0.95rem; }
+    @media (max-width: 900px) { .figures ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 480px) { .figures b { font-size: 2.1rem; } }
+
+    /* ---------- one minute ---------- */
+    .minute { padding: clamp(4rem, 10vh, 7rem) 0; }
+    .minute h2 { margin-bottom: 2.5rem; }
+    .minute dl { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 1.6rem 3rem; max-width: 1100px; }
+    .minute dt { font-weight: 800; font-stretch: 106%; font-size: 1.25rem; line-height: 1.2; }
+    .minute dd { font-size: 1.08rem; }
+    @media (max-width: 760px) {
+      .minute dl { grid-template-columns: 1fr; gap: 0.35rem; }
+      .minute dd { margin-bottom: 1.25rem; }
+    }
+
+    /* ---------- work ---------- */
+    .work { padding: clamp(3rem, 8vh, 5rem) 0 2rem; }
+    .section-intro { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1rem 3rem; margin-bottom: clamp(3rem, 8vh, 5rem); }
+    .section-intro p { max-width: 34ch; font-size: 1.2rem; }
+
+    .case { padding-bottom: clamp(5rem, 12vh, 8rem); }
+    .case-meta { margin-top: 0.9rem; font-size: 1.05rem; color: var(--grey); }
+    .case-q {
+      font-size: clamp(1.5rem, 2.8vw, 2.4rem);
+      font-weight: 500; font-stretch: 95%;
+      line-height: 1.15;
+      max-width: 30ch;
+      margin: clamp(1.75rem, 4vh, 2.5rem) 0;
+    }
+    .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem 2.5rem; margin-bottom: 2.5rem; }
+    .facts h4 { font-size: 0.95rem; font-weight: 800; margin-bottom: 0.3rem; line-height: 1.2; }
+    .facts p { font-size: 1rem; line-height: 1.4; }
+    @media (max-width: 760px) { .facts { grid-template-columns: 1fr; gap: 1rem; } }
+
+    .proposal { font-weight: 700; font-size: 1.1rem; color: var(--blue); margin-top: 0.9rem; }
+
+    figure figcaption { font-size: 0.92rem; color: var(--grey); margin-top: 0.6rem; max-width: 70ch; }
+    .on-blue figure figcaption, .on-ink figure figcaption { color: var(--stone); }
+    .lead-photo img { width: 100%; height: auto; }
+
+    .parts { display: grid; grid-template-columns: minmax(8rem, 0.32fr) minmax(0, 1fr); gap: 1.4rem 2.5rem; max-width: 1100px; margin: clamp(2.5rem, 6vh, 4rem) 0; }
+    .parts h4 { font-size: 1.05rem; font-weight: 800; line-height: 1.35; }
+    .parts h4.mine { color: var(--blue); }
+    .parts p { font-size: 1.12rem; max-width: 62ch; }
+    @media (max-width: 760px) {
+      .parts { grid-template-columns: 1fr; gap: 0.3rem; }
+      .parts p { margin-bottom: 1.1rem; }
+    }
+
+    .pics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+    .pics.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .pics.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .pics img, .pics video { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: var(--stone); }
+    .pics figcaption { font-size: 0.88rem; }
+    @media (max-width: 900px) { .pics.four { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 640px) { .pics, .pics.three { grid-template-columns: 1fr; } }
+
+    .diagram { margin: clamp(2.5rem, 6vh, 4rem) 0; }
+    .diagram-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1rem 2rem; margin-bottom: 1.25rem; }
+    .diagram-head h4 { font-size: clamp(1.3rem, 2vw, 1.7rem); font-weight: 800; font-stretch: 108%; }
+    .diagram-head p { max-width: 46ch; margin-top: 0.4rem; }
+
+    .proto { width: 100%; background: var(--screen); }
+
+    /* woven timeline reconstruction */
+    .loom { display: flex; gap: 22px; height: clamp(160px, 26vw, 320px); position: relative; transition: gap 600ms var(--ease), padding 600ms var(--ease); }
+    .loom > div {
+      flex: 1 1 0; min-width: 0;
+      background-color: var(--screen);
+      background-repeat: no-repeat;
+      background-size: 300% 100%;
+      transition: flex 600ms var(--ease), background-size 600ms var(--ease), background-position 600ms var(--ease);
+    }
+    .loom > div:nth-child(1) { background-position: 0% 50%; }
+    .loom > div:nth-child(2) { background-position: 50% 50%; }
+    .loom > div:nth-child(3) { background-position: 100% 50%; }
+    .loom.single { gap: 0; padding: 0 18%; }
+    .loom.single > div:nth-child(1) { background-size: 100% 100%; background-position: 0% 50%; }
+    .loom.single > div:nth-child(2), .loom.single > div:nth-child(3) { flex-grow: 0.0001; }
+    .loom .now {
+      position: absolute; top: 0; bottom: 0; left: 0; width: 6px;
+      background: var(--yellow); pointer-events: none;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .loom .now { animation: travel 9s linear infinite; }
+      .loom.single .now { animation-name: travel-one; }
+    }
+    @keyframes travel { from { left: 0; } to { left: calc(100% - 6px); } }
+    @keyframes travel-one { from { left: 18%; } to { left: calc(82% - 6px); } }
+    .decades { display: flex; justify-content: space-between; margin-top: 0.6rem; font-size: 0.85rem; color: var(--grey); transition: padding 600ms var(--ease); }
+    .loom.single + .decades { padding: 0 18%; }
+    .trade { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem 3rem; margin-top: 2rem; max-width: 1000px; }
+    .trade h5 { font-size: 1.05rem; font-weight: 800; margin-bottom: 0.35rem; }
+    .trade div { transition: color 300ms; }
+    .trade div.dim { color: var(--grey); }
+    @media (max-width: 640px) { .trade { grid-template-columns: 1fr; } }
+    .steps { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem 0; font-weight: 700; font-stretch: 105%; font-size: clamp(1.1rem, 1.8vw, 1.4rem); }
+    .steps li:not(:last-child)::after { content: "→"; margin: 0 0.6rem; color: var(--blue); }
+
+    /* bridge simulator toy */
+    .sim { background: var(--ink); color: var(--paper); padding: clamp(1rem, 3vw, 2rem); overflow: hidden; }
+    .sim-views { display: flex; gap: 10px; perspective: 900px; margin: 0 4% 1.5rem; }
+    .sim-views > div { flex: 1; aspect-ratio: 4 / 3; overflow: hidden; position: relative; background: #e9e4d6; }
+    .sim-views > div:first-child { transform: rotateY(16deg); transform-origin: right center; }
+    .sim-views > div:last-child { transform: rotateY(-16deg); transform-origin: left center; }
+    .sim-views svg { position: absolute; top: 0; left: 0; height: 100%; width: auto; max-width: none; }
+    .sim-controls { display: grid; grid-template-columns: auto 1fr auto; gap: 1.5rem 2rem; align-items: center; }
+    .helm { width: 120px; height: 120px; touch-action: none; cursor: grab; border-radius: 50%; }
+    .helm:active { cursor: grabbing; }
+    .helm svg { width: 100%; height: 100%; }
+    .helm .rim, .helm .spoke { stroke: var(--paper); fill: none; }
+    .helm .rim { stroke-width: 7; }
+    .helm .spoke { stroke-width: 4; }
+    .helm .hub { fill: var(--yellow); }
+    .throttle label { display: block; font-weight: 700; margin-bottom: 0.4rem; }
+    .throttle input { width: 100%; accent-color: var(--yellow); }
+    .readout { font-weight: 800; font-stretch: 110%; font-size: clamp(1.2rem, 2vw, 1.6rem); line-height: 1.1; text-align: right; font-variant-numeric: tabular-nums; }
+    .readout small { display: block; font-size: 0.85rem; font-weight: 500; font-stretch: 100%; color: var(--stone); }
+    .sim .seg button { background: var(--screen-2); color: var(--paper); }
+    .sim .seg button:hover { background: #2a2d35; }
+    .sim .seg button[aria-pressed="true"] { background: var(--yellow); color: var(--ink); }
+    .sim-row { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; align-items: center; margin-top: 1.25rem; }
+    .sim-row .note { color: var(--stone); }
+    @media (max-width: 640px) {
+      .sim-controls { grid-template-columns: auto 1fr; }
+      .readout { grid-column: 1 / -1; text-align: left; }
+      .helm { width: 96px; height: 96px; }
+    }
+    .chain { list-style: none; display: flex; flex-wrap: wrap; gap: 0.3rem 0; font-weight: 700; margin-bottom: 1.25rem; }
+    .chain li:not(:last-child)::after { content: "→"; margin: 0 0.55rem; color: var(--blue); }
+
+    /* ---------- thinking ---------- */
+    .on-blue { background: var(--blue); color: var(--paper); }
+    .on-ink { background: var(--ink); color: var(--paper); }
+    .thinking { padding: clamp(4rem, 10vh, 7rem) 0; }
+    .principles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem 2.25rem; margin-top: clamp(2.5rem, 6vh, 4rem); }
+    .principles img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; margin-bottom: 1.25rem; }
+    .principles h3 { font-size: clamp(1.6rem, 2.4vw, 2.2rem); font-stretch: 112%; margin-bottom: 0.75rem; }
+    .principles p { margin-bottom: 0.75rem; }
+    .principles .evidence { color: var(--stone); font-size: 0.98rem; }
+    .commit { margin-top: clamp(3.5rem, 8vh, 5rem); display: grid; grid-template-columns: 1fr 1.3fr; gap: 1.5rem 3rem; align-items: start; }
+    .commit h3 { font-size: clamp(2rem, 4vw, 3.4rem); font-stretch: 115%; color: var(--yellow); }
+    .commit p { font-size: 1.2rem; max-width: 52ch; }
+    @media (max-width: 900px) {
+      .principles { grid-template-columns: 1fr; }
+      .commit { grid-template-columns: 1fr; }
+    }
+
+    .between { padding: clamp(4rem, 10vh, 7rem) 0; }
+    .between > .wrap > p { max-width: 52ch; font-size: 1.2rem; margin: 1.25rem 0 2rem; }
+    .layers { display: grid; grid-template-columns: 70px minmax(0, 1fr); margin-top: 1.5rem; max-width: 1100px; }
+    .layers svg { width: 70px; height: 100%; overflow: visible; }
+    .layers svg path { fill: none; stroke: var(--blue); stroke-width: 2.5; }
+    .layers svg .head { fill: var(--blue); stroke: none; }
+    .layers ol { list-style: none; }
+    .layers li { display: grid; grid-template-columns: minmax(10rem, 0.8fr) minmax(0, 1.2fr); gap: 0.25rem 2rem; min-height: 5.25rem; align-items: center; padding: 0.6rem 0; }
+    .layers li b { font-weight: 800; font-stretch: 108%; font-size: clamp(1.1rem, 1.8vw, 1.45rem); line-height: 1.15; color: var(--grey); transition: color 250ms; }
+    .layers li.on b { color: var(--ink); }
+    .layers li span { color: var(--blue); font-weight: 600; font-size: 1.05rem; line-height: 1.35; }
+    @media (prefers-reduced-motion: no-preference) {
+      .layers li span { transition: opacity 300ms; }
+      .layers.swap li span { opacity: 0; }
+    }
+    @media (max-width: 700px) {
+      .layers { grid-template-columns: 40px minmax(0, 1fr); }
+      .layers svg { width: 40px; }
+      .layers li { grid-template-columns: 1fr; min-height: 6.5rem; }
+    }
+
+    /* ---------- lab ---------- */
+    .lab { padding: clamp(4rem, 10vh, 7rem) 0; }
+    .lab h3.h-case { color: var(--yellow); margin-top: 1.5rem; }
+    .lab-intro { display: grid; grid-template-columns: 1.1fr 1fr; gap: 2rem 4rem; margin: 1.5rem 0 clamp(2.5rem, 6vh, 4rem); }
+    .lab-intro p { font-size: 1.2rem; max-width: 48ch; }
+    .disclaimer { font-size: 1rem; color: var(--yellow); font-weight: 600; max-width: 48ch; }
+    .brief { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.7rem 1.75rem; font-size: 1rem; }
+    .brief dt { font-weight: 800; }
+    .brief dd { color: var(--stone); }
+    @media (max-width: 900px) { .lab-intro { grid-template-columns: 1fr; } }
+    @media (max-width: 520px) { .brief { grid-template-columns: 1fr; gap: 0.15rem; } .brief dd { margin-bottom: 0.6rem; } }
+
+    .howto { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem 2.5rem; margin-bottom: 2rem; font-size: 1.08rem; max-width: 1200px; }
+    .howto b { color: var(--yellow); font-weight: 800; }
+    @media (max-width: 800px) { .howto { grid-template-columns: 1fr; gap: 0.6rem; } }
+    .rig { display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(300px, 1fr); gap: 1.5rem; align-items: start; }
+    @media (max-width: 1000px) { .rig { grid-template-columns: 1fr; } }
+    .rig-label { font-weight: 700; margin-bottom: 0.6rem; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .rig-label .note { font-weight: 500; }
+
+    /* the guest display is drawn like a real screen, scaled with container units */
+    .display {
+      container-type: inline-size;
+      background: var(--screen);
+      color: var(--paper);
+      aspect-ratio: 16 / 9;
+      position: relative;
+      overflow: hidden;
+      outline: 10px solid #000;
+      outline-offset: 0;
+    }
+    .display:focus-visible { outline: 10px solid #000; box-shadow: 0 0 0 13px var(--yellow); }
+    .g-inner { position: absolute; inset: 0; display: grid; grid-template-rows: auto 1fr auto; padding: 3.2cqw 3.6cqw 2.6cqw; }
+    .g-top { display: flex; justify-content: space-between; align-items: baseline; gap: 2cqw; font-size: max(11px, 1.45cqw); color: var(--screen-grey); }
+    .g-chapters { display: flex; gap: 2.2cqw; }
+    .g-chapters span.on { color: var(--yellow); font-weight: 700; }
+    .g-body { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 3cqw; align-items: center; min-height: 0; }
+    .g-title { font-size: max(20px, 4.1cqw); font-weight: 850; font-stretch: 108%; line-height: 1; margin-bottom: 1.6cqw; }
+    .g-text { font-size: max(13px, 1.75cqw); line-height: 1.38; color: #d9d6cf; max-width: 40ch; }
+    .g-setting { font-size: max(11px, 1.35cqw); color: var(--screen-grey); margin-bottom: 1.2cqw; }
+    .g-cta {
+      margin-top: 2.2cqw;
+      background: var(--yellow); color: var(--ink);
+      font-weight: 800; font-size: max(13px, 1.7cqw);
+      padding: 1.1cqw 1.9cqw;
+    }
+    .g-cta:hover { background: #fff; }
+    .g-viz svg { width: 100%; height: auto; overflow: visible; }
+    .g-foot { height: 0.5cqw; min-height: 4px; background: var(--screen-2); }
+    .g-foot i { display: block; height: 100%; width: 0; background: var(--yellow); }
+    .g-options { display: grid; gap: 1.2cqw; margin-top: 1.4cqw; }
+    .g-option {
+      text-align: left; background: var(--screen-2); color: var(--paper);
+      padding: 1.4cqw 1.8cqw;
+      transition: background 160ms;
+    }
+    .g-option b { display: block; font-size: max(14px, 2.1cqw); font-weight: 800; font-stretch: 106%; margin-bottom: 0.4cqw; }
+    .g-option span { font-size: max(12px, 1.45cqw); color: #c9c6bf; line-height: 1.35; display: block; }
+    .g-option:hover { background: #2a2d35; }
+    .g-option[aria-pressed="true"] { background: var(--yellow); color: var(--ink); }
+    .g-option[aria-pressed="true"] span { color: var(--ink); }
+    .g-table { width: 100%; border-collapse: collapse; font-size: max(12px, 1.5cqw); }
+    .g-table th, .g-table td { text-align: left; padding: 0.7cqw 1cqw 0.7cqw 0; vertical-align: top; }
+    .g-table thead th { color: var(--screen-grey); font-weight: 600; }
+    .g-table td.pick, .g-table th.pick { color: var(--yellow); font-weight: 800; }
+    .g-q { margin-top: 1.6cqw; font-size: max(13px, 1.9cqw); font-weight: 700; color: var(--yellow); line-height: 1.25; }
+    .display.fallback { background: #e9e4d6; color: var(--ink); }
+    .display.fallback .g-text { color: var(--ink); }
+    .display.fallback .g-top, .display.fallback .g-setting { color: var(--grey); }
+    .display.fallback .g-viz { display: none; }
+    .display.fallback .g-body { grid-template-columns: 1fr; }
+    .display.fallback .g-title { font-size: max(24px, 5.4cqw); }
+    .display.fallback .g-chapters span.on { color: var(--blue); }
+    .display.fallback .g-table thead th { color: var(--grey); }
+    .display.fallback .g-table td.pick, .display.fallback .g-table th.pick, .display.fallback .g-q { color: var(--blue); }
+    .display.fallback .g-option { background: #d6d0c1; color: var(--ink); }
+    .display.fallback .g-option span { color: var(--ink); }
+    @media (max-width: 700px) {
+      .display { aspect-ratio: auto; min-height: 30rem; }
+      .g-inner { position: relative; inset: auto; min-height: 30rem; padding: 1.1rem 1rem 1rem; gap: 1rem; }
+      .g-body { grid-template-columns: 1fr; gap: 1.25rem; }
+      .g-chapters { gap: 0.7rem; }
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .g-body.swap { animation: rise 450ms var(--ease) both; }
+    }
+
+    .host { background: var(--paper); color: var(--ink); padding: 1.25rem; }
+    .host h4 { font-size: 0.95rem; font-weight: 800; margin: 1.1rem 0 0.45rem; }
+    .host h4:first-of-type { margin-top: 0; }
+    .host-now { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+    .host-now strong { font-size: 1.6rem; font-weight: 850; font-stretch: 110%; line-height: 1; }
+    .host-status { font-weight: 700; font-size: 0.92rem; }
+    .host-status.live { color: var(--blue); }
+    .host-status.fb { color: #b5410f; }
+    .host-bar { height: 5px; background: var(--stone); margin: 0.75rem 0 0.25rem; }
+    .host-bar i { display: block; height: 100%; width: 0; background: var(--blue); }
+    .host-timer { font-size: 0.88rem; color: var(--grey); min-height: 1.3em; }
+    .host .seg button { font-size: 0.88rem; padding: 0.5rem 0.7rem; }
+    .host-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .host-reset { background: var(--ink); color: var(--paper); font-weight: 700; padding: 0.55rem 0.9rem; font-size: 0.9rem; }
+    .host-reset:hover { background: var(--blue); }
+    .host-notes { list-style: none; font-size: 0.98rem; line-height: 1.4; }
+    .host-notes li { margin-bottom: 0.4rem; }
+    .host-guest { font-size: 0.98rem; }
+    .host-guest b { font-weight: 800; }
+    .switch { display: flex; align-items: center; gap: 0.6rem; font-size: 0.92rem; font-weight: 600; cursor: pointer; }
+    .switch input { width: 1.1rem; height: 1.1rem; accent-color: var(--ink); }
+    .popout { margin-top: 1rem; font-size: 0.92rem; }
+
+    .stack { margin-top: clamp(2.5rem, 6vh, 3.5rem); display: grid; grid-template-columns: 1fr 1.5fr; gap: 2rem 4rem; align-items: start; }
+    .stack p { font-size: 1.15rem; max-width: 40ch; margin-top: 0.8rem; color: var(--stone); }
+    .stack ol { list-style: none; display: grid; gap: 4px; }
+    .stack li {
+      display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem;
+      background: var(--screen-2); padding: 0.85rem 1rem;
+      transition: background 300ms, color 300ms;
+    }
+    .stack li b { font-weight: 800; }
+    .stack li span { color: var(--stone); }
+    .stack li.hit { background: var(--yellow); color: var(--ink); }
+    .stack li.hit span { color: var(--ink); }
+    @media (max-width: 900px) { .stack { grid-template-columns: 1fr; } }
+    @media (max-width: 480px) { .stack li { grid-template-columns: 1fr; gap: 0.1rem; } }
+
+    /* ---------- about + contact ---------- */
+    .about { padding: clamp(4rem, 10vh, 7rem) 0; }
+    .about-grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 2.5rem 4rem; margin-top: clamp(2rem, 5vh, 3rem); align-items: start; }
+    .about-grid img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 15%; }
+    .about-grid .lede { margin-bottom: 1.25rem; }
+    .about-grid > div > p { max-width: 56ch; margin-bottom: 1rem; }
+    .cv { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.6rem 1.75rem; margin: 2rem 0; }
+    .cv dt { font-weight: 800; }
+    .skills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem 2rem; margin-top: 1rem; }
+    .skills h4 { font-size: 1rem; font-weight: 800; margin-bottom: 0.45rem; }
+    .skills ul { list-style: none; font-size: 0.98rem; line-height: 1.5; }
+    @media (max-width: 900px) { .about-grid { grid-template-columns: 1fr; } .about-grid img { aspect-ratio: 4 / 3; } }
+    @media (max-width: 600px) { .skills { grid-template-columns: 1fr; } .cv { grid-template-columns: 1fr; gap: 0.1rem; } .cv dd { margin-bottom: 0.6rem; } }
+
+    .contact { background: var(--yellow); padding: clamp(4rem, 12vh, 8rem) 0; }
+    .contact h2 { font-size: clamp(2.4rem, 6.4vw, 6rem); font-weight: 900; font-stretch: 112%; line-height: 0.92; max-width: 16ch; }
+    .contact ul { list-style: none; display: flex; flex-wrap: wrap; gap: 1rem 2.5rem; margin-top: clamp(2rem, 5vh, 3rem); }
+    .contact li a { font-size: clamp(1.15rem, 2vw, 1.5rem); }
+    .contact li a:hover { color: var(--blue); }
+
+    footer { padding: 1.5rem 0 2rem; font-size: 0.9rem; color: var(--grey); }
+    footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 2rem; }
+
+    .g-table tbody th { font-weight: 500; color: var(--screen-grey); padding-right: 2cqw; }
+    .display.fallback .g-table tbody th { color: var(--grey); }
+    .g-split { display: grid; gap: 0.6cqw; margin-top: 1.6cqw; font-size: max(12px, 1.5cqw); font-weight: 700; }
+    .g-split i { display: inline-block; width: 0.8em; height: 0.8em; margin-right: 0.55em; vertical-align: -0.05em; }
+    .g-viz .v-lbl { font: 600 11px var(--sans); fill: var(--screen-grey); }
+    .g-viz .v-hi { fill: var(--paper); }
+    @media (prefers-reduced-motion: no-preference) {
+      .g-viz .v-draw { stroke-dasharray: 1; animation: vdraw 1.3s var(--ease) both; }
+      .g-viz .v-late { animation-delay: 1.1s; animation-duration: 2.2s; }
+      .g-viz .v-unit { animation: unit 7s linear infinite; }
+      .g-viz .v-pulse { animation: vpulse 1.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+      .g-viz .v-grow { animation: vgrow 700ms var(--ease) both; transform-box: fill-box; transform-origin: left center; }
+    }
+    @keyframes vdraw { from { stroke-dashoffset: 1; } }
+    @keyframes unit { to { transform: translateX(352px); } }
+    @keyframes vpulse { 50% { transform: scale(1.12); } }
+    @keyframes vgrow { from { transform: scaleX(0); } }
+    .display.paused * { animation-play-state: paused !important; }
+
+    /* guest-display-only mode, opened from the host console */
+    body.solo { background: #000; }
+    body.solo > *:not(.solo-stage) { display: none !important; }
+    .solo-stage { display: none; }
+    body.solo .solo-stage { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2vw; }
+    body.solo .solo-stage .display { width: min(100%, calc((100vh - 4vw) * 16 / 9)); outline-width: 0; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="top">
+    <div class="wrap">
+      <a class="brand" href="/">Christian Lozano</a>
+      <nav class="nav" aria-label="Sections">
+        <a href="#work">Work</a>
+        <a href="#thinking">Thinking</a>
+        <a href="#lab">Lab</a>
+        <a href="#about">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="hero start" id="hero" aria-labelledby="heroTitle">
+      <div class="wrap">
+        <h1 id="heroTitle"><span class="l1">Complex ideas</span><span class="l2"><span>Tangible</span> <span>experiences</span></span></h1>
+        <div class="hero-foot">
+          <div>
+            <p class="lede">I design interactive environments that make science, technology and business stories easier to understand, from early concepts and prototypes to real installations.</p>
+            <div class="hero-actions">
+              <a class="btn" href="#work">Explore the work</a>
+              <a class="link" href="#thinking">See how I think</a>
+              <a class="link" href="#lab">Try the Experience Lab</a>
+            </div>
+          </div>
+          <p class="byline"><b>Christian Lozano</b>Experiential creative strategy and technology<br />Santa Monica, California</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="translate" aria-labelledby="translateTitle">
+      <div class="wrap">
+        <div class="translate-head">
+          <h2 class="h-mid" id="translateTitle">How a subject becomes a space</h2>
+          <div class="seg" role="tablist" aria-label="Pick a project" id="tTabs">
+            <button role="tab" id="tab-0" aria-selected="true" aria-controls="tPanel" tabindex="0">How We Know the Weather</button>
+            <button role="tab" id="tab-1" aria-selected="false" aria-controls="tPanel" tabindex="-1">Ship's Bridge Simulator</button>
+            <button role="tab" id="tab-2" aria-selected="false" aria-controls="tPanel" tabindex="-1">Toyota Mississippi</button>
+          </div>
+        </div>
+        <svg class="thread" viewBox="0 0 1200 70" preserveAspectRatio="none" aria-hidden="true">
+          <path id="tThread" pathLength="1" vector-effect="non-scaling-stroke" d="M10 35 C40 -5 80 75 60 35 S20 5 70 20 S140 70 120 40 S90 0 150 15 S230 65 200 45 S170 10 240 25 S310 60 290 40 S280 20 340 35 L1080 35 L1080 8 L1190 8 L1190 62 L1080 62 L1080 35" />
+        </svg>
+        <div class="flow" id="tPanel" role="tabpanel" aria-labelledby="tab-0">
+          <div><h3>The subject</h3><p data-t="subject">Atmospheric science, and the instruments that measure it</p></div>
+          <div><h3>What people do</h3><p data-t="action">See how weather detection works, then connect it to real data from where they live</p></div>
+          <div><h3>The space</h3><p data-t="space">3,500 sq ft, a 24 × 14 ft LED wall streaming live data, and 54+ displays</p>
+            <figure><img data-t="img" src="/images/web/how-we-know-the-weather-1.jpeg" alt="The 24 by 14 foot LED wall with live radar at the U.S. Space &amp; Rocket Center" width="1800" height="1200" decoding="async" /></figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="figures" aria-label="Project figures">
+      <div class="wrap">
+        <ul>
+          <li><b>3,500<small>sq ft</small></b><span>science exhibition at the U.S. Space &amp; Rocket Center</span></li>
+          <li><b>24×14<small>ft</small></b><span>LED wall streaming live NASA, NOAA and Baron data</span></li>
+          <li><b>54+</b><span>displays in that same exhibition</span></li>
+          <li><b>17</b><span>client review rounds on it</span></li>
+          <li><b>$800K</b><span>AV scope, delivered on budget</span></li>
+          <li><b>4</b><span>Toyota visitor and experience centers</span></li>
+          <li><b>18</b><span>interactive and media elements at Toyota Mississippi</span></li>
+          <li class="note">Each figure belongs to one project. None of them is a career total.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="minute" aria-labelledby="minuteTitle">
+      <div class="wrap">
+        <h2 class="h-mid" id="minuteTitle">If you only have a minute</h2>
+        <dl>
+          <dt>Turning complex technology into a story people follow</dt>
+          <dd><a class="link" href="#weather">How We Know the Weather</a> made atmospheric science personal. <a class="link" href="#lab">The Decision Layer</a> does the same for an AI workflow.</dd>
+          <dt>Running sessions and writing the brief</dt>
+          <dd>I led ideation and working sessions on the weather exhibit and carried it through 17 client review rounds. The Lab starts with its brief.</dd>
+          <dt>Prototyping to move a decision</dt>
+          <dd>Working browser prototypes for <a class="link" href="#timeline">the Toyota timeline</a>, and a bridge you can drive for <a class="link" href="#bridge">the simulator</a>.</dd>
+          <dt>Directing engineers, fabricators and media teams</dt>
+          <dd>Content, creative, engineering and AV coordination across <a class="link" href="#toyota">18 elements at Toyota Mississippi</a>. Content delivery lead on the weather exhibit while the producer was out.</dd>
+          <dt>Holding the idea when the scope changes</dt>
+          <dd>The weather exhibit's first concept was much bigger than the build. <a class="link" href="#commit">The core idea survived.</a></dd>
+          <dt>Building for real operations, across many sites</dt>
+          <dd>Unattended installs, kiosks built to ADA reach ranges, and a <a class="link" href="#lab">host console</a> designed so one system can serve many spaces.</dd>
+        </dl>
+      </div>
+    </section>
+
+    <section class="work" id="work" aria-labelledby="workTitle">
+      <div class="wrap">
+        <div class="section-intro">
+          <h2 class="h-section" id="workTitle">Work</h2>
+          <p>Four projects. Three are built and running. One is a design proposal, and it says so.</p>
+        </div>
+
+        <!-- weather -->
+        <article class="case" id="weather" aria-labelledby="weatherTitle">
+          <h3 class="h-case" id="weatherTitle">How We Know the Weather</h3>
+          <p class="case-meta">U.S. Space &amp; Rocket Center, Huntsville, Alabama · 2023–2025</p>
+          <p class="case-q">How do you turn atmospheric science into an experience a visitor can understand?</p>
+          <div class="facts">
+            <div><h4>Scale</h4><p>3,500 sq ft, 54+ displays, a 24 × 14 ft LED wall</p></div>
+            <div><h4>My part</h4><p>Ideation and working sessions, narrative, review materials, content programming and delivery</p></div>
+            <div><h4>Worked with</h4><p>The museum, NASA, NOAA and Baron Weather scientists, and the production team</p></div>
+          </div>
+          <figure class="lead-photo">
+            <img src="/images/web/how-we-know-the-weather-1.jpeg" alt="The 24 by 14 foot LED wall showing live radar, with the exhibit floor in front" width="1800" height="1200" loading="lazy" decoding="async" />
+            <figcaption>The LED wall, installed. Photographed on site.</figcaption>
+          </figure>
+          <div class="parts">
+            <h4>The challenge</h4>
+            <p>Forecasts rest on instruments most people never see. The exhibit had to be clear to a general audience and accurate enough for the scientists reviewing it. The first concept was also much bigger than what could be built.</p>
+            <h4>The idea</h4>
+            <p>Show how weather detection works, then connect it to real data from where visitors live. The science gets personal once it's about your own sky.</p>
+            <h4 class="mine">My role</h4>
+            <p>I led ideation and working sessions, contributed to the narrative, and made and presented the client review materials across 17 rounds. I programmed content, managed the content team, and took over content delivery while the producer was out.</p>
+            <h4>The process</h4>
+            <p>The concept shrank to a buildable size and kept its core: how detection works first, then what the data says about where you live.</p>
+            <h4>The reality</h4>
+            <p>About $1.5M overall, with an $800K AV scope. The wall runs an HTML layout through a video processor that crashes at the wrong resolution, so every content block is pinned to its exact pixel area. If a feed drops, only that block goes quiet.</p>
+            <h4>The outcome</h4>
+            <p>Open since 2025, with the AV scope delivered on budget, in a museum that sees about 800,000 visitors a year.</p>
+          </div>
+
+          <div class="pics four">
+            <figure><img src="/images/web/how-we-know-the-weather-2.JPG" alt="Interactive stations along the exhibit wall" width="1800" height="1350" loading="lazy" decoding="async" /><figcaption>Interactive stations</figcaption></figure>
+            <figure><img src="/images/web/how-we-know-the-weather-3.JPG" alt="Hands-on weather games" width="1800" height="1350" loading="lazy" decoding="async" /><figcaption>Hands-on games</figcaption></figure>
+            <figure><img src="/images/web/how-we-know-the-weather-5.JPG" alt="A display detail inside the exhibit" width="1800" height="1200" loading="lazy" decoding="async" /><figcaption>Display detail</figcaption></figure>
+            <figure><img src="/images/web/picture4.jpg" alt="Opening night crowd on the exhibit floor" width="1800" height="1200" loading="lazy" decoding="async" /><figcaption>Opening night</figcaption></figure>
+          </div>
+        </article>
+
+        <!-- toyota -->
+        <article class="case" id="toyota" aria-labelledby="toyotaTitle">
+          <h3 class="h-case" id="toyotaTitle">Toyota experience centers</h3>
+          <p class="case-meta">San Antonio, Texas · Georgetown, Kentucky · Plano, Texas · Blue Springs, Mississippi</p>
+          <p class="case-q">How do you turn a factory into a story people can explore?</p>
+          <div class="facts">
+            <div><h4>Scale</h4><p>Four sites, and 18 interactive and media elements at Mississippi alone</p></div>
+            <div><h4>My part</h4><p>Design and development of interactives, touchscreen apps and media, plus coordination across teams</p></div>
+            <div><h4>Worked with</h4><p>Toyota's brand and archive teams, creative designers, engineers and AV integrators</p></div>
+          </div>
+          <div class="pics four">
+            <figure><img src="/images/web/toyota-north-america.jpeg" alt="A synchronized multi-screen wall at the Toyota experience center in San Antonio" width="1800" height="1308" loading="lazy" decoding="async" /><figcaption>San Antonio: six apps and six video channels running as one wall</figcaption></figure>
+            <figure><img src="/images/web/kentucky-marquee.jpg" alt="The six-screen marquee at Toyota Motor Manufacturing Kentucky" width="2520" height="1554" loading="lazy" decoding="async" /><figcaption>Georgetown: a six-screen marquee, edited around the gaps between screens</figcaption></figure>
+            <figure><img src="/images/web/toyota-patents.jpg" alt="Patents interactive touchscreen and display wall at Toyota headquarters" width="1800" height="1350" loading="lazy" decoding="async" /><figcaption>Plano: one touchscreen drives four displays and the room lighting</figcaption></figure>
+            <figure><img src="/images/web/leed-kiosk.png" alt="LEED Platinum sustainability kiosk interface" width="1350" height="1800" loading="lazy" decoding="async" /><figcaption>Blue Springs: the plant's LEED Platinum story as an accessible kiosk</figcaption></figure>
+          </div>
+          <div class="parts">
+            <h4>The challenge</h4>
+            <p>A plant is huge and procedural. A visitor center has to make it coherent, and every screen in it is built by a different mix of people.</p>
+            <h4>The idea</h4>
+            <p>Treat the center as one system. At Mississippi, production became a single journey told across seven screens, Corolla heritage got its own kiosk, and the plant's LEED Platinum rating became a touchscreen story in plain language.</p>
+            <h4 class="mine">My role</h4>
+            <p>I designed and developed interactive experiences, touchscreen applications and media content across the four sites. At Mississippi I developed content and interactions across 18 elements and coordinated content, creative design, engineering and AV.</p>
+            <h4>The process</h4>
+            <p>Layout comes before content. The production journey was modeled in 3D, screens, kiosk and visitor, before anything was built. On the Kentucky marquee I rebuilt the six-screen panel layout in After Effects first, because anything that ignores the gaps between screens looks broken once it's up.</p>
+            <h4>The reality</h4>
+            <p>Kiosks are built to ADA reach ranges and reset themselves with an attract loop. BrightSign players boot straight to content. In San Antonio, six apps and six video channels stay in sync over WebSockets.</p>
+            <h4>The outcome</h4>
+            <p>Installed and running across all four sites.</p>
+          </div>
+
+
+          <figure class="diagram">
+            <img src="/images/web/process.jpg" alt="Concept render of a wall titled The Process: seven landscape screens branching from a central column, a touchscreen kiosk in front, and a visitor for scale" width="1600" height="1115" loading="lazy" decoding="async" />
+            <figcaption>Concept render of "The Process," the seven-screen production journey, made before the build.</figcaption>
+          </figure>
+
+          <figure>
+            <img src="/images/web/kentucky-marquee-2.png" alt="Six-screen marquee layout with panel guides marking where the screen gaps fall" width="1700" height="379" loading="lazy" decoding="async" style="width:100%;height:auto" />
+            <figcaption>Working file for the Kentucky marquee. The guides mark where the mullions, the gaps between screens, fall.</figcaption>
+          </figure>
+        </article>
+
+        <!-- timeline -->
+        <article class="case" id="timeline" aria-labelledby="timelineTitle">
+          <h3 class="h-case" id="timelineTitle">A new timeline for Toyota North America</h3>
+          <p class="case-meta">Toyota North America headquarters, Plano, Texas</p>
+          <p class="proposal">Shown from the first idea to the final prototype, before the build.</p>
+          <p class="case-q">How should a company's history move through a building?</p>
+          <div class="facts">
+            <div><h4>What it is</h4><p>Concept directions with working browser prototypes</p></div>
+            <div><h4>My part</h4><p>Concepts, prototypes and revisions with the client</p></div>
+            <div><h4>Constraints</h4><p>The existing architecture and the space around the timeline</p></div>
+          </div>
+          <ol class="steps" aria-label="How the work moved">
+            <li>Problem</li><li>Directions</li><li>Alternatives</li><li>Constraints</li><li>Prototype</li><li>Revisions</li>
+          </ol>
+          <div class="parts">
+            <h4>The challenge</h4>
+            <p>An existing historical timeline needed rethinking, inside real architectural and spatial limits.</p>
+            <h4>The idea</h4>
+            <p>Let the story travel across the wall like threads in a weave. Weaving fit a company that started out building automatic looms.</p>
+            <h4 class="mine">My role</h4>
+            <p>I developed the concept directions and built quick browser prototypes so the client could react to something moving, then revised them through feedback.</p>
+            <h4>The alternatives</h4>
+            <p>Several coordinated screens with the narrative moving between them, or a single screen. Same idea, different cost to build and run.</p>
+            <h4>The outcome</h4>
+            <p>A final browser prototype, refined with the client through rounds of feedback before the build.</p>
+          </div>
+
+          <figure class="diagram">
+            <div class="diagram-head">
+              <div>
+                <h4>The first idea: same story, two ways to hang it</h4>
+                <p>Where it started. Switch between the directions; the yellow line is the visitor's place in the story.</p>
+              </div>
+              <div class="seg" id="loomSwitch">
+                <button type="button" data-m="multi" aria-pressed="true">Coordinated screens</button>
+                <button type="button" data-m="single" aria-pressed="false">One screen</button>
+              </div>
+            </div>
+            <div class="loom" id="loom" aria-hidden="true"><div></div><div></div><div></div><span class="now"></span></div>
+            <div class="decades" aria-hidden="true"><span>1930s</span><span>1950s</span><span>1970s</span><span>1990s</span><span>2010s</span><span>2020s</span></div>
+            <div class="trade" id="trade">
+              <div data-m="multi"><h5>Coordinated screens</h5><p>The story physically travels along the wall, and the visitor walks with it. More hardware to keep in sync, and content made for each surface.</p></div>
+              <div data-m="single" class="dim"><h5>One screen</h5><p>Simpler to run and update, one place to author. Less presence in the space.</p></div>
+            </div>
+            <figcaption>The original thought, redrawn for this page. The real prototype is below.</figcaption>
+          </figure>
+
+          <figure class="diagram">
+            <div class="diagram-head">
+              <div>
+                <h4>The final prototype</h4>
+                <p>Where the idea landed before the build: four screens, a thread for every year, and a way for visitors to leave their mark.</p>
+              </div>
+            </div>
+            <video class="proto" src="/images/web/toyotaHQ-timeline.mp4" poster="/images/web/toyotaHQ-timeline-poster.jpg" autoplay muted loop playsinline preload="metadata" width="1722" height="748" aria-label="Screen recording of the timeline prototype across four screens: touching a year's thread opens its story card, and visitors can choose a seal to stitch into the weave"></video>
+            <figcaption>Screen recording of the working browser prototype.</figcaption>
+          </figure>
+        </article>
+
+        <!-- bridge -->
+        <article class="case" id="bridge" aria-labelledby="bridgeTitle">
+          <h3 class="h-case" id="bridgeTitle">Ship's Bridge Simulator</h3>
+          <p class="case-meta">Outdoor Adventure Center, Michigan Department of Natural Resources, Detroit · Installed 2026</p>
+          <p class="case-q">How do you make a 3D simulation feel like driving a real ship?</p>
+          <div class="facts">
+            <div><h4>Scale</h4><p>Three bridge-window displays, a navigation and status display, a real wheel and throttle</p></div>
+            <div><h4>My part</h4><p>Scoped it and directed the build</p></div>
+            <div><h4>Runs</h4><p>Unattended, on a public museum floor</p></div>
+          </div>
+          <figure class="lead-photo">
+            <img src="/images/web/ship-bridge.jpg" alt="The simulator installed: three screens as bridge windows above a console with a ship's wheel and throttle" width="1800" height="1325" loading="lazy" decoding="async" />
+            <figcaption>The bridge, installed. Photographed on site.</figcaption>
+          </figure>
+          <div class="parts">
+            <h4>The challenge</h4>
+            <p>A boat on a screen is easy. A bridge a kid can drive with nobody watching, where the wheel feels like it steers a ship, is a hardware, software and space problem at once.</p>
+            <h4>The idea</h4>
+            <p>Make the visitor's hands the interface: a real wheel and throttle, three screens angled in like bridge windows, and Great Lakes landmarks ahead.</p>
+            <h4 class="mine">My role</h4>
+            <p>I scoped it and directed the build, from the sensors in the wheel and throttle to how the boat should feel on the water.</p>
+            <h4>The process</h4>
+            <p>nDisplay renders the right view for each angled screen, so the horizon lines up instead of one picture stretching across three.</p>
+            <h4>The reality</h4>
+            <p>A kid will slam the throttle. The sensor input is smoothed inside the engine, so even that reads as a real command.</p>
+            <h4>The outcome</h4>
+            <p>Installed in 2026 and running unattended at the Outdoor Adventure Center.</p>
+          </div>
+
+          <figure class="diagram">
+            <div class="diagram-head">
+              <div>
+                <h4>Take the wheel</h4>
+                <p>Drag the wheel or use the arrow keys, then turn smoothing off to see the raw sensors.</p>
+              </div>
+            </div>
+            <ol class="chain" aria-label="How the simulator connects">
+              <li>Wheel and throttle sensors</li><li>Smoothing</li><li>Unreal Engine 5</li><li>nDisplay</li><li>Three windows and a navigation display</li>
+            </ol>
+            <div class="sim on-ink" id="sim">
+              <div class="sim-views" aria-hidden="true"><div></div><div></div><div></div></div>
+              <div class="sim-controls">
+                <div class="helm" id="helm" role="slider" tabindex="0" aria-label="Ship's wheel" aria-valuemin="-270" aria-valuemax="270" aria-valuenow="0" aria-valuetext="Centered">
+                  <svg viewBox="-60 -60 120 120" aria-hidden="true">
+                    <g id="helmRot">
+                      <circle class="rim" r="46" />
+                      <path class="spoke" d="M0 -58 V58 M-58 0 H58 M-41 -41 L41 41 M41 -41 L-41 41" />
+                      <circle class="hub" r="11" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="throttle">
+                  <label for="throttle">Throttle</label>
+                  <input type="range" id="throttle" min="0" max="100" value="25" />
+                </div>
+                <p class="readout" aria-live="off"><span id="simHeading">000°</span> · <span id="simSpeed">0.0</span> kn<small>Navigation display</small></p>
+              </div>
+              <div class="sim-row">
+                <div class="seg" id="smoothSwitch">
+                  <button type="button" data-s="on" aria-pressed="true">Smoothing on</button>
+                  <button type="button" data-s="off" aria-pressed="false">Smoothing off</button>
+                </div>
+                <button type="button" class="link" id="slam">Slam the throttle</button>
+              </div>
+            </div>
+            <figcaption>A toy model built for this page. It isn't the installed software, but the side windows angle in and the input smoothing works the same way.</figcaption>
+          </figure>
+
+          <div class="pics">
+            <figure><img src="/images/web/ship-install.jpg" alt="Bridge screens showing a lighthouse on the water ahead, with the wheel and throttle in front" width="1800" height="1350" loading="lazy" decoding="async" /><figcaption>A lighthouse ahead</figcaption></figure>
+            <figure><video src="/images/web/ship-video.mp4" poster="/images/web/ship-video-poster.jpg" controls muted playsinline preload="none" width="1280" height="720" aria-label="Video of the simulator running"></video><figcaption>The simulator running</figcaption></figure>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="thinking on-blue" id="thinking" aria-labelledby="thinkTitle">
+      <div class="wrap">
+        <h2 class="h-section" id="thinkTitle">How I think</h2>
+        <div class="principles">
+          <div>
+            <img src="/images/web/how-we-know-the-weather-2.JPG" alt="Interactive stations in How We Know the Weather" width="1800" height="1350" loading="lazy" decoding="async" />
+            <h3>Find the story</h3>
+            <p>Most subjects are too big to show whole. I look for the one idea a visitor should leave with, then build the room around it.</p>
+            <p class="evidence">Weather: how detection works, then what the data says about where you live. Toyota Mississippi: a whole plant as one seven-screen journey.</p>
+          </div>
+          <div>
+            <img src="/images/web/kentucky-marquee-3.png" alt="After Effects composition of the marquee wall with the screen gaps blocked out" width="1240" height="805" loading="lazy" decoding="async" />
+            <h3>Make it tangible early</h3>
+            <p>People decide faster when they can see it move. I prototype early, in the browser or in the engine, so the conversation is about the real thing.</p>
+            <p class="evidence">The Toyota timeline directions were working browser prototypes. The Kentucky marquee was laid out against the real screen gaps before the first edit.</p>
+          </div>
+          <div>
+            <img src="/images/web/oac-map.jpg" alt="Interactive map of Michigan destinations at the Outdoor Adventure Center" width="1340" height="1800" loading="lazy" decoding="async" />
+            <h3>Design for the real world</h3>
+            <p>Exhibits run all day with nobody watching. Budget, upkeep and the staff who run the space shape the design from the start.</p>
+            <p class="evidence">The weather wall isolates a dropped feed to one block. Kiosks reset themselves. Museum staff update the Detroit map without a developer. The weather AV scope landed on budget.</p>
+          </div>
+        </div>
+        <div class="commit" id="commit">
+          <h3>Argue for the idea, then commit</h3>
+          <p>I push for what makes an experience memorable. When budget, operations or engineering say no, I commit to the version that can be built and kept running, and protect its core. The weather exhibit's first concept was much larger than the build. Detection first, then your own data: that part survived the cut.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="between" id="disciplines" data-nav="thinking" aria-labelledby="betweenTitle">
+      <div class="wrap">
+        <h2 class="h-section" id="betweenTitle">Between the disciplines</h2>
+        <p>Much of my work is translation: the client's goal into a story, the story into an interaction, the interaction into something engineers and fabricators can build. It rarely runs in one direction.</p>
+        <div class="seg" id="layerTabs" role="group" aria-label="Pick a real example">
+          <button type="button" data-x="0" aria-pressed="true">Budget reshaped the story</button>
+          <button type="button" data-x="1" aria-pressed="false">Hardware shaped the interaction</button>
+          <button type="button" data-x="2" aria-pressed="false">Operations shaped the design</button>
+        </div>
+        <div class="layers" id="layers">
+          <svg id="layerArrows" aria-hidden="true"><defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="head" d="M0 0 L10 5 L0 10 z" /></marker></defs></svg>
+          <ol>
+            <li><b>Client and business goals</b><span></span></li>
+            <li><b>Creative strategy and story</b><span></span></li>
+            <li><b>Experience and interaction design</b><span></span></li>
+            <li><b>Engineering, media and fabrication</b><span></span></li>
+            <li><b>Deployment and operations</b><span></span></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="lab on-ink" id="lab" aria-labelledby="labTitle">
+      <div class="wrap">
+        <h2 class="h-section" id="labTitle">Experience Lab</h2>
+        <h3 class="h-case">The Decision Layer</h3>
+        <div class="lab-intro">
+          <div>
+            <p>An executive walks into a customer experience center to meet an emerging AI capability. Instead of a slideshow about AI, they step into a small business scenario and make the call themselves. The same system can carry another industry, language or running time without rebuilding the room.</p>
+            <p class="disclaimer" style="margin-top:1.25rem">An independent concept I made to show how I work. It isn't a client project or affiliated with any company, and every number in it is illustrative.</p>
+          </div>
+          <dl class="brief" aria-label="Creative brief">
+            <dt>Audience</dt><dd>Executives and senior operations leaders on a hosted visit, short on time, mixed technical depth</dd>
+            <dt>Objective</dt><dd>In about 90 seconds, show where AI helps a team see a problem sooner and where people still decide, then open a conversation about the visitor's own business</dd>
+            <dt>Story</dt><dd>Observe, Understand, Decide, Reflect</dd>
+            <dt>Space</dt><dd>One large guest display readable from a few meters, a host tablet within reach, standing room for two to six people</dd>
+            <dt>System</dt><dd>Runs locally from content packs, with no live data or AI service behind it. Display and console share one state</dd>
+            <dt>Operations</dt><dd>The host can jump, reset, switch language or fall back to static frames in one tap. New content is a new pack, not new code</dd>
+            <dt>Success</dt><dd>A visitor can say in one sentence what the AI did and what the person decided. A host can run it without a technician</dd>
+          </dl>
+        </div>
+
+        <div class="howto">
+          <p><b>The dark screen</b> is the wall an executive stands in front of.</p>
+          <p><b>The light panel</b> is the tablet the host holds while presenting.</p>
+          <p><b>Try it:</b> press Look closer and make the call, then switch the language or the industry on the panel.</p>
+        </div>
+
+        <div class="rig">
+          <div>
+            <div class="rig-label"><span>Guest display</span><span class="note">Tap it. The host console follows.</span></div>
+            <div class="display" id="display" role="region" aria-label="Guest display"></div>
+          </div>
+          <div>
+            <div class="rig-label"><span>Host console</span></div>
+            <div class="host" id="host" role="region" aria-label="Host console">
+              <h4>Now showing</h4>
+              <div class="host-now"><strong id="hNow">Observe</strong><span class="host-status live" id="hStatus">Live</span></div>
+              <div class="host-bar"><i id="hBar"></i></div>
+              <p class="host-timer" id="hTimer">Host-led. You advance the story.</p>
+              <h4>Chapter</h4>
+              <div class="seg" id="hChapters"></div>
+              <h4>Run mode</h4>
+              <div class="seg" id="hMode">
+                <button type="button" data-v="host">Host-led</button>
+                <button type="button" data-v="guided">Guided, 90 s</button>
+                <button type="button" data-v="express">Express, 45 s</button>
+              </div>
+              <h4>Guest language</h4>
+              <div class="seg" id="hLang">
+                <button type="button" data-v="en">English</button>
+                <button type="button" data-v="es">Español</button>
+              </div>
+              <h4>Content pack</h4>
+              <div class="seg" id="hPack">
+                <button type="button" data-v="mfg">Manufacturing</button>
+                <button type="button" data-v="cold">Cold chain</button>
+              </div>
+              <h4>If something goes wrong</h4>
+              <div class="host-row">
+                <label class="switch"><input type="checkbox" id="hFallback" /> Static fallback on the display</label>
+                <button type="button" class="host-reset" id="hReset">Reset to start</button>
+              </div>
+              <h4>Guest decision</h4>
+              <p class="host-guest" id="hGuest">Not made yet</p>
+              <h4>Talking points</h4>
+              <ul class="host-notes" id="hNotes"></ul>
+              <p class="popout" id="popoutRow" hidden><button type="button" class="link" id="popout">Open the guest display in its own window</button></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="stack">
+          <div>
+            <h4 class="h-mid">One system, six layers</h4>
+            <p>Change anything on the host console and watch which layer moves. Another industry is another content pack, with no new code and no new hardware.</p>
+          </div>
+          <ol id="stack" aria-label="System layers and their current values">
+            <li data-l="story"><b>Story structure</b><span></span></li>
+            <li data-l="content"><b>Industry content</b><span></span></li>
+            <li data-l="media"><b>Media assets</b><span></span></li>
+            <li data-l="lang"><b>Language</b><span></span></li>
+            <li data-l="logic"><b>Interaction logic</b><span></span></li>
+            <li data-l="present"><b>Presentation</b><span></span></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="about" id="about" aria-labelledby="aboutTitle">
+      <div class="wrap">
+        <h2 class="h-section" id="aboutTitle">About</h2>
+        <div class="about-grid">
+          <img src="/images/web/Christian_Lozano.jpg" alt="Christian Lozano leaning on a stone ledge in a temple courtyard, smiling" width="1600" height="1066" loading="lazy" decoding="async" />
+          <div>
+            <p class="lede">I'm Christian Lozano, a creative technologist in Santa Monica. I work where the client's goal, the story, the screen and the install meet.</p>
+            <p>I work with designers, engineers, subject experts, clients, fabricators and production teams to get ideas built and keep them running. My degree is in finance, so the budget is part of the brief for me. I work in English and Spanish.</p>
+            <dl class="cv">
+              <dt>2022 to now</dt><dd>Creative Technologist, TechFulcrum LLC</dd>
+              <dt>Education</dt><dd>B.S. Finance, Universidad del Rosario, Bogotá</dd>
+              <dt>Tools</dt><dd>Unreal Engine 5 and nDisplay, HTML, CSS, JavaScript, React, Node.js, BrightSign, Adobe Creative Cloud, Figma, AV control and integration</dd>
+            </dl>
+            <div class="skills">
+              <div><h4>Shape it</h4><ul><li>Experience concepts</li><li>Ideation and workshops</li><li>Guest journeys and spatial storytelling</li><li>Interpreting science and industry</li></ul></div>
+              <div><h4>Make it</h4><ul><li>Interactive exhibits</li><li>Touchscreen web apps</li><li>Real-time 3D simulation</li><li>Media and AV integration</li><li>Prototypes and concept decks</li></ul></div>
+              <div><h4>Deliver it</h4><ul><li>Budgets, estimates and scope</li><li>Client decisions</li><li>Hardware and software integration</li><li>Deployment and support</li><li>Content update workflows</li></ul></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact" aria-labelledby="contactTitle">
+      <div class="wrap">
+        <h2 id="contactTitle">The best experiences make complicated things feel surprisingly clear</h2>
+        <ul>
+          <li><a class="link" href="mailto:christian@chexperiences.com">christian@chexperiences.com</a></li>
+          <li><a class="link" href="https://www.linkedin.com/in/christianlozano24" rel="noopener">LinkedIn</a></li>
+          <li><a class="link" href="/christian-lozano.vcf" type="text/vcard">Save my contact</a></li>
+          <li><a class="link" href="mailto:christian@chexperiences.com?subject=R%C3%A9sum%C3%A9%20request">Ask for my résumé</a></li>
+          <li><a class="link" href="/">All my work</a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© 2026 Christian Lozano</span>
+      <span>Concepts are labeled as concepts. Project figures come from the projects.</span>
+      <a href="/privacy.html">Privacy</a>
+    </div>
+  </footer>
+
+  <div class="solo-stage" id="soloStage"></div>
+
+  <script>
+  (function () {
+    'use strict';
+    var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var SOLO = /[?&]display=guest\b/.test(location.search);
+    var NS = 'http://www.w3.org/2000/svg';
+    function $(s, r) { return (r || document).querySelector(s); }
+    function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+    function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+    function onVisible(el, fn) {
+      if (!('IntersectionObserver' in window)) { fn(true); return; }
+      new IntersectionObserver(function (es) { fn(es[0].isIntersecting); }, { rootMargin: '120px' }).observe(el);
+    }
+    function press(group, val, attr) {
+      $$('button', group).forEach(function (b) { b.setAttribute('aria-pressed', b.dataset[attr || 'v'] === String(val) ? 'true' : 'false'); });
+    }
+
+    /* ---- hero: "complex" squeezed, "tangible" opening out to full width ---- */
+    var hero = $('#hero');
+    if (hero && !SOLO) {
+      var l1 = $('.l1', hero), l2 = $('.l2', hero), heroWrap = $('.wrap', hero);
+      var textW = function (el) { var r = document.createRange(); r.selectNodeContents(el); return r.getBoundingClientRect().width; };
+      var fit = function (el, room, max) { el.style.fontSize = '100px'; el.style.fontSize = Math.min(100 * room / textW(el), max) + 'px'; };
+      var fitHero = function () {
+        var cs = getComputedStyle(heroWrap);
+        var room = heroWrap.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) - 2;
+        var start = hero.classList.contains('start'), ready = hero.classList.contains('ready');
+        hero.classList.remove('start', 'ready');
+        fit(l1, room, 340);
+        var words = $$('span', l2);
+        words.forEach(function (w) { w.style.fontSize = ''; });
+        if (innerWidth <= 640) { l2.style.fontSize = '100px'; words.forEach(function (w) { fit(w, room, 220); }); }
+        else fit(l2, room, 220);
+        if (start) hero.classList.add('start');
+        if (ready) hero.classList.add('ready');
+      };
+      var openUp = function () {
+        fitHero();
+        if (RM) { hero.classList.remove('start'); return; }
+        void hero.offsetWidth;
+        hero.classList.add('ready');
+        requestAnimationFrame(function () { requestAnimationFrame(function () { hero.classList.remove('start'); }); });
+      };
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(openUp); else openUp();
+      var rt;
+      addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(fitHero, 120); });
+    }
+
+    /* ---- how a subject becomes a space ---- */
+    var T = [
+      { subject: 'Atmospheric science, and the instruments that measure it', action: 'See how weather detection works, then connect it to real data from where they live', space: '3,500 sq ft, a 24 × 14 ft LED wall streaming live data, and 54+ displays', img: '/images/web/how-we-know-the-weather-1.jpeg', alt: 'The 24 by 14 foot LED wall with live radar at the U.S. Space & Rocket Center', w: 1800, h: 1200 },
+      { subject: 'Steering a ship past Great Lakes landmarks', action: 'Take a real wheel and throttle, and the bridge windows answer in real time', space: 'Three screens angled in like bridge windows, plus a navigation and status display', img: '/images/web/ship-bridge.jpg', alt: 'The ship’s bridge simulator: three window screens above a wheel and throttle', w: 1800, h: 1325 },
+      { subject: 'How a car gets built inside a working plant', action: 'Follow production across a seven-screen journey, and browse Corolla heritage on its own kiosk', space: '18 interactive and media elements in one visitor center', img: '/images/web/commercials-tower.jpg', alt: 'A portrait touchscreen of Toyota commercials at Toyota Mississippi', w: 1013, h: 1800 }
+    ];
+    var tabs = $$('#tTabs [role=tab]'), tPanel = $('#tPanel'), thread = $('#tThread');
+    function drawThread() {
+      if (!thread || RM) return;
+      thread.style.transition = 'none';
+      thread.style.strokeDashoffset = '1';
+      void thread.getBoundingClientRect();
+      thread.style.transition = 'stroke-dashoffset 1.4s cubic-bezier(0.22, 1, 0.36, 1)';
+      thread.style.strokeDashoffset = '0';
+    }
+    function selectTab(i, focus) {
+      tabs.forEach(function (t, k) { t.setAttribute('aria-selected', k === i ? 'true' : 'false'); t.tabIndex = k === i ? 0 : -1; });
+      if (focus) tabs[i].focus();
+      tPanel.setAttribute('aria-labelledby', tabs[i].id);
+      var d = T[i], img = $('[data-t=img]', tPanel);
+      $('[data-t=subject]', tPanel).textContent = d.subject;
+      $('[data-t=action]', tPanel).textContent = d.action;
+      $('[data-t=space]', tPanel).textContent = d.space;
+      img.src = d.img; img.alt = d.alt; img.width = d.w; img.height = d.h;
+      tPanel.classList.remove('swap'); void tPanel.offsetWidth; tPanel.classList.add('swap');
+      drawThread();
+    }
+    tabs.forEach(function (t, k) {
+      t.addEventListener('click', function () { selectTab(k); });
+      t.addEventListener('keydown', function (e) {
+        var n = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (e.key === 'Home') { e.preventDefault(); selectTab(0, true); }
+        else if (e.key === 'End') { e.preventDefault(); selectTab(tabs.length - 1, true); }
+        else if (n) { e.preventDefault(); selectTab((k + n + tabs.length) % tabs.length, true); }
+      });
+    });
+    if (thread) {
+      thread.style.strokeDasharray = '1';
+      thread.style.strokeDashoffset = RM ? '0' : '1';
+      var drawn = false;
+      onVisible(thread, function (v) { if (v && !drawn) { drawn = true; drawThread(); } });
+    }
+
+    /* ---- woven timeline: one artwork, cut across three screens or shown on one ---- */
+    var loom = $('#loom');
+    if (loom) {
+      var warp = '', weft = '';
+      for (var x = 10; x < 1800; x += 20) warp += '<line x1="' + x + '" y1="0" x2="' + x + '" y2="300" stroke="#2b2e36" stroke-width="3"/>';
+      [[0, 1800, '#2a3fd0'], [160, 1800, '#ffd731'], [0, 960, '#f4f1ea'], [400, 1800, '#2a3fd0'], [880, 1800, '#dedad0'], [1200, 1800, '#ffd731'], [280, 1400, '#f4f1ea']].forEach(function (t, k) {
+        var y = 36 + k * 38;
+        weft += '<line x1="' + t[0] + '" y1="' + y + '" x2="' + t[1] + '" y2="' + y + '" stroke="' + t[2] + '" stroke-width="16" stroke-dasharray="20 20" stroke-dashoffset="' + (k % 2 ? 0 : 20) + '"/>';
+      });
+      var art = 'url("data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 300" preserveAspectRatio="none">' + warp + weft + '</svg>') + '")';
+      $$('div', loom).forEach(function (d) { d.style.backgroundImage = art; });
+      $$('#loomSwitch button').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var m = b.dataset.m;
+          press($('#loomSwitch'), m, 'm');
+          loom.classList.toggle('single', m === 'single');
+          $$('#trade > div').forEach(function (d) { d.classList.toggle('dim', d.dataset.m !== m); });
+        });
+      });
+    }
+
+    /* ---- the timeline recording: still for reduced motion, paused off screen ---- */
+    var proto = $('video.proto');
+    if (proto) {
+      if (RM) { proto.removeAttribute('autoplay'); proto.pause(); proto.controls = true; }
+      else onVisible(proto, function (v) { if (v) { var p = proto.play(); if (p && p.catch) p.catch(function () {}); } else proto.pause(); });
+    }
+
+    /* ---- the bridge: wheel, throttle, three angled windows ---- */
+    var sim = $('#sim');
+    if (sim) {
+      var INK = '#1f1c1d', YEL = '#ffd731', BLU = '#2a3fd0';
+      var landmarks = function (x) {
+        return '<polygon points="' + (x - 12) + ',172 ' + (x - 7) + ',96 ' + (x + 7) + ',96 ' + (x + 12) + ',172" fill="' + INK + '"/>' +
+          '<rect x="' + (x - 8) + '" y="122" width="16" height="10" fill="' + YEL + '"/>' +
+          '<rect x="' + (x - 6) + '" y="84" width="12" height="12" fill="' + YEL + '"/>' +
+          '<polygon points="' + (x - 9) + ',84 ' + x + ',73 ' + (x + 9) + ',84" fill="' + INK + '"/>' +
+          '<rect x="' + (x + 1230) + '" y="160" width="150" height="12" fill="' + INK + '"/>' +
+          '<rect x="' + (x + 1338) + '" y="144" width="30" height="16" fill="' + INK + '"/>' +
+          '<rect x="' + (x + 1350) + '" y="133" width="6" height="11" fill="' + INK + '"/>' +
+          '<rect x="' + (x + 2390) + '" y="104" width="9" height="68" fill="' + INK + '"/>' +
+          '<rect x="' + (x + 2600) + '" y="104" width="9" height="68" fill="' + INK + '"/>' +
+          '<path d="M' + (x + 2300) + ' 150 H' + (x + 2700) + '" stroke="' + INK + '" stroke-width="5"/>' +
+          '<path d="M' + (x + 2300) + ' 150 Q' + (x + 2345) + ' 122 ' + (x + 2394) + ' 104 Q' + (x + 2500) + ' 152 ' + (x + 2604) + ' 104 Q' + (x + 2655) + ' 122 ' + (x + 2700) + ' 150" stroke="' + INK + '" stroke-width="2" fill="none"/>' +
+          '<path d="M' + (x + 2950) + ' 172 Q' + (x + 3050) + ' 148 ' + (x + 3150) + ' 160 T' + (x + 3350) + ' 156 T' + (x + 3500) + ' 172 Z" fill="' + INK + '"/>' +
+          '<circle cx="' + (x + 600) + '" cy="196" r="5" fill="' + YEL + '"/>' +
+          '<circle cx="' + (x + 1900) + '" cy="212" r="6" fill="' + YEL + '"/>';
+      };
+      var scene = '<rect x="-3600" y="172" width="10800" height="140" fill="' + BLU + '"/>' + landmarks(-3600) + landmarks(0) + landmarks(3600);
+      var groups = $$('.sim-views > div', sim).map(function (v) {
+        v.innerHTML = '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%"><g>' + scene + '</g></svg>';
+        return $('g', v);
+      });
+      var helm = $('#helm'), helmRot = $('#helmRot'), thr = $('#throttle');
+      var st = { wheel: 0, thr: 0.25, fR: 0, fT: 0.25, heading: 12, speed: 3.5, smooth: true, t: 0 };
+      var setWheel = function (v) {
+        st.wheel = Math.max(-270, Math.min(270, v));
+        helmRot.setAttribute('transform', 'rotate(' + st.wheel.toFixed(1) + ')');
+        helm.setAttribute('aria-valuenow', Math.round(st.wheel));
+        helm.setAttribute('aria-valuetext', Math.abs(st.wheel) < 5 ? 'Centered' : Math.round(Math.abs(st.wheel)) + ' degrees to ' + (st.wheel > 0 ? 'starboard' : 'port'));
+      };
+      var dragA = null;
+      var angleOf = function (e) { var b = helm.getBoundingClientRect(); return Math.atan2(e.clientY - (b.top + b.height / 2), e.clientX - (b.left + b.width / 2)) * 180 / Math.PI; };
+      helm.addEventListener('pointerdown', function (e) { dragA = angleOf(e); helm.setPointerCapture(e.pointerId); e.preventDefault(); });
+      helm.addEventListener('pointermove', function (e) {
+        if (dragA === null) return;
+        var a = angleOf(e), d = a - dragA;
+        if (d > 180) d -= 360;
+        if (d < -180) d += 360;
+        dragA = a; setWheel(st.wheel + d);
+      });
+      var endDrag = function () { dragA = null; };
+      helm.addEventListener('pointerup', endDrag);
+      helm.addEventListener('pointercancel', endDrag);
+      helm.addEventListener('keydown', function (e) {
+        var step = e.shiftKey ? 45 : 15;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowUp') setWheel(st.wheel + step);
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') setWheel(st.wheel - step);
+        else if (e.key === 'Home') setWheel(0);
+        else return;
+        e.preventDefault();
+      });
+      thr.addEventListener('input', function () { st.thr = thr.value / 100; });
+      $('#slam').addEventListener('click', function () { thr.value = 100; st.thr = 1; });
+      $$('#smoothSwitch button').forEach(function (b) {
+        b.addEventListener('click', function () { st.smooth = b.dataset.s === 'on'; press($('#smoothSwitch'), b.dataset.s, 's'); });
+      });
+      var hOut = $('#simHeading'), sOut = $('#simSpeed'), running = false, last = 0, frames = 0;
+      // a cheap stand-in for real sensor noise: constant jitter plus the odd spike
+      var noise = function () { return (Math.random() - 0.5) * 0.16 + (Math.random() < 0.04 ? (Math.random() - 0.5) * 0.9 : 0); };
+      var step = function (now) {
+        if (!running) return;
+        var dt = Math.min(0.05, (now - (last || now)) / 1000); last = now; st.t += dt;
+        var rawR = st.wheel / 270 + noise(), rawT = st.thr + noise() * 0.8;
+        if (st.smooth) {
+          st.fR += (rawR - st.fR) * (1 - Math.exp(-dt * 4));
+          st.fT += (rawT - st.fT) * (1 - Math.exp(-dt * 2.5));
+        } else { st.fR = rawR; st.fT = rawT; }
+        var target = Math.max(0, Math.min(1, st.fT)) * 14;
+        st.speed += (target - st.speed) * (1 - Math.exp(-dt * (st.smooth ? 0.7 : 8)));
+        st.heading = (st.heading + st.fR * (st.speed / 14 + 0.12) * 26 * dt + 360) % 360;
+        var shakeX = st.smooth ? 0 : (rawR - st.wheel / 270) * 30;
+        var shakeY = st.smooth ? 0 : (rawT - st.thr) * 26;
+        var bob = RM ? 0 : Math.sin(st.t * 1.4) * 2.5 * (st.speed / 14 + 0.25);
+        groups.forEach(function (g, k) {
+          var left = (((st.heading + (k - 1) * 40 - 20) * 10) % 3600 + 3600) % 3600;
+          g.setAttribute('transform', 'translate(' + (-left + shakeX).toFixed(1) + ',' + (bob + shakeY).toFixed(1) + ')');
+        });
+        if (++frames % 4 === 0) {
+          hOut.textContent = ('00' + Math.round(st.heading) % 360).slice(-3) + '°';
+          sOut.textContent = Math.max(0, st.speed).toFixed(1);
+        }
+        requestAnimationFrame(step);
+      };
+      setWheel(0);
+      onVisible(sim, function (v) {
+        if (v && !running) { running = true; last = 0; requestAnimationFrame(step); }
+        else if (!v) running = false;
+      });
+    }
+
+    /* ---- between the disciplines: real examples, drawn as influence paths ---- */
+    var EX = [
+      { path: [0, 1, 2, 3, 0], notes: ['About $1.5M overall, $800K of it for AV', 'Keep the core: detection first, then local data', 'A smaller footprint than the first concept', 'AV scope delivered on budget', ''] },
+      { path: [1, 3, 2, 4, 2], notes: ['', 'It should feel like driving a real ship', 'nDisplay draws a true view for each window. Smoothing turns a slam into a command', 'Real wheel and throttle sensors, three angled screens', 'Unattended, with kids at the controls'] },
+      { path: [0, 1, 2, 4, 2], notes: ['LEED Platinum deserved more than a plaque', 'Tell it in plain language', 'Built to ADA reach ranges', '', 'An attract loop resets it for the next guest'] }
+    ];
+    var layers = $('#layers'), arrows = $('#layerArrows'), rows = $$('#layers li'), xIdx = 0, layersShown = false;
+    function drawLayers(animate) {
+      var ex = EX[xIdx];
+      rows.forEach(function (li, i) { li.classList.toggle('on', ex.path.indexOf(i) >= 0); $('span', li).textContent = ex.notes[i]; });
+      var top = layers.getBoundingClientRect().top;
+      var c = rows.map(function (li) { var b = li.getBoundingClientRect(); return b.top - top + b.height / 2; });
+      var W = arrows.getBoundingClientRect().width, xr = W - 4;
+      $$('path.seg', arrows).forEach(function (p) { p.remove(); });
+      ex.path.slice(1).forEach(function (to, k) {
+        var from = ex.path[k], a = c[from], b = c[to], dir = b > a ? 1 : -1;
+        var cx = xr - Math.min(W - 6, 12 + Math.abs(to - from) * W * 0.2 + (k % 2) * 8);
+        var p = document.createElementNS(NS, 'path');
+        p.setAttribute('class', 'seg');
+        p.setAttribute('d', 'M' + xr + ' ' + (a + dir * 8) + ' C' + cx + ' ' + a + ' ' + cx + ' ' + b + ' ' + xr + ' ' + (b - dir * 8));
+        arrows.appendChild(p);
+        if (!animate || RM) { p.setAttribute('marker-end', 'url(#ah)'); return; }
+        var L = p.getTotalLength();
+        p.style.strokeDasharray = L; p.style.strokeDashoffset = L;
+        setTimeout(function () {
+          p.style.transition = 'stroke-dashoffset 420ms ease-out';
+          p.style.strokeDashoffset = '0';
+          setTimeout(function () { p.setAttribute('marker-end', 'url(#ah)'); }, 400);
+        }, 120 + k * 380);
+      });
+    }
+    if (layers) {
+      $$('#layerTabs button').forEach(function (b) {
+        b.addEventListener('click', function () {
+          xIdx = +b.dataset.x;
+          press($('#layerTabs'), b.dataset.x, 'x');
+          if (RM) { drawLayers(false); return; }
+          layers.classList.add('swap');
+          setTimeout(function () { drawLayers(true); layers.classList.remove('swap'); }, 180);
+        });
+      });
+      drawLayers(false);
+      $$('path.seg', arrows).forEach(function (p) { p.style.visibility = 'hidden'; });
+      onVisible(layers, function (v) { if (v && !layersShown) { layersShown = true; drawLayers(true); } });
+      var lt;
+      addEventListener('resize', function () { clearTimeout(lt); lt = setTimeout(function () { if (layersShown) drawLayers(false); }, 150); });
+    }
+
+    /* ======================================================================
+       The Decision Layer. Content packs are plain data; the story structure,
+       language, interaction logic and presentation settings are separate, and
+       the guest display and host console both render from one state object.
+       ====================================================================== */
+    var STORY = {
+      keys: ['observe', 'understand', 'decide', 'reflect'],
+      names: { en: ['Observe', 'Understand', 'Decide', 'Reflect'], es: ['Observar', 'Entender', 'Decidir', 'Reflexionar'] },
+      timing: { guided: [20, 30, null, 25], express: [10, 14, null, 12] },
+      ui: { en: { illus: 'Illustrative data', none: 'No choice made yet' }, es: { illus: 'Datos ilustrativos', none: 'Todavía no hay decisión' } },
+      notes: [
+        ['Let the group notice the drift before you name it.', 'Nothing is broken yet. That is the point.'],
+        ['Name the four systems. Most teams check them separately.', 'The ranking is a suggestion, not an answer.'],
+        ['Hand the choice to the most senior person in the group.', 'Ask what they would need to know to feel sure.'],
+        ['Neither choice is wrong. Ask which risk their business prefers.', 'Move to their own operation: where could this happen?']
+      ]
+    };
+    var MODES = { host: 'Host-led', guided: 'Guided, 90 s', express: 'Express, 45 s' };
+    var PACKS = {
+      mfg: {
+        media: 'Body shop station set', anomaly: 1,
+        en: {
+          name: 'Manufacturing quality', setting: 'Line 2, body shop', signal: 'Weld quality signal', limit: 'Limit',
+          stations: ['Stamp', 'Weld', 'Paint', 'Assemble', 'Inspect'],
+          observe: { title: 'Everything looks normal, almost', body: 'Line 2 is on schedule. At the weld station, one reading has crept up for three hours. No alarm has fired yet.', short: 'One reading at the weld station has crept up for three hours.', cta: 'Look closer' },
+          understand: { title: 'The clues were in four different systems', body: 'AI can line up sensor data, inspection images, maintenance notes and material lots in minutes, then rank the likely causes. Deciding what to do is still a human call.', short: 'AI lines up four systems in minutes and ranks the likely causes.', cta: 'Make the call', sources: ['Weld sensors', 'Inspection images', 'Maintenance log', 'Material lots'], node: 'AI-assisted analysis', causes: [['Electrode wear, cell 3', 0.78], ['New wire lot since 06:10', 0.46], ['Shop humidity', 0.18]], ai: 'AI finds the pattern fast', human: 'People decide what it is worth' },
+          decide: { title: 'Your call', body: 'Both options are reasonable. Each one costs something different.', short: 'Pick one. Both are reasonable.', cta: 'See what it cost', options: [['Stop and fix now', 'Pause cell 3 for about 40 minutes and replace the electrodes. Nothing suspect moves on.'], ['Run and contain', 'Keep the line moving, inspect every part from cell 3, and fix it at shift change.']] },
+          reflect: { title: 'What each choice cost', body: 'The AI shortened the time to see the problem. People who know the cost of each risk made the decision.', short: 'The AI found it sooner. People decided.', cta: 'Start over', question: 'Where in your operation does a slow signal hide across systems?', rows: [['Downtime', '40 min', '0 min'], ['Units delayed', 'About 60', '0'], ['Parts held for rework', '0', 'About 14'], ['Extra inspection', '0 h', '6 h'], ['Chance a bad part ships', 'Lowest', 'Low, not zero']] }
+        },
+        es: {
+          name: 'Calidad en manufactura', setting: 'Línea 2, carrocería', signal: 'Señal de calidad de soldadura', limit: 'Límite',
+          stations: ['Estampado', 'Soldadura', 'Pintura', 'Ensamble', 'Inspección'],
+          observe: { title: 'Todo se ve normal, casi', body: 'La línea 2 va a tiempo. En soldadura, una lectura lleva tres horas subiendo. Todavía no ha sonado ninguna alarma.', short: 'Una lectura en soldadura lleva tres horas subiendo.', cta: 'Mirar de cerca' },
+          understand: { title: 'Las pistas estaban en cuatro sistemas distintos', body: 'La IA puede cruzar datos de sensores, imágenes de inspección, notas de mantenimiento y lotes de material en minutos, y ordenar las causas probables. Decidir qué hacer sigue siendo una decisión humana.', short: 'La IA cruza cuatro sistemas en minutos y ordena las causas probables.', cta: 'Tomar la decisión', sources: ['Sensores de soldadura', 'Imágenes de inspección', 'Registro de mantenimiento', 'Lotes de material'], node: 'Análisis asistido por IA', causes: [['Desgaste de electrodos, celda 3', 0.78], ['Lote nuevo de alambre, 06:10', 0.46], ['Humedad del taller', 0.18]], ai: 'La IA encuentra el patrón rápido', human: 'Las personas deciden cuánto vale' },
+          decide: { title: 'Tu decisión', body: 'Las dos opciones son razonables. Cada una cuesta algo distinto.', short: 'Elige una. Las dos son razonables.', cta: 'Ver lo que costó', options: [['Parar y reparar ya', 'Detener la celda 3 unos 40 minutos y cambiar los electrodos. Nada sospechoso sigue adelante.'], ['Seguir y contener', 'Mantener la línea en marcha, inspeccionar cada pieza de la celda 3 y reparar en el cambio de turno.']] },
+          reflect: { title: 'Lo que costó cada opción', body: 'La IA acortó el tiempo para ver el problema. La decisión la tomaron personas que conocen el costo de cada riesgo.', short: 'La IA lo vio antes. Las personas decidieron.', cta: 'Empezar de nuevo', question: '¿Dónde se esconde una señal lenta entre los sistemas de tu operación?', rows: [['Tiempo detenido', '40 min', '0 min'], ['Unidades retrasadas', 'Unas 60', '0'], ['Piezas en retrabajo', '0', 'Unas 14'], ['Inspección extra', '0 h', '6 h'], ['Riesgo de enviar una pieza mala', 'El más bajo', 'Bajo, no cero']] }
+        }
+      },
+      cold: {
+        media: 'Route 7 fleet set', anomaly: 2,
+        en: {
+          name: 'Cold-chain logistics', setting: 'Fresh produce, route 7', signal: 'Trailer temperature, truck 14', limit: 'Limit',
+          stations: ['Packhouse', 'Cross-dock', 'Truck 14', 'Warehouse', 'Store'],
+          observe: { title: 'On time and in range, for now', body: 'Route 7 is on schedule. In truck 14, the trailer has been warming slowly since the cross-dock. It is still inside the limit.', short: 'Truck 14 has been warming slowly since the cross-dock.', cta: 'Look closer' },
+          understand: { title: 'The clues were in four different systems', body: 'AI can line up temperature sensors, door events, maintenance records and route data in minutes, then rank the likely causes. Deciding what to do is still a human call.', short: 'AI lines up four systems in minutes and ranks the likely causes.', cta: 'Make the call', sources: ['Temperature sensors', 'Door events', 'Maintenance records', 'Route and traffic'], node: 'AI-assisted analysis', causes: [['Worn door seal, truck 14', 0.74], ['Long wait at the cross-dock', 0.41], ['Afternoon heat', 0.2]], ai: 'AI finds the pattern fast', human: 'People decide what it is worth' },
+          decide: { title: 'Your call', body: 'Both options are reasonable. Each one costs something different.', short: 'Pick one. Both are reasonable.', cta: 'See what it cost', options: [['Transfer the load now', 'Meet a spare truck at the next depot and move the load. About 50 minutes late, and the product stays cold.'], ['Deliver and inspect', 'Keep going, check temperatures on arrival and fix the seal tonight. On time, with a chance some product is rejected.']] },
+          reflect: { title: 'What each choice cost', body: 'The AI shortened the time to see the problem. People who know the cost of each risk made the decision.', short: 'The AI found it sooner. People decided.', cta: 'Start over', question: 'Where in your network does a slow signal hide across systems?', rows: [['Delay', '50 min', '0 min'], ['Extra truck and driver', 'Yes', 'No'], ['Product at risk', 'None', 'About 3 pallets'], ['Seal repair', 'Tonight', 'Tonight'], ['Chance of a rejected delivery', 'Lowest', 'Low, not zero']] }
+        },
+        es: {
+          name: 'Logística de cadena de frío', setting: 'Producto fresco, ruta 7', signal: 'Temperatura del remolque, camión 14', limit: 'Límite',
+          stations: ['Empacadora', 'Cruce', 'Camión 14', 'Almacén', 'Tienda'],
+          observe: { title: 'A tiempo y en rango, por ahora', body: 'La ruta 7 va a tiempo. En el camión 14, el remolque se ha ido calentando despacio desde el centro de cruce. Todavía está dentro del límite.', short: 'El camión 14 se ha ido calentando desde el centro de cruce.', cta: 'Mirar de cerca' },
+          understand: { title: 'Las pistas estaban en cuatro sistemas distintos', body: 'La IA puede cruzar sensores de temperatura, aperturas de puerta, registros de mantenimiento y datos de ruta en minutos, y ordenar las causas probables. Decidir qué hacer sigue siendo una decisión humana.', short: 'La IA cruza cuatro sistemas en minutos y ordena las causas probables.', cta: 'Tomar la decisión', sources: ['Sensores de temperatura', 'Aperturas de puerta', 'Mantenimiento', 'Ruta y tráfico'], node: 'Análisis asistido por IA', causes: [['Sello de puerta gastado', 0.74], ['Espera larga en el cruce', 0.41], ['Calor de la tarde', 0.2]], ai: 'La IA encuentra el patrón rápido', human: 'Las personas deciden cuánto vale' },
+          decide: { title: 'Tu decisión', body: 'Las dos opciones son razonables. Cada una cuesta algo distinto.', short: 'Elige una. Las dos son razonables.', cta: 'Ver lo que costó', options: [['Transferir la carga ya', 'Encontrar un camión de reserva en el próximo depósito y pasar la carga. Unos 50 minutos tarde, y el producto se mantiene frío.'], ['Entregar e inspeccionar', 'Seguir, revisar temperaturas al llegar y reparar el sello esta noche. A tiempo, con la posibilidad de que rechacen parte del producto.']] },
+          reflect: { title: 'Lo que costó cada opción', body: 'La IA acortó el tiempo para ver el problema. La decisión la tomaron personas que conocen el costo de cada riesgo.', short: 'La IA lo vio antes. Las personas decidieron.', cta: 'Empezar de nuevo', question: '¿Dónde se esconde una señal lenta entre los sistemas de tu red?', rows: [['Retraso', '50 min', '0 min'], ['Camión y conductor extra', 'Sí', 'No'], ['Producto en riesgo', 'Ninguno', 'Unas 3 tarimas'], ['Reparación del sello', 'Esta noche', 'Esta noche'], ['Riesgo de entrega rechazada', 'El más bajo', 'Bajo, no cero']] }
+        }
+      }
+    };
+
+    // the drifting signal: flat with noise, then a slow climb toward the limit
+    var SIG = (function () {
+      var nz = [0.2, -0.5, 0.7, -0.1, 0.4, -0.8, 0.3, 0.6, -0.4, 0.1, -0.6, 0.5, -0.2, 0.8, -0.3, 0.2, -0.7, 0.4, 0];
+      var a = [], b = [];
+      for (var i = 0; i <= 36; i++) {
+        var y = 122 + nz[i % nz.length] * 7 - (i > 18 ? (i - 18) * 3.4 : 0), pt = (30 + i * 10) + ' ' + y.toFixed(1);
+        if (i <= 18) a.push(pt);
+        if (i >= 18) b.push(pt);
+      }
+      return ['M' + a.join(' L'), 'M' + b.join(' L')];
+    })();
+
+    var S = { pack: 'mfg', lang: 'en', chapter: 0, choice: null, mode: 'host', fallback: false, t: 0 };
+    var display = $('#display');
+    var live = document.createElement('p');
+    live.className = 'sr'; live.setAttribute('aria-live', 'polite');
+    display.parentNode.insertBefore(live, display.nextSibling);
+    var chan = null;
+    try { chan = new BroadcastChannel('decision-layer'); } catch (e) { chan = null; }
+    var isController = !SOLO, heard = false, guests = {};
+
+    function line(x1, y1, x2, y2, col, w, extra) { return '<path d="M' + x1 + ' ' + y1 + ' L' + x2 + ' ' + y2 + '" stroke="' + col + '" stroke-width="' + w + '" fill="none"' + (extra || '') + '/>'; }
+    function label(x, y, txt, cls, anchor) { return '<text class="v-lbl' + (cls ? ' ' + cls : '') + '" x="' + x + '" y="' + y + '"' + (anchor ? ' text-anchor="' + anchor + '"' : '') + '>' + esc(txt) + '</text>'; }
+    function table(L, C) {
+      var o = L.decide.options, pa = S.choice === 'A' ? ' class="pick"' : '', pb = S.choice === 'B' ? ' class="pick"' : '';
+      return '<table class="g-table"><thead><tr><th></th><th' + pa + '>' + esc(o[0][0]) + '</th><th' + pb + '>' + esc(o[1][0]) + '</th></tr></thead><tbody>' +
+        C.rows.map(function (r) { return '<tr><th scope="row">' + esc(r[0]) + '</th><td' + pa + '>' + esc(r[1]) + '</td><td' + pb + '>' + esc(r[2]) + '</td></tr>'; }).join('') +
+        '</tbody></table>';
+    }
+    function viz(k, P, L, C) {
+      if (k === 'reflect') return table(L, C);
+      var s = '<svg viewBox="0 0 420 260">';
+      if (k === 'observe') {
+        s += label(30, 22, L.signal);
+        s += line(30, 52, 390, 52, '#ffd731', 1.5, ' stroke-dasharray="5 5"') + label(390, 44, L.limit, '', 'end');
+        s += line(30, 150, 390, 150, '#3a3e48', 1);
+        s += '<path class="v-draw" pathLength="1" d="' + SIG[0] + '" fill="none" stroke="#f4f1ea" stroke-width="2.5"/>';
+        s += '<path class="v-draw v-late" pathLength="1" d="' + SIG[1] + '" fill="none" stroke="#ffd731" stroke-width="3"/>';
+        s += line(37, 217, 389, 217, '#3a3e48', 2);
+        for (var u = 0; u < 5; u++) s += '<circle class="v-unit" cx="37" cy="217" r="4.5" fill="#f4f1ea" style="animation-delay:' + (-u * 1.4) + 's"/>';
+        L.stations.forEach(function (n, i) {
+          var x = 20 + i * 88, hot = i === P.anomaly;
+          s += '<rect x="' + x + '" y="200" width="34" height="34" fill="' + (hot ? '#ffd731' : '#2e3139') + '"' + (hot ? ' class="v-pulse"' : '') + '/>';
+          s += label(x + 17, 252, n, hot ? 'v-hi' : '', 'middle');
+        });
+      } else if (k === 'understand') {
+        var ys = [40, 95, 150, 205];
+        C.sources.forEach(function (n, i) {
+          s += '<rect x="0" y="' + (ys[i] - 6) + '" width="12" height="12" fill="#f4f1ea"/>' + label(20, ys[i] + 4, n, 'v-hi');
+          s += '<path class="v-draw" pathLength="1" style="animation-delay:' + (i * 0.15) + 's" d="M162 ' + ys[i] + ' C 196 ' + ys[i] + ', 196 122, 214 122" fill="none" stroke="#2a3fd0" stroke-width="2.5"/>';
+        });
+        var words = C.node.split(' '), half = Math.ceil(words.length / 2);
+        s += '<circle class="v-pulse" cx="236" cy="122" r="22" fill="#2a3fd0"/>' + label(236, 78, words.slice(0, half).join(' '), 'v-hi', 'middle') + label(236, 91, words.slice(half).join(' '), 'v-hi', 'middle');
+        C.causes.forEach(function (c, i) {
+          var y = 70 + i * 58;
+          s += '<path class="v-draw" pathLength="1" style="animation-delay:' + (0.7 + i * 0.12) + 's" d="M258 122 C 280 122, 280 ' + (y + 5) + ', 300 ' + (y + 5) + '" fill="none" stroke="#3a3e48" stroke-width="2"/>';
+          s += label(300, y - 7, c[0], i === 0 ? 'v-hi' : '');
+          s += '<rect class="v-grow" style="animation-delay:' + (0.9 + i * 0.12) + 's" x="300" y="' + y + '" width="' + Math.round(c[1] * 120) + '" height="10" fill="' + (i === 0 ? '#ffd731' : '#a3a7b0') + '"/>';
+        });
+      } else if (k === 'decide') {
+        var colA = S.choice === 'A' ? '#ffd731' : S.choice ? '#3a3e48' : '#f4f1ea';
+        var colB = S.choice === 'B' ? '#ffd731' : S.choice ? '#3a3e48' : '#f4f1ea';
+        s += '<rect class="v-pulse" x="20" y="113" width="34" height="34" fill="#ffd731"/>' + label(37, 170, L.stations[P.anomaly], 'v-hi', 'middle');
+        s += '<path d="M54 130 H150 C 200 130, 200 60, 250 60 H400" stroke="' + colA + '" stroke-width="3" fill="none"/>';
+        s += '<path d="M54 130 H150 C 200 130, 200 200, 250 200 H400" stroke="' + colB + '" stroke-width="3" fill="none"/>';
+        s += label(256, 48, C.options[0][0], 'v-hi') + label(256, 188, C.options[1][0], 'v-hi');
+      }
+      return s + '</svg>';
+    }
+
+    function renderGuest() {
+      var P = PACKS[S.pack], L = P[S.lang], k = STORY.keys[S.chapter], C = L[k], ui = STORY.ui[S.lang], names = STORY.names[S.lang];
+      var body = S.mode === 'express' ? C.short : C.body;
+      if (k === 'reflect' && !S.choice) body = ui.none + '. ' + body;
+      var h = '<div class="g-inner"><div class="g-top"><div class="g-chapters">' +
+        names.map(function (n, i) { return '<span' + (i === S.chapter ? ' class="on"' : '') + '>' + esc(n) + '</span>'; }).join('') +
+        '</div><span>' + esc(ui.illus) + '</span></div>' +
+        '<div class="g-body swap"><div class="g-copy"><p class="g-setting">' + esc(L.setting) + '</p><h3 class="g-title">' + esc(C.title) + '</h3><p class="g-text">' + esc(body) + '</p>';
+      if (k === 'understand') h += '<div class="g-split"><span><i style="background:#2a3fd0"></i>' + esc(C.ai) + '</span><span><i style="background:#ffd731"></i>' + esc(C.human) + '</span></div>';
+      if (k === 'decide') {
+        h += '<div class="g-options">' + C.options.map(function (o, i) {
+          var v = 'AB'[i];
+          return '<button type="button" class="g-option" data-choice="' + v + '" aria-pressed="' + (S.choice === v) + '"><b>' + esc(o[0]) + '</b><span>' + esc(o[1]) + '</span></button>';
+        }).join('') + '</div>';
+      }
+      if (k === 'reflect') {
+        if (S.fallback) h += table(L, C);
+        h += '<p class="g-q">' + esc(C.question) + '</p>';
+      }
+      if (k !== 'decide' || S.choice) h += '<button type="button" class="g-cta" data-act="' + (k === 'reflect' ? 'reset' : 'next') + '">' + esc(C.cta) + '</button>';
+      h += '</div><div class="g-viz" aria-hidden="true">' + viz(k, P, L, C) + '</div></div><div class="g-foot"><i></i></div></div>';
+      display.innerHTML = h;
+      display.classList.toggle('fallback', S.fallback);
+      display.setAttribute('lang', S.lang);
+      live.textContent = names[S.chapter] + ': ' + C.title;
+      updateTimer();
+    }
+
+    var hNow = $('#hNow'), hStatus = $('#hStatus'), hBar = $('#hBar'), hTimer = $('#hTimer'), hChapters = $('#hChapters');
+    var hMode = $('#hMode'), hLang = $('#hLang'), hPack = $('#hPack'), hFallback = $('#hFallback'), hGuest = $('#hGuest'), hNotes = $('#hNotes');
+    hChapters.innerHTML = STORY.names.en.map(function (n, i) { return '<button type="button" data-v="' + i + '">' + n + '</button>'; }).join('');
+
+    function dur() {
+      var d = STORY.timing[S.mode];
+      if (!d) return null;
+      if (S.chapter === 2) return S.choice ? 3 : null;
+      return d[S.chapter];
+    }
+    function timerText(d) {
+      if (S.mode === 'host') return 'Host-led. You advance the story.';
+      if (S.chapter === 2 && !S.choice) return 'Waiting for the guest to decide.';
+      if (S.chapter === 3 && S.t >= d) return 'Story complete. Reset when the group moves on.';
+      return (S.chapter === 3 ? 'Ends in ' : 'Next chapter in ') + Math.max(0, Math.ceil(d - S.t)) + ' s';
+    }
+    function updateTimer() {
+      var d = dur(), pct = d ? Math.min(1, S.t / d) * 100 : 0;
+      var gb = $('.g-foot i', display);
+      if (gb) gb.style.width = pct + '%';
+      hBar.style.width = pct + '%';
+      hTimer.textContent = timerText(d);
+    }
+    function renderHost() {
+      var L = PACKS[S.pack].en;
+      hNow.textContent = STORY.names.en[S.chapter];
+      hStatus.textContent = S.fallback ? 'Static fallback' : 'Live';
+      hStatus.className = 'host-status ' + (S.fallback ? 'fb' : 'live');
+      press(hChapters, S.chapter); press(hMode, S.mode); press(hLang, S.lang); press(hPack, S.pack);
+      hFallback.checked = S.fallback;
+      hGuest.innerHTML = S.choice ? '<b>' + esc(L.decide.options[S.choice === 'A' ? 0 : 1][0]) + '</b>' : 'Not made yet';
+      hNotes.innerHTML = STORY.notes[S.chapter].map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('');
+      updateTimer();
+    }
+    function renderStack(hits) {
+      var P = PACKS[S.pack];
+      var vals = {
+        story: 'Four chapters, now ' + STORY.names.en[S.chapter],
+        content: P.en.name,
+        media: P.media,
+        lang: S.lang === 'en' ? 'English' : 'Español',
+        logic: (S.choice ? 'Choice ' + S.choice + ' made' : 'Choice pending') + ', ' + (S.mode === 'host' ? 'no timers' : 'timers on'),
+        present: MODES[S.mode] + (S.fallback ? ', static fallback' : ', live')
+      };
+      $$('#stack li').forEach(function (li) {
+        var l = li.dataset.l;
+        $('span', li).textContent = vals[l];
+        if (hits && hits.indexOf(l) >= 0) {
+          li.classList.remove('hit'); void li.offsetWidth; li.classList.add('hit');
+          clearTimeout(li._t); li._t = setTimeout(function () { li.classList.remove('hit'); }, 1100);
+        }
+      });
+    }
+    function send() { if (chan && isController) chan.postMessage({ type: 'state', s: S }); }
+    function commit(hits) { renderGuest(); renderHost(); renderStack(hits); send(); }
+    function dispatch(a) {
+      var hits;
+      switch (a.type) {
+        case 'go':
+          var n = Math.max(0, Math.min(3, a.v));
+          if (n === S.chapter) return;
+          S.chapter = n; S.t = 0; hits = ['story']; break;
+        case 'choose': S.choice = a.v; S.t = 0; hits = ['logic']; break;
+        case 'mode': if (S.mode === a.v) return; S.mode = a.v; S.t = 0; hits = ['present', 'logic']; break;
+        case 'lang': if (S.lang === a.v) return; S.lang = a.v; hits = ['lang']; break;
+        case 'pack': if (S.pack === a.v) return; S.pack = a.v; hits = ['content', 'media']; break;
+        case 'fallback': S.fallback = !!a.v; hits = ['present']; break;
+        case 'reset': S.chapter = 0; S.choice = null; S.t = 0; hits = ['story', 'logic']; break;
+        default: return;
+      }
+      commit(hits);
+    }
+    // the guest display and a popped-out window send actions; only the controller changes state
+    function act(a) {
+      if (isController) dispatch(a);
+      else if (chan) chan.postMessage({ type: 'action', a: a });
+    }
+
+    display.addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      if (b.dataset.choice) act({ type: 'choose', v: b.dataset.choice });
+      else if (b.dataset.act === 'next') act({ type: 'go', v: S.chapter + 1 });
+      else if (b.dataset.act === 'reset') act({ type: 'reset' });
+    });
+    hChapters.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) act({ type: 'go', v: +b.dataset.v }); });
+    [[hMode, 'mode'], [hLang, 'lang'], [hPack, 'pack']].forEach(function (g) {
+      g[0].addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) act({ type: g[1], v: b.dataset.v }); });
+    });
+    hFallback.addEventListener('change', function () { act({ type: 'fallback', v: hFallback.checked }); });
+    $('#hReset').addEventListener('click', function () { act({ type: 'reset' }); });
+
+    setInterval(function () {
+      if (!isController || S.mode === 'host' || document.hidden) return;
+      var d = dur();
+      if (d == null || (S.chapter === 3 && S.t >= d)) return;
+      S.t = Math.min(d, S.t + 0.2);
+      if (S.t >= d && S.chapter < 3) { dispatch({ type: 'go', v: S.chapter + 1 }); return; }
+      updateTimer(); send();
+    }, 200);
+
+    var popRow = $('#popoutRow'), popBtn = $('#popout');
+    function updatePop() { popBtn.textContent = Object.keys(guests).length ? 'Guest window connected' : 'Open the guest display in its own window'; }
+    if (chan) {
+      chan.onmessage = function (e) {
+        var m = e.data || {};
+        if (isController) {
+          if (m.type === 'hello') { guests[m.id] = 1; updatePop(); send(); }
+          else if (m.type === 'bye') { delete guests[m.id]; updatePop(); }
+          else if (m.type === 'action') dispatch(m.a);
+        } else if (m.type === 'state') {
+          heard = true;
+          var key = function (s) { return [s.pack, s.lang, s.chapter, s.choice, s.mode, s.fallback].join('|'); };
+          var before = key(S);
+          S = m.s;
+          if (key(S) !== before) renderGuest(); else updateTimer();
+        }
+      };
+      if (!SOLO && popRow) {
+        popRow.hidden = false;
+        popBtn.addEventListener('click', function () { window.open(location.pathname + '?display=guest', 'decisionLayerGuest', 'popup,width=1280,height=760'); });
+      }
+    }
+
+    if (SOLO) {
+      document.body.classList.add('solo');
+      var stage = $('#soloStage');
+      stage.appendChild(display); stage.appendChild(live);
+      document.title = 'Guest display · The Decision Layer';
+      var myId = Math.random().toString(36).slice(2);
+      if (chan) {
+        chan.postMessage({ type: 'hello', id: myId });
+        addEventListener('pagehide', function () { chan.postMessage({ type: 'bye', id: myId }); });
+      }
+      // opened on its own, with no console listening: run standalone
+      setTimeout(function () { if (!heard) isController = true; }, 800);
+    } else {
+      onVisible(display, function (v) { display.classList.toggle('paused', !v); });
+    }
+
+    renderGuest(); renderHost(); renderStack(null);
+
+    /* ---- header: underline the section you're in ---- */
+    var navLinks = $$('.nav a');
+    if ('IntersectionObserver' in window && !SOLO) {
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          if (e.isIntersecting) navLinks.forEach(function (a) { a.classList.toggle('here', a.getAttribute('href') === '#' + (e.target.dataset.nav || e.target.id)); });
+        });
+      }, { rootMargin: '-45% 0px -50% 0px' });
+      ['work', 'thinking', 'disciplines', 'lab', 'about'].forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
+    }
+  })();
+  </script>
+</body>
+</html>
