@@ -596,6 +596,45 @@
       .about-copy { order: -1; }
     }
 
+    /* ---- courtyards: the house plan sketches itself while you read ---- */
+    .yard { padding: clamp(4rem, 11vh, 7.5rem) 0 clamp(2rem, 6vh, 4rem); }
+    .yard .container {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      column-gap: clamp(2rem, 5vw, 5rem);
+      align-items: center;
+    }
+    .yard-plan svg { width: 100%; height: auto; overflow: visible; }
+    .yard-plan .ln { fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+    .yard-plan .thin { stroke-width: 1.4; }
+    .yard-plan .col { fill: var(--ink); }
+    .yard-plan .lit { fill: var(--yellow); }
+    .yard-plan .who circle { fill: #2a3fd0; }
+    .yard-copy h2, .yard-copy .yard-end {
+      font-weight: 850;
+      font-stretch: 108%;
+      font-size: clamp(1.9rem, 3.5vw, 3.2rem);
+      line-height: 1.02;
+      text-wrap: balance;
+    }
+    .yard-copy p { font-size: clamp(1.1rem, 1.45vw, 1.3rem); line-height: 1.4; max-width: 34ch; margin-top: 1.4rem; }
+    .yard-copy .yard-end { margin-top: 1.8rem; max-width: 16ch; }
+    .yard-end span { background: var(--yellow); box-decoration-break: clone; -webkit-box-decoration-break: clone; padding: 0 0.12em; }
+    @media (prefers-reduced-motion: no-preference) {
+      .yard.anim .yard-copy > * { opacity: 0; transform: translateY(16px); transition: opacity 700ms var(--ease), transform 700ms var(--ease); }
+      .yard.anim .yard-copy > .in { opacity: 1; transform: none; }
+      .yard-plan .who circle { animation: chat 2.6s ease-in-out infinite alternate; }
+      .yard-plan .who:nth-child(3n) circle { animation-duration: 3.1s; animation-delay: -1s; }
+      .yard-plan .who:nth-child(3n+1) circle { animation-duration: 2.2s; animation-delay: -0.4s; }
+    }
+    @keyframes chat { to { transform: translate(2px, -1.5px); } }
+    @media (max-width: 860px) {
+      .yard .container { grid-template-columns: 1fr; }
+      /* the plan stays pinned under the header while the story scrolls beneath it */
+      .yard-plan { position: sticky; top: 56px; z-index: 2; background: var(--paper); padding: 1rem 0 1.25rem; }
+      .yard-copy { padding-top: 0.5rem; }
+    }
+
     /* ---- how I build: one yellow band ---- */
     .build {
       background: var(--yellow);
@@ -1430,7 +1469,23 @@
       </div>
     </section>
 
-    <section id="about" class="section" aria-label="About">
+    <section id="about" class="yard" aria-labelledby="yard-title">
+      <div class="container">
+        <div class="yard-plan">
+          <svg viewBox="0 0 900 520" role="img" aria-label="A sketched floor plan of a house built around three courtyards. As you scroll, people walk out of the rooms and gather in the courtyards, which light up yellow.">
+            <g id="yardFill"></g><g id="yardLines"></g><g id="yardCols"></g><g id="yardWho"></g>
+          </svg>
+        </div>
+        <div class="yard-copy">
+          <h2 id="yard-title">I grew up in Colombia, in a house built around three courtyards</h2>
+          <p>Years later I understood what they taught me: the spaces we make shape the way we connect.</p>
+          <p>Now I design interactive experiences for museums, cultural spaces and brand homes, using technology and story to make complex ideas easy to explore together.</p>
+          <p class="yard-end">I'm still designing <span>that courtyard</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="hi" class="section" aria-label="About">
       <div class="container about">
         <div class="portrait">
           <img src="images/web/Christian_Lozano.jpg" alt="Christian Lozano leaning on a stone ledge in a temple courtyard, smiling" width="1600" height="1066" loading="lazy" decoding="async" />
@@ -2056,6 +2111,134 @@
         else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
       }
     });
+  })();
+
+  /* ---- courtyards: a sketched house plan draws itself, then people gather ---- */
+  (function () {
+    var yard = document.getElementById('about');
+    if (!yard || !yard.classList.contains('yard')) return;
+    var NS = 'http://www.w3.org/2000/svg';
+    var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var gFill = document.getElementById('yardFill'), gLines = document.getElementById('yardLines');
+    var gCols = document.getElementById('yardCols'), gWho = document.getElementById('yardWho');
+
+    // seeded, so the sketch is the same on every visit
+    var seed = 11;
+    function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+    function jit(n) { return (rnd() - 0.5) * n; }
+    function f(n) { return n.toFixed(1); }
+    function el(tag, attrs, parent) {
+      var e = document.createElementNS(NS, tag);
+      for (var k in attrs) e.setAttribute(k, attrs[k]);
+      parent.appendChild(e);
+      return e;
+    }
+    // a hand-drawn wall: slightly bowed, and running past its corners the way an architect sketches
+    function wall(x1, y1, x2, y2) {
+      var dx = x2 - x1, dy = y2 - y1, L = Math.hypot(dx, dy), ux = dx / L, uy = dy / L;
+      var o1 = 3 + rnd() * 8, o2 = 3 + rnd() * 8, bow = jit(Math.min(8, L * 0.03));
+      var ax = x1 - ux * o1 + jit(1.5), ay = y1 - uy * o1 + jit(1.5);
+      var bx = x2 + ux * o2 + jit(1.5), by = y2 + uy * o2 + jit(1.5);
+      return 'M' + f(ax) + ' ' + f(ay) + ' Q' + f((ax + bx) / 2 - uy * bow) + ' ' + f((ay + by) / 2 + ux * bow) + ' ' + f(bx) + ' ' + f(by);
+    }
+    function ring(cx, cy, r) {
+      var a0 = rnd() * 6.28, d = '';
+      for (var i = 0; i <= 44; i++) {
+        var a = a0 + i / 40 * 6.28, rr = r * (1 + jit(0.07));
+        d += (i ? ' L' : 'M') + f(cx + Math.cos(a) * rr) + ' ' + f(cy + Math.sin(a) * rr);
+      }
+      return d;
+    }
+
+    var strokes = [];
+    function add(d, thin) { strokes.push(el('path', { d: d, 'class': thin ? 'ln thin' : 'ln', pathLength: 1 }, gLines)); }
+    function walls(list, thin) { list.forEach(function (w) { add(wall(w[0], w[1], w[2], w[3]), thin); }); }
+    // the house, with the street door on the left
+    walls([[40, 40, 860, 40], [860, 40, 860, 480], [860, 480, 40, 480], [40, 480, 40, 285], [40, 235, 40, 40]]);
+    // the three courtyards (the third, at the back, opens to the corridor)
+    walls([[150, 150, 330, 150], [330, 150, 330, 370], [330, 370, 150, 370], [150, 370, 150, 150]]);
+    walls([[450, 175, 590, 175], [590, 175, 590, 345], [590, 345, 450, 345], [450, 345, 450, 175]]);
+    walls([[680, 110, 830, 110], [830, 110, 830, 410], [830, 410, 680, 410], [680, 410, 680, 275], [680, 245, 680, 110]]);
+    // galleries, the entrance and the corridors between courtyards
+    walls([[40, 235, 120, 235], [40, 285, 120, 285],
+      [120, 120, 360, 120], [360, 120, 360, 245], [360, 275, 360, 400], [360, 400, 120, 400], [120, 400, 120, 285], [120, 235, 120, 120],
+      [360, 245, 420, 245], [360, 275, 420, 275],
+      [420, 145, 620, 145], [620, 145, 620, 245], [620, 275, 620, 375], [620, 375, 420, 375], [420, 375, 420, 275], [420, 245, 420, 145],
+      [620, 245, 680, 245], [620, 275, 680, 275]], true);
+    // rooms
+    walls([[210, 40, 210, 120], [290, 40, 290, 120], [240, 400, 240, 480], [490, 40, 490, 145], [560, 40, 560, 145], [520, 375, 520, 480]], true);
+    // fountain, tree, garden
+    add(ring(240, 260, 24)); add(ring(240, 260, 9), true);
+    add(ring(520, 260, 34)); add(ring(520, 260, 6), true);
+    [[725, 160, 12], [790, 178, 9], [715, 368, 10], [800, 352, 13]].forEach(function (c) { add(ring(c[0], c[1], c[2]), true); });
+
+    // columns along the first two courtyards, square as they'd be drawn in plan
+    var cols = [];
+    [[150, 150, 330, 370], [450, 175, 590, 345]].forEach(function (r) {
+      for (var x = r[0]; x <= r[2] + 0.1; x += (r[2] - r[0]) / 4) { cols.push([x, r[1]], [x, r[3]]); }
+      for (var y = r[1] + (r[3] - r[1]) / 4; y < r[3] - 0.1; y += (r[3] - r[1]) / 4) { cols.push([r[0], y], [r[2], y]); }
+    });
+    cols = cols.map(function (c) { return el('rect', { x: f(c[0] - 4), y: f(c[1] - 4), width: 8, height: 8, 'class': 'col', opacity: 0 }, gCols); });
+
+    // the courtyards light up, like a marker filling them in, a little off the lines
+    var lit = [[154, 156, 172, 211], [455, 180, 133, 162], [684, 114, 142, 293]].map(function (r) {
+      return { el: el('rect', { x: r[0], y: r[1], width: 0, height: r[3], 'class': 'lit' }, gFill), w: r[2] };
+    });
+
+    // people: from a room, through a doorway, into a courtyard
+    var people = [
+      [[85, 80], [165, 135], [205, 212]], [[250, 80], [250, 135], [270, 205]], [[325, 80], [345, 160], [300, 230]],
+      [[85, 440], [150, 385], [195, 320]], [[300, 440], [290, 385], [285, 320]], [[-30, 260], [100, 260], [178, 262]],
+      [[455, 80], [470, 160], [478, 205]], [[590, 80], [600, 160], [570, 210]], [[470, 440], [470, 360], [480, 318]],
+      [[390, 330], [390, 260], [455, 262]], [[620, 440], [650, 260], [712, 250]], [[570, 440], [650, 272], [745, 300]],
+      [[760, 70], [760, 108], [770, 140]], [[760, 450], [760, 415], [770, 385]], [[845, 262], [836, 262], [808, 262]]
+    ].map(function (pts) {
+      var g = el('g', { 'class': 'who' }, gWho);
+      return { g: g, c: el('circle', { r: 0 }, g), pts: pts };
+    });
+
+    function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+    function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    function stage(p, a, b) { return clamp((p - a) / (b - a)); }
+
+    var copy = Array.prototype.slice.call(yard.querySelectorAll('.yard-copy > *'));
+    var marks = [0.02, 0.24, 0.48, 0.74];
+    function draw(p) {
+      var s1 = stage(p, 0, 0.42), s2 = stage(p, 0.36, 0.76), s3 = stage(p, 0.7, 0.94), N = strokes.length;
+      strokes.forEach(function (st, i) { st.style.strokeDashoffset = 1 - clamp((s1 * (N + 5) - i) / 5); });
+      cols.forEach(function (c, i) { c.setAttribute('opacity', s1 * cols.length * 1.4 - cols.length * 0.4 > i ? 1 : 0); });
+      people.forEach(function (w, k) {
+        var l = clamp((s2 - k * 0.025) / 0.62), a, b, t;
+        if (l < 0.5) { a = w.pts[0]; b = w.pts[1]; t = ease(l * 2); } else { a = w.pts[1]; b = w.pts[2]; t = ease((l - 0.5) * 2); }
+        w.g.setAttribute('transform', 'translate(' + f(a[0] + (b[0] - a[0]) * t) + ',' + f(a[1] + (b[1] - a[1]) * t) + ')');
+        w.c.setAttribute('r', f(7 * clamp(l * 8)));
+      });
+      lit.forEach(function (r, k) { r.el.setAttribute('width', f(r.w * ease(clamp(s3 * 3 - k * 0.9)))); });
+      copy.forEach(function (c, i) { if (p >= marks[i]) c.classList.add('in'); });
+    }
+
+    strokes.forEach(function (st) { st.style.strokeDasharray = '1'; });
+    if (RM) { draw(1); return; }
+    yard.classList.add('anim');
+
+    // scroll sets a target; the drawing eases toward it so it moves like a pen, not a scrollbar
+    var target = 0, cur = 0, running = false, last = 0;
+    function read() {
+      var r = yard.getBoundingClientRect(), vh = innerHeight;
+      var start = vh * 0.85, end = vh * 0.8 - r.height;
+      target = clamp((start - r.top) / (start - end));
+    }
+    function frame(now) {
+      var dt = last ? Math.min(64, now - last) : 16; last = now;
+      cur += (target - cur) * (1 - Math.pow(1 - 0.09, dt / 16.7));
+      if (Math.abs(target - cur) < 0.0005) cur = target;
+      draw(cur);
+      if (cur !== target) requestAnimationFrame(frame); else { running = false; last = 0; }
+    }
+    function kick() { read(); if (!running && cur !== target) { running = true; requestAnimationFrame(frame); } }
+    addEventListener('scroll', kick, { passive: true });
+    addEventListener('resize', kick);
+    draw(0); kick();
   })();
 
   /* ---- contact: squeeze "holds up" while scrolling down, burst at the bottom ---- */
